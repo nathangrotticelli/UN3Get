@@ -1,0 +1,91 @@
+<ion-view hide-back-button="true">
+
+    <ion-content scroll="false">
+
+         <div class='wholeEventsPage' >
+
+
+<div id='eventList'>
+
+
+  <div class='schoolPage'>
+
+
+
+<br><br>
+
+
+  <img class="unLogo3" id="unLoginLogo"src="./images/logo2.0.png">
+  <select class="schoolSelect form-control selectText" ng-model="schoolName" onchange="this.className=this.options[this.selectedIndex].className"
+  >
+    <option ng-selected="!schoolName" class="selectSchool" disabled="disabled"> Select Your School:</option>
+    <option class="ucfText schoolSelect" ng-value="University of Central Florida">University of Central Florida</option>
+    <option class="cmuText schoolSelect" ng-value="Central Michigan University">Central Michigan University</option>
+    <option class="gwuText schoolSelect" ng-value="George Washington University">George Washington University</option>
+    <option class="sbText schoolSelect" ng-value="SUNY Binghamton">SUNY Binghamton</option>
+    <option class="msuText schoolSelect" ng-value="Michigan State University">Michigan State University</option>
+    <option class="soText schoolSelect" ng-value="SUNY Oneonta">SUNY Oneonta</option>
+    <option class="uhText schoolSelect" ng-value="University of Hawaii">University of Hawaii</option>
+    <option class="uiText schoolSelect" ng-value="University of Illinois at Urbana-Champaign">University of Illinois at Urbana-Champaign</option>
+    <option class="michText schoolSelect" ng-value="University of Michigan">University of Michigan</option>
+  </select>
+    <button ng-hide="!schoolName" ng-click='facebookLogin(schoolName)' value="Enter" class="enterBtn button" >Enter</button>
+
+
+<!-- <a class="button button-outline button-light" ng-click="facebookLogin('Central Florida')">
+   Central Florida
+</a>
+
+<br><br>
+ <br>
+ -->
+<!-- <a class="button button-outline button-light" ng-click="facebookLogin('Central Michigan')">
+   Central Michigan
+</a>
+<br><br>
+      <br>
+<a class="button button-outline button-light" ng-click="facebookLogin('George Washington University')">
+   George Washington
+</a>
+<br><br> -->
+<!-- <br> -->
+<!-- <a class="button" ng-click="login3()">Login3</a><br> -->
+<!-- <a class="button button-outline button-light" ng-click="facebookLogin('Michigan State')">
+   Michigan State
+</a>
+<br><br> -->
+<!--  <button class="button" ng-click="login()">Login using Facebook2222</button> -->
+<!--  <br>
+<a class="button button-outline button-light" ng-click="facebookLogin('Binghamton')">
+   SUNY Binghamton
+</a>
+<br><br>
+<br> -->
+<!-- <a class="button button-outline button-light" ng-click="facebookLogin('Oneonta')">
+   SUNY Oneonta
+</a>
+<br><br><br>
+<a class="button button-outline button-light" ng-click="facebookLogin('University of Hawaii')">
+   U of Hawaii (Manoa)
+</a>
+<br><br>
+<br>
+<a class="button button-outline button-light" ng-click="facebookLogin('University of Illinois at Urbana-Champaign')">
+   U of Illinois (UIUC)
+</a>
+<br><br><br>
+<a class="button button-outline button-light" ng-click="facebookLogin('University of Michigan')">
+   U of Michigan
+</a> -->
+
+  </div>
+    </div>
+  </div>
+
+
+
+    </ion-content>
+
+</ion-view>
+
+

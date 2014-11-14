@@ -1,0 +1,199 @@
+
+<ion-view>
+<!-- <ion-header-bar align-title="left" class="bar-positive">
+  <div class="buttons">
+    <button class="button" ng-click="doSomething()">Left Button</button>
+  </div>
+  <div class="buttons">
+    <button class="button" ng-click="doSomething()">Left Button</button>
+  </div>
+  <div class="buttons">
+    <button class="button">Right Button</button>
+  </div>
+</ion-header-bar> -->
+
+
+ <ion-content scroll="false" scrollbar-y="false" class="mesh" animation="slide-left-right">
+
+ <div class = "unMenu2 ">
+  <!-- <button on-swipe-left="onSwipeLeft()" class="button">Test</button> -->
+  <!-- <div> ng-show="tinderView == false"-->
+  <a class="tinderBtn ion-images" ng-show="tinderView == false" ng-click="tinderYes()"></a>
+  <a class="tinderBtn ion-calendar"  ng-hide="tinderView == false" ng-click="tinderNo()"></a>
+    <!-- <button class="tinderBtn" ng-click="tinderView=!tinderView">Tinder</button> -->
+  <!-- <img ng-show="newNot==false" class="profileBtn" ng-click="openPopover($event)">Open</button> -->
+  <a ng-if="newNot==false||newNot==undefined" class="prof-image ion-person" ng-click="openPopover($event)"></a>
+  <a ng-if="newNot!=false" class="prof-image2 ion-person" ng-click="openPopover($event); newChecked();"></a>
+  <!-- <button ng-show="newNot==true" class="profileBtn2" ng-click="openPopover($event); newNot=false;">New Notification</button> -->
+<!-- </div> --><!-- ion-calendar -->
+ <!-- <a class="topMenu2 ion-navicon" menu-toggle="right"></a> -->
+<a class="topMenu ion-navicon-round" menu-toggle="right"></a>
+</div>
+      <!-- </div> -->
+
+
+  <ion-scroll ng-show="tinderView == false" id="eventList">
+
+  <ion-refresher id="re1" pulling-icon="none" refreshing-icon="ion-loading-c"  on-refresh="alert3()">
+  </ion-refresher>
+
+  <hr class="div12">
+
+
+
+<!-- data = data.substr(0, 4) + " " + data.substr(4, 6) -->
+  <div class="eventScroller" ng-repeat="event in events | orderObjectBy:'eventDate':false" ng-click="go_here(event)" >
+
+
+    <img ng-show="{{event.cover}}" class="full-image" src="{{event.cover}}" >
+    <img ng-hide="event.cover!=undefined" ng-click="go_here(event)" class="full-image" src="http://i62.tinypic.com/2zznq55.jpg" >
+
+          <div class="eventInfoSection">
+             <a ng-init="event.watched=foll9(userItem.watchList,event); event.eventDate=getDateInit(event);" ng-hide="event.watched" ng-click="watchAction(event); $event.stopPropagation();" class="ion-ios7-eye-outline watchBtn"></a>
+             <a ng-show="event.watched" ng-click="watchAction(event); $event.stopPropagation();" class="ion-ios7-eye watchBtn"></a>
+      <h3 id="eventName">{{event.name}}</h3>
+      <p id="eventLocation" ng-if="event.location!=null"><i class="icon ion-ios7-location"></i> {{event.location}}</p>
+      <p class="eventDT" ng-if="event.start_time!=null">{{event.start_time}}</p> <p class="eventDT" ng-if="event.timeOfEvent!=null">{{event.timeOfEvent}}</p>
+    </div>
+
+
+</div>
+
+
+ </ion-scroll>
+
+ <!-- <ion-pane > -->
+
+<div ng-show="tinderView == true" id='tinderEventContent'>
+      <swipe-cards>
+
+
+        <swipe-card ng-show="startCard==true" on-card-swipe="startSwipe()" id="start-card">
+        Swipe down for a new card
+      </swipe-card>
+
+<!-- ng-init="card.watched=foll9(userItem.watchList,card)" -->
+      <swipe-card ng-show="startCard==false&&$first" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card)" on-card-swipe="tinderSwipe(card)">
+
+  <!-- <div class="card"> -->
+<!--  -->
+  <!-- <div class="item"> -->
+   <!--  <img src="avatar.jpg"> -->
+    <!-- <h2 class="cardName"></h2> -->
+    <!-- <p>{{card.location}}</p> -->
+  <!-- </div> -->
+
+<div class="list card">
+
+  <div class="item item-image" ng-click="go_here(card)">
+          <img ng-if="card.cover" src="{{card.cover}}" >
+            <img ng-if="card.cover==undefined" src="http://i62.tinypic.com/2zznq55.jpg" >
+  </div>
+
+  <a class="item tinderTxt item-text-wrap" >
+     <h3 class="cardName" ng-if="card.name.length<=51" ng-click="go_here(card)">{{card.name}}</h3>
+     <h3 class="cardName" ng-if="card.name.length>51" ng-click="go_here(card)">{{card.name.substring(0, 51)}}...</h3>
+     <p class="cardTime">{{card.start_time}}</p>
+  </a>
+ <!--  <a class="item tinderTxt2" >
+
+     <p class="cardTime">{{card.start_time}}</p>
+  </a> -->
+  <!-- <h3 ng-if="card.name.length>35" class="cardName2" ng-click="go_here(card)">{{card.name}}</h3> -->
+
+</div>
+
+  <!-- <div> -->
+    <!-- <img src="{{card.cover}}"> -->
+
+      <!-- </div> -->
+<!-- <div class="item tinderWatch">
+  <div ng-click="watchAction(card); $event.stopPropagation();" class="item-icon-left assertive">
+    <div ng-show="{{card.watched}}"><i class="icon ion-ios7-bolt"></i>You're Watching</div>
+    <div ng-hide="{{card.watched}}"><i class="icon ion-ios7-bolt-outline"></i>Start Watching</div>
+  </div>
+  </div> -->
+
+<!-- </div> -->
+
+
+            <!-- <div >LIKE</div> -->
+
+
+            <!-- <div >NOPE</div> -->
+    <!-- </div> -->
+
+<!--
+           <div class="title">
+            {{card.name}}
+          </div> -->
+       <!--    <div class="button-bar">
+            <button class="button button-clear button-positive" ng-click="goAway()">Answer</button>
+            <button class="button button-clear button-positive" ng-click="goAway()">Decline</button>
+          </div> -->
+             <!-- <div class="tinderBtnSection"> -->
+     <div class="tinderBtn1" >
+  <!-- <a ng-click="$event.stopPropagation();" class="ion-ios7-close"></a> -->
+  <a ng-click=" tinderSwipe(card); " class="ion-ios7-close-outline"></a>
+</div>
+
+  <div class="tinderBtn2" ng-click="watchAction(card); $event.stopPropagation();">
+  <a ng-hide="card.watched" class="ion-ios7-checkmark-outline"></a>
+    <a ng-show="card.watched" class="ion-ios7-checkmark"></a>
+</div>
+<!-- </div> -->
+
+      </swipe-card>
+
+
+       <swipe-card ng-show="cards.length==0" on-card-swipe="" class=".swipe-card.pop-in" id="start-card">
+        Ending card in the stack, tap to refresh your events!
+      </swipe-card>
+
+
+    </swipe-cards>
+
+
+
+</div>
+
+
+
+
+<!-- </ion-pane> -->
+
+
+<!--  -->
+
+
+
+
+
+
+  <script id="my-popover.html" type="text/ng-template">
+  <ion-popover-view >
+  <ion-content>
+      <h1 class="profHead">My Profile</h1>
+       <img class="feedPic" src="./images/nathanpic2BW.jpg">
+       <h4 class="followNum">{{followCount}}<button  ng-click="findFriends()" class="friendBtn">Find Friends</button></h4>
+       <p class="followTxt">Following </p>
+       <hr>
+       <div class="notifications2" ng-repeat="not in notifications | orderObjectBy:predicate1">
+       <div class="ion-navicon">
+       <div ng-click="followNot(not)">
+        <h5 ng-init="not.date1=foll6(not.date)">{{not.date1}}</h5>
+        <h5>{{not.message}}</h5>
+       </div>
+       </div>
+
+       </div>
+
+
+    </ion-content>
+  </ion-popover-view>
+</script>
+
+ </ion-content>
+</ion-view>
+
+

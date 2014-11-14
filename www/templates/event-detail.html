@@ -1,0 +1,81 @@
+
+<ion-view>
+
+
+ 	<div class = "unMenu2 " id="expandedMenu">
+ 		<a id='backBtnId' class="topBtn" ng-click="goBack()" animation="slide-right-left-ios7">
+	   <i class="icon ion-ios7-arrow-left"></i>
+	 	</a>
+	  <a id="shareBtnId" ng-click="shareBtn('Check out the event &quot;'+singleEvent.name+'&quot; via U Nightlife http://unightlife.io/app', 'Check out this event.', null, singleEvent.location)" class="topBtn">
+	      <i class="icon ion-ios7-upload-outline"></i>
+	 	</a>
+	 </div>
+
+	 	 <ion-content scrollbar-y="false" scroll="true" padding="false" class="blackBack">
+ <div id='expandedEvent' class='aboutPage2'>
+
+
+	 <div id='singleEventContent'>
+
+
+	    		<img ng-show="{{singleEvent.cover}}" src="{{singleEvent.cover}}">
+          <img ng-hide="singleEvent.cover!=undefined" src="http://i62.tinypic.com/2zznq55.jpg" >
+
+					<p id="expandedEventName">
+	    			{{ singleEvent.name }}
+	    		</p>
+
+		<div class="list card">
+	  				 <div ng-click="expandEvent()" ng-if="singleEvent.description!=null" class="item-text-wrap">
+						  	<div class="item item-icon-left item-divider">
+						  		<i class="icon ion-clipboard"></i>
+						  		Event Info
+						  	</div>
+						  	<br>
+						  	<div id="eventDiv2" ng-if="showEventDesc" class="item animate-if">
+	          		 {{ singleEvent.description}}
+	       			 </div>
+						  </div>
+
+
+						  <div ng-if="singleEvent.timeOfEvent!=null" class="item item-icon-left item-divider">
+			    			<i class="icon ion-ios7-alarm-outline"></i>
+			    			{{ singleEvent.timeOfEvent }}
+			    		</div>
+			    		<br ng-if="singleEvent.timeOfEvent!=null">
+
+
+
+			    		<div ng-if="singleEvent.start_time!=null" ng-click="calAdd()" class="item item-icon-left item-divider">
+			    			<i class="icon ion-ios7-calendar-outline"></i>
+			    			{{ singleEvent.start_time }}</div>
+			    			<br>
+
+			    			 <div ng-if="singleEvent.ticketLink!=null" ng-click="goTicket()" class="item item-icon-left item-divider">
+			    			<i class="icon ion-ios7-barcode"></i>
+			    			Tickets
+			    		</div>
+			    		<br ng-if="singleEvent.ticketLink!=null">
+
+
+	    			<div ng-if="singleEvent.location!=null" ng-click="mapThis()" class="item item-icon-left item-divider">
+			    			<i class="icon ion-ios7-location"></i>
+			    			{{ singleEvent.location }}</div>
+			    			<br ng-if="singleEvent.location!=null">
+
+			    		<div ng-click="watchAction(singleEvent)" class="item item-icon-left item-divider" >
+			    			<div ng-if="singleEvent.watched!=true"><i class="icon ion-ios7-eye-outline"></i>Watch Event</div>
+			    			<div ng-if="singleEvent.watched==true"><i class="icon ion-ios7-eye"></i>You're Watching</div>
+							</div>
+			    			<!-- <br> -->
+			</div>
+	 	</div>
+
+ 	 <div>
+
+	 </div>
+
+</div>
+
+ </ion-content>
+</ion-view>

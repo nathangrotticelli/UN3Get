@@ -1,0 +1,43 @@
+<ion-side-menus>
+
+
+    <ion-pane ion-side-menu-content drag-content="main.dragContent">
+
+        <ion-nav-view name="menuContent" animation="fade-in"></ion-nav-view>
+    </ion-pane>
+
+    <ion-side-menu side="right">
+
+        <ion-content class="mesh2">
+
+  <img class="thing1 item unLogo" src="./images/logo2.1.png">
+
+            <ion-list>
+
+                <ion-item class="menuItem" item-type="item item-icon-left" nav-clear menu-close ng-click="goEvents()"><i class="menuIcon icon ion-ios7-calendar-outline"></i> <div class="menuIcon2"> Events</div></ion-item>
+               <!--  <ion-item item-type="item item-icon-left" nav-clear menu-close ng-click="alert('i dont do much yet')">
+                    <i class="icon ion-beer">ion-ios7-world-outline</i>ion-help
+                   Notificationsion-upload"><div class="menuIcon2"> Add An Event
+                </ion-item> -->
+
+                <ion-item class="menuItem" item-type="item item-icon-left" nav-clear menu-close ng-click="goAdd()"><i class="menuIcon icon ion-upload"></i> <div class="menuIcon2"> Add An Event</div></ion-item>
+
+                <ion-item class="menuItem" item-type="item item-icon-left" nav-clear menu-close ng-click="goHelp()">
+                <i class="menuIcon icon ion-gear-a"></i> <div class="menuIcon2"> Help/Contact Us</div></ion-item>
+
+                    <ion-item class="menuItem" item-type="item item-icon-left" nav-clear ng-click="shareBtn('Check out U Nightlife, the college activity app. Download and lets go to an event together! http://unightlife.io/app', 'Fun activity app', null, singleEvent.location);"><i class="menuIcon icon ion-share"></i> <div class="menuIcon2"> Share</div></ion-item>
+
+                <ion-item class="menuItem" item-type="item item-icon-left" nav-clear menu-close ng-click="logout()"><i class="menuIcon icon ion-log-out"></i> <div class="menuIcon2"> Logout</div></ion-item>
+
+
+
+
+
+            </ion-list>
+
+
+
+        </ion-content>
+    </ion-side-menu>
+
+</ion-side-menus>
