@@ -94,7 +94,7 @@ $location.path('/app/person/me/feed');
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
-          privateEvents: privateEvents,
+          // privateEvents: {},
           userGender: userGender,
           userEmail: userEmail,
           entranceEmail: loginTryEmail,
@@ -119,7 +119,7 @@ $location.path('/app/person/me/feed');
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
-          privateEvents: privateEvents,
+          // privateEvents: {},
           userGender: userGender,
           userEmail: userEmail,
           entranceEmail: loginTryEmail,
@@ -149,45 +149,45 @@ $location.path('/app/person/me/feed');
       $scope.alert2();
       schoolName=schoolName;
 
-      //pulls existing users private events
-      var currentUserCheck = function(){
-        for(var key in privateEvents){
-          var startDay = privateEvents[key].start_time.split('/')[1];
-          var startYear = privateEvents[key].start_time.split('/')[2];
-          var startMonth = privateEvents[key].start_time.split('/')[0];
-          privateEvents[key].startYear = startYear;
-          if(privateEvents[key].timeOfEvent!=undefined){
-           if(privateEvents[key].timeOfEvent.length<7){
-                privateEvents[key].timeString = '0'+privateEvents[key].timeOfEvent;
-              }
-              else{
-                privateEvents[key].timeString = privateEvents[key].timeOfEvent;
-              }
-          }
-          else{
-             privateEvents[key].timeString = null;
-          }
+      //pulls existing users private events findme
+      // var currentUserCheck = function(){
+      //   for(var key in privateEvents){
+      //     var startDay = privateEvents[key].start_time.split('/')[1];
+      //     var startYear = privateEvents[key].start_time.split('/')[2];
+      //     var startMonth = privateEvents[key].start_time.split('/')[0];
+      //     privateEvents[key].startYear = startYear;
+      //     if(privateEvents[key].timeOfEvent!=undefined){
+      //      if(privateEvents[key].timeOfEvent.length<7){
+      //           privateEvents[key].timeString = '0'+privateEvents[key].timeOfEvent;
+      //         }
+      //         else{
+      //           privateEvents[key].timeString = privateEvents[key].timeOfEvent;
+      //         }
+      //     }
+      //     else{
+      //        privateEvents[key].timeString = null;
+      //     }
 
 
 
-          if(Math.floor(startYear)>Math.floor(currentYear)){
-           yourEvents[key] = privateEvents[key];
-          }
-          else if(Math.floor(startYear)==Math.floor(currentYear)){
-            if(Math.floor(startMonth)>Math.floor(currentMonth)){
-             yourEvents[key] = privateEvents[key];
-            }
-            else if(Math.floor(startMonth)==Math.floor(currentMonth)){
-              if(Math.floor(startDay)>=Math.floor(currentDay)){
-                yourEvents[key] = privateEvents[key];
-              }
-            }
-          }
-          else{
-           delete privateEvents[key];
-          }
-        }
-      };
+      //     if(Math.floor(startYear)>Math.floor(currentYear)){
+      //      yourEvents[key] = privateEvents[key];
+      //     }
+      //     else if(Math.floor(startYear)==Math.floor(currentYear)){
+      //       if(Math.floor(startMonth)>Math.floor(currentMonth)){
+      //        yourEvents[key] = privateEvents[key];
+      //       }
+      //       else if(Math.floor(startMonth)==Math.floor(currentMonth)){
+      //         if(Math.floor(startDay)>=Math.floor(currentDay)){
+      //           yourEvents[key] = privateEvents[key];
+      //         }
+      //       }
+      //     }
+      //     else{
+      //      delete privateEvents[key];
+      //     }
+      //   }
+      // };
 
       //counts number of current events a school has
       var currentSchoolCheck = function(){
@@ -311,7 +311,7 @@ $location.path('/app/person/me/feed');
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
-          privateEvents: privateEvents,
+          // privateEvents: privateEvents,
           userGender: userGender,
           userEmail: userEmail,
           userSchool: schoolItem.schoolName}
@@ -326,10 +326,11 @@ $location.path('/app/person/me/feed');
 
       //populates event lists for successful fb queries
       var eventPopulater = function(listOfAllEvents){
-        var inviteCheck = function(event){
-          OpenFB.get("/"+event.id+"/invited",{limit:105}).success(function(res){
+        var inviteCheck = function(event,school){
+          OpenFB.get("/"+event.id+"/invited",{limit:150}).success(function(res){
             if(res.data.length>schoolItem.inviteNum){
-              schoolItem.schoolEvents[event.name] = event;
+              if(school==true){
+                 schoolItem.schoolEvents[event.name] = event;
               $http.post('http://stark-eyrie-6720.herokuapp.com/schoolPost',
                 {
                   schoolName: schoolItem.schoolName,
@@ -337,6 +338,19 @@ $location.path('/app/person/me/feed');
                 }).success(function(){
                 //when event added, do whatever. alert('school event added')
               })
+            }
+              else{
+                privateEventList[event.name] = event;
+                $http.post('http://stark-eyrie-6720.herokuapp.com/privateListEventAdd',
+                {
+                  privateEvents: privateEventList,
+                  // schoolEvents: schoolItem.schoolEvents
+                }).success(function(){
+                  // alert('yay');
+                //when event added, do whatever. alert('private event added')
+              })
+             }
+
             }
           })
         }
@@ -354,7 +368,7 @@ $location.path('/app/person/me/feed');
                 yourEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
                 //if event is not private
                 if(listOfAllEvents[allEventsInAnArray[i]].privacy!='SECRET'){
-                  inviteCheck(listOfAllEvents[allEventsInAnArray[i]]);
+                  inviteCheck(listOfAllEvents[allEventsInAnArray[i]],true);
                 }
               }
             }
@@ -367,25 +381,45 @@ $location.path('/app/person/me/feed');
               if(schoolItem.schoolEvents[allEventsInAnArray[i]]==undefined){
                 yourEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
                 if(listOfAllEvents[allEventsInAnArray[i]].privacy!='SECRET'){
-                  inviteCheck(listOfAllEvents[allEventsInAnArray[i]]);
+                  inviteCheck(listOfAllEvents[allEventsInAnArray[i]],true);
                 }
               }
             }
           }
 
           if(schoolItem.schoolEvents[allEventsInAnArray[i]]==undefined){
+
             //start of if attending of maybe
             if (listOfAllEvents[allEventsInAnArray[i]].attending||listOfAllEvents[allEventsInAnArray[i]].maybe){
-              if(!privateEvents[allEventsInAnArray[i]]){
-                yourEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
-                privateEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
-                $http.post('http://stark-eyrie-6720.herokuapp.com/privateUserEventAdd',
-                {userEmail: userItem.userEmail,
 
-                privateEvents: privateEvents
-                })
+
+              if(!privateEventList[allEventsInAnArray[i]]){
+                inviteCheck(listOfAllEvents[allEventsInAnArray[i]],false);
+                // yourEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
+                // privateEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
+                // $http.post('http://stark-eyrie-6720.herokuapp.com/privateListEventAdd',
+                // {
+                // privateEvents: privateEvents
+                // })
               }
-            }//end of if attending or maybe
+            }
+
+            //end of if attending or maybe
+            //     //start of if attending of maybe original for private user events
+            // if (listOfAllEvents[allEventsInAnArray[i]].attending||listOfAllEvents[allEventsInAnArray[i]].maybe){
+            //   if(!privateEvents[allEventsInAnArray[i]]){
+            //     yourEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
+            //     privateEvents[allEventsInAnArray[i]] = listOfAllEvents[allEventsInAnArray[i]];
+            //     $http.post('http://stark-eyrie-6720.herokuapp.com/privateUserEventAdd',
+            //     {userEmail: userItem.userEmail,
+
+            //     privateEvents: privateEvents
+            //     })
+            //   }
+            // }
+            //end of if attending or maybe
+
+
           }//end of if to prevent events that are already school events and/or banned to become private
         }//end of all events in array . length
       };//end of eventpopulator
@@ -573,12 +607,12 @@ $location.path('/app/person/me/feed');
           //have to send user email and user school, backend should look up school user list and check if email exists there
           $http.post('http://stark-eyrie-6720.herokuapp.com/getUser',{userEmail: userEmail, userSchool:userSchool}).success(function(res){
             userItem = res.Item;
-            if(userItem.privateEvents==null){
-             privateEvents = {};
-            }
-            else{
-             privateEvents = userItem.privateEvents;
-            }
+            // if(userItem.privateEvents==null){
+            //  privateEvents = {};
+            // }
+            // else{
+            //  privateEvents = userItem.privateEvents;
+            // }
             if(userItem.banned==="banned"){
               $scope.showAlert('This account has been banned for violating our Terms of Use. Contact us at UNightlifeTeam@gmail.com if you think is a mistake.');
               $state.go('app.login');
@@ -592,7 +626,8 @@ $location.path('/app/person/me/feed');
                 //check how many current events exist
                 currentSchoolCheck();
                 //adds existing private events
-                currentUserCheck();
+                // currentUserCheck();
+
                 if(currentSchoolCount>=2){
                   PetService.setEvents(yourEvents);
                   //allow feed access
@@ -659,11 +694,20 @@ $location.path('/app/person/me/feed');
       schoolFriendCount = 0;
       currentSchoolCount = 0;
       PetService.setSchool(schoolName);
+        // $http.post('http://stark-eyrie-6720.herokuapp.com/privateListGet',
+        //         {
+        //           schoolName: schoolItem.schoolName
+        //         }).success(function(privateList){
+        //           PrivateEventsList
+        //         });
 
       if($scope.noPop=='false'){
         //get school info
         $http.post('http://stark-eyrie-6720.herokuapp.com/getSchool', {schoolName:schoolName}).success(function(res){
           schoolItem = res.Item;
+          privateEventList = res.Private;
+          PetService.setPrivateList(privateEventList);
+          // alert(privateEventList["Some Event Name"]);
           //start the fb login
           fbLoginFlow();
         }).error(function(){
@@ -752,6 +796,13 @@ var userSchool = $scope.userItem.userSchool;
 
     PetService.setStart(false);
     $scope.startCard = false;
+    // alert($scope.cards[1]);
+   };
+
+    $scope.scopeCards = function(){
+
+    $scope.cards = PetService.getCards();
+    // $scope.startCard = false;
     // alert($scope.cards[1]);
    };
 
@@ -1480,7 +1531,7 @@ else{
           message2:message2,
           eventObj:event
         }).error(function(){
-          $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
+          // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
         }).success(function(res){
            // alert('here5');
 

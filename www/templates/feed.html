@@ -137,17 +137,17 @@
   <a ng-click=" tinderSwipe(card); " class="ion-ios7-close-outline"></a>
 </div>
 
-  <div class="tinderBtn2" ng-click="watchAction(card); $event.stopPropagation();">
-  <a ng-hide="card.watched" class="ion-ios7-checkmark-outline"></a>
-    <a ng-show="card.watched" class="ion-ios7-checkmark"></a>
+  <div class="tinderBtn2" ng-click="watchAction(card);">
+  <a ng-if="card.watched!=true" class="ion-ios7-checkmark-outline"></a>
+    <a ng-if="card.watched==true" class="ion-ios7-checkmark"></a>
 </div>
 <!-- </div> -->
 
       </swipe-card>
 
 
-       <swipe-card ng-show="cards.length==0" on-card-swipe="" class=".swipe-card.pop-in" id="start-card">
-        Ending card in the stack, tap to refresh your events!
+       <swipe-card ng-show="cards.length==0" on-card-swipe="$event.stopPropagation()" on-swipe-up="scopeCards();"  class=".swipe-card.pop-in" id="start-card">
+        End of the stack. Swipe this card up to refresh!
       </swipe-card>
 
 

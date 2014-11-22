@@ -236,7 +236,7 @@ float:right;
   /*display: none;*/
   position: fixed;
   border-radius: 3%;
-  -webkit-animation: bounceIn 0.38s ease-out;
+  -webkit-animation: bounceIn 0.36s ease-out;
   /*transition: opacity linear 200ms;*/
   /*-webkit-animation-delay: .3s;*/
   /*-webkit-animation-timing-function: linear;*/
@@ -730,7 +730,7 @@ font-family: 'Roboto', sans-serif;
   /*box-shadow: none;*/
   color:black!important;
   font-size: 20px!important;
-  width: 70%!important;
+  width: 72%!important;
   /*font-family:*/
   border: 1px solid black;
   border-left: 15px solid black;

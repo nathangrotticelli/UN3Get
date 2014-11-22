@@ -2,6 +2,7 @@ angular.module('sociogram.services', [])
 .factory('PetService', function() {
   var events = {};
   var single = {};
+  var privateList = {};
   var userItem = {};
   var school = "";
   var unFriends = [];
@@ -46,6 +47,12 @@ angular.module('sociogram.services', [])
             },
             getSchool: function () {
                 return school;
+            },
+              setPrivateList: function(list) {
+                privateList = list;
+            },
+            getPrivateList: function () {
+                return privateList;
             },
              setNewNot: function(value) {
                 newNot = value;
