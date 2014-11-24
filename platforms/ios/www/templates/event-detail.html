@@ -18,8 +18,8 @@
 	 <div id='singleEventContent'>
 
 
-	    		<img ng-show="{{singleEvent.cover}}" src="{{singleEvent.cover}}">
-          <img ng-hide="singleEvent.cover!=undefined" src="http://i62.tinypic.com/2zznq55.jpg" >
+	    		<img src="{{getCover(singleEvent.cover)}}">
+          <!-- <img ng-if="singleEvent.cover==true" src="http://i62.tinypic.com/2zznq55.jpg" > -->
 
 					<p id="expandedEventName">
 	    			{{ singleEvent.name }}

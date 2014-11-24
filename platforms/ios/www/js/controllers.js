@@ -1,7 +1,7 @@
 angular.module('sociogram.controllers', ['ionic'])
 
   //for side menu
-  .controller('AppCtrl', function ($scope, $state,$location, OpenFB, $timeout) {
+  .controller('AppCtrl', function ($scope, $state,$location,PetService, OpenFB, $timeout) {
 
       $scope.main={};
       $scope.main.dragContent = true;
@@ -11,6 +11,7 @@ angular.module('sociogram.controllers', ['ionic'])
 
       // if(!$state.is('app.login')){
         OpenFB.logout();
+        PetService.logOut();
 
       $state.go('app.login');
       // }
@@ -24,15 +25,19 @@ angular.module('sociogram.controllers', ['ionic'])
     //   $location.path('/app/person/me/feed');
     //   //allows for scroll position on the event feed to be maintained. Think about doing this for the other menu buttons
     // };
-     $scope.goEvents = function() {
+    $scope.goEvents = function() {
 //this is lagging, why?
     // $state.go("app.feed");
     // $state.go("app.feed");
-  $timeout(function() {
+    $timeout(function() {
 
     },100);
 
-$location.path('/app/person/me/feed');
+    if(PetService.getSingleView()==true){
+      $location.path('/app/event-detail');
+    }else{
+      $location.path('/app/person/me/feed');
+    }
 
  //     // myPopup.close(); //close the popup after 3 seconds for some reason
  //  }, 500);
@@ -75,7 +80,7 @@ $location.path('/app/person/me/feed');
         title: title,
         content: message
       }).then(function(res) {
-        console.log('Alert Shown.');
+        // console.log('Alert Shown.');
       });
     };
 
@@ -346,8 +351,8 @@ $location.path('/app/person/me/feed');
                   privateEvents: privateEventList,
                   // schoolEvents: schoolItem.schoolEvents
                 }).success(function(){
-                  alert('yay');
-                //when event added, do whatever. alert('school event added')
+                  // alert('yay');
+                //when event added, do whatever. alert('private event added')
               })
              }
 
@@ -475,6 +480,9 @@ $location.path('/app/person/me/feed');
               if (singleEvent.cover){
                listOfAllEvents[singleEvent.name.replace(/\./g,"")]['cover'] = singleEvent.cover.source;
               }
+              else{
+                  listOfAllEvents[singleEvent.name.replace(/\./g,"")]['cover'] = "http://i62.tinypic.com/2zznq55.jpg";
+              }
             }
             else if(Math.floor(startYear)==Math.floor(currentYear)){
               if(Math.floor(startMonth)>Math.floor(currentMonth)){
@@ -489,6 +497,9 @@ $location.path('/app/person/me/feed');
                 if (singleEvent.cover){
                 listOfAllEvents[singleEvent.name.replace(/\./g,"")]['cover'] = singleEvent.cover.source;
                 }
+                else{
+                  listOfAllEvents[singleEvent.name.replace(/\./g,"")]['cover'] = "http://i62.tinypic.com/2zznq55.jpg";
+                }
               }
               else if(Math.floor(startMonth)==Math.floor(currentMonth)){
                 if(Math.floor(startDay)>=Math.floor(currentDay)){
@@ -502,6 +513,9 @@ $location.path('/app/person/me/feed');
                   }
                   if (singleEvent.cover){
                    listOfAllEvents[singleEvent.name.replace(/\./g,"")]['cover'] = singleEvent.cover.source;
+                  }
+                  else{
+                   listOfAllEvents[singleEvent.name.replace(/\./g,"")]['cover'] = "http://i62.tinypic.com/2zznq55.jpg";
                   }
                 }
               }
@@ -792,6 +806,116 @@ var userSchool = $scope.userItem.userSchool;
 //         });
 //   };
 
+  //   $scope.getUnwatchedCards = function(){
+
+  //   //   if($scope.cards[0].name != $scope.singleEvent.name){
+
+  //   // }
+  //     // alert('here');
+  //     // if($scope.cards == undefined){
+  //     //   $scope.cards == PetService.getCards();
+  //     // }
+  //     var answerArray12 = [];
+  //     var allCards = PetService.getCards();
+
+  //     // if( PetService.getStart()== );
+  //     // $scope.startCard == false;)
+
+  //   allCards.forEach(function(indCard) {
+  //       if ($scope.foll9($scope.userItem.watchList, indCard)!=true){
+  //     answerArray12.push(indCard);
+  //         //   friend.education.forEach(function(schoolObj){
+  //         // })
+  //     }
+  //   });
+  //   return answerArray12;
+  //     // return answerArray12;
+
+  // };
+
+      // alert(indCard);
+      // alert($scope.singleEvent);
+      // alert(indCard==$scope.singleEvent);
+            // alert();
+          // function isNotEmpty(o){
+          //     for(var i in o){
+          //         if(o.hasOwnProperty(i)){
+          //             return true;
+          //         }
+          //     }
+          //     return false;
+          // };
+          // var a00 = PetService.getCards();
+          // var positionOfCard = $scope.arrayObjectIndexOf(a00, indCard.name, "name");
+
+
+      // alert(positionOfCard);
+      // var positionOfCard = $scope.arrayObjectIndexOf($scope.cards, undefined, "name");
+      // alert($scope.cards.length);
+
+  //     if (positionOfCard > -1) {
+  // // alert(index);
+  //       $scope.cards.splice(positionOfCard, 1);
+  //       PetService.setCards($scope.cards);
+  //       $scope.tinderSwipe(card);
+  //        // $scop
+  // //     }
+  //   if($scope.cards&&$scope.cards.length==0){
+  //     // alert('hellay');
+  //     // alert('here');
+  //     // alert($scope.cards[positionOfCard].name);
+  //     // alert($scope.cards);
+  //     // alert(JSON.stringify($scope.cards));
+
+  //   }else{
+  //   }
+
+
+
+          // }
+          // || ($scope.cards[positionOfCard].name == indCard.name)
+// (isNotEmpty($scope.singleEvent)&&indCard.name==$scope.singleEvent.name)
+// $scope.currentCard =PetService.getStart() == false &&|| $scope.cards && indCard.name == $scope.cards[0].name
+
+
+      // if($scope.cards!=undefined){
+      //   alert($scope.cards[0].name);
+      // }
+
+      // alert(a00[0].name);
+       // alert($scope.startCard);
+       // if($scope.cards&&$scope.cards.length>0){
+        // alert(PetService.getCards()[0].name);
+        // alert(PetService.getCards()[positionOfCard].name);
+       // }
+
+
+      // alert();
+
+      // alert('indCard==$scope.singleEvent');
+      // $scope.cards.push(indCard);
+
+
+      // else{
+      //   // alert(indCard.name);
+      //   // alert(PetService.getStart());
+      //   // alert(PetService.getCards()[0].name);
+
+      //   // alert(indCard.name == PetService.getCards()[0].name);
+
+      //   if(indCard.name == PetService.getCards()[0].name){
+      //     alert(indCard.name);
+      //   }
+      // }
+
+
+          // alert('event is watched');
+            // console.log
+           // return i;
+      // PetService.setCards(answerArray12);
+
+
+
    $scope.startSwipe = function(){
 
     PetService.setStart(false);
@@ -800,11 +924,58 @@ var userSchool = $scope.userItem.userSchool;
    };
 
     $scope.scopeCards = function(){
+      // PetService.setStart(true);
+      // $scope.startCard == true;
 
-    $scope.cards = PetService.getCards();
+      PetService.setCards(["start"]);
+      // $scope.startCard == true;
+      $scope.cards = PetService.getCards();
+      // $scope.startCard == false;
+
+      // PetService.setCards($scope.cards);
+      // PetService.setCards($scope.cards);
+      // PetService.setCards($scope.cards);
+    };
+      // .then(function() {
+      //   alert('Alert Shown.');
+      //   $scope.cards = $scope.getUnwatchedCards();
+      // });
+      // if(PetService.getCards()==){
+      //   //ii am a herereh
+      // }
+ $scope.getCover = function(eventCover){
+  if(eventCover==undefined){
+    return "http://i62.tinypic.com/2zznq55.jpg";
+  }
+  else{
+    return eventCover;
+  }
+    // PetService.setStart(false);
     // $scope.startCard = false;
     // alert($scope.cards[1]);
    };
+
+     // $scope.cards = PetService.getCards();
+
+      //  for(i = 0; i < $scope.cards.length; i++) {
+      //   if ($scope.cards[i].watched){
+      //     alert('event is watched');
+      //       // console.log
+      //      // return i;
+      //   }
+      // }
+        // if ($scope.foll9($scope.userItem.watchList,$scope.cards[i])){
+        //   alert('event is watched');
+        //     // console.log
+        //    // return i;
+        // }
+
+
+    // if(events[key].watched==true)
+
+    // $scope.startCard = false;
+    // alert($scope.cards[1]);
+   // };
 
    $scope.getDateInit = function(event){
     if(event.timeString){
@@ -870,7 +1041,10 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
     // $state.go("app.feed");
   $timeout(function() {
 
-    },100);
+    }, 100);
+
+  PetService.setSingleView(false);
+
 $location.path('/app/person/me/feed');
 
  //     // myPopup.close(); //close the popup after 3 seconds for some reason
@@ -1348,6 +1522,8 @@ for(event in $scope.events){
     //expands single event
     $scope.go_here = function (eventName) {
       PetService.setSingle(eventName);
+      // $scope.singleView = true;
+      PetService.setSingleView(true);
       $location.path('/app/event-detail');
 
       //changes page and controller
@@ -1493,17 +1669,20 @@ else{
  // alert('here2');
     if(event.watched==true){
       // alert('here');
-       for(m=0;m<$scope.userItem.watchList.length;m++){
+      // alert($scope.userItem.watchList.length);
+       // for(m=0;m<$scope.userItem.watchList.length;m++){
+
+        // alert(event.name);
         // if($scope.userItem.watchList[m]==event){
-          $scope.userItem.watchList.splice($scope.userItem.watchList.indexOf(event),1);
-          $scope.singleEvent.watched=!$scope.singleEvent.watched;
+
+          // $scope.singleEvent.watched=!$scope.singleEvent.watched;
 
            // alert('here2');
 
         // }
         // $scope.userItem.watchList.push(event);
-      }
-
+      // }
+         $scope.userItem.watchList.splice($scope.userItem.watchList.indexOf(event),1);
          $scope.userItem.notifications = $scope.userItem.notifications.filter(function (el) {
                         if(el.message==message){
                           // alert(message);
@@ -1539,6 +1718,7 @@ else{
       })
     }
     else{
+      // alert('not watched event');
       //generate notDate to current timestamp
       var notDate = Date.now();
 
@@ -1547,6 +1727,16 @@ else{
       $scope.userItem.watchList.push(event);
       // alert('here4');
       $scope.userItem.notifications.push({message:message,date:notDate,tap:tap});
+
+      $scope.newNot2 = true;
+      // $scope.newChecked();
+
+      // setTimeout(function() {
+      // $scope.newNot2 = undefined;
+      // }, 500);
+
+      // $scope.singleEvent.watched=false;
+
       // alert('here5');
       //
 
@@ -1558,7 +1748,7 @@ else{
           notDate:notDate,
           eventObj:event
         }).error(function(){
-          $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
+          // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
         }).success(function(res){
 
 
@@ -1624,7 +1814,32 @@ else{
 
    };
 
-    // $scope.followed1 = friendFollowed(friend);
+// $http.post('http://stark-eyrie-6720.herokuapp.com/unwatchEvent',
+//         {userProfId:userProfId,
+//           message:message,
+//           message2:message2,
+//           eventObj:event
+//         }).error(function(){
+//           // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
+//         }).success(function(res){
+//            // alert('here5');
+
+
+//       });
+
+//       $http.post('http://stark-eyrie-6720.herokuapp.com/watchEvent',
+//         {userProfId:userProfId,
+//           message:message,
+//           tap:tap,
+//           message2:message2,
+//           notDate:notDate,
+//           eventObj:event
+//         }).error(function(){
+//           // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
+//         }).success(function(res){
+
+//         });
+            // $scope.followed1 = friendFollowed(friend);
       // alert();
       //check if friend is followed,
       //add to both arrays, then change
@@ -1739,9 +1954,10 @@ else{
             }
             else{
               PetService.setUser(red.Item);
-              // $scope.notifications = userItem.notifications;
-            $scope.userItem.notifications = red.Item.notifications;
-              var notCount2 = red.Item.notifications.length;
+              $scope.userItem = red.Item;
+              $scope.notifications = $scope.userItem.notifications;
+            // $scope.userItem.notifications = red.Item.notifications;
+              var notCount2 = $scope.notifications.length;
                 // alert(notCount2);
               if(notCount2>notCount){
                 $scope.newNot = true;
@@ -1873,12 +2089,36 @@ else{
 
     $scope.userItem = PetService.getUser();
     $scope.startCard=PetService.getStart();
+    // alert($scope.startCard);
     $scope.events = PetService.getEvents();
+    // var allCards1 = PetService.getCards();
     $scope.tinderView = PetService.getTinderView();
+    $scope.singleView = PetService.getSingleView();
     $scope.newNot = PetService.getNewNot();
     $scope.unFriends = PetService.getUNFriends();
-    $scope.cards = PetService.getCards();
+    // alert($scope.cards.length);
+     // result.friends.data.forEach(function(friend){
+     //      if (friend.education){
+     //        friend.education.forEach(function(schoolObj){
+
+
+        // $scope.cards = $scope.getUnwatchedCards();
+
+
+        // alert()
+
+    // $scope.cards = PetService.getCards();
+
+    // alert($scope.cards.length);
+
+    // PetService.getCards();
     $scope.singleEvent = PetService.getSingle();
+
+    $scope.cards = PetService.getCards();
+    // alert($scope.cards)
+    // PetService.setCards($scope.cards);
+
+
 
 
     $scope.main.dragContent = true;

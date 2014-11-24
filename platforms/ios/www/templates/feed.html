@@ -24,6 +24,7 @@
   <!-- <img ng-show="newNot==false" class="profileBtn" ng-click="openPopover($event)">Open</button> -->
   <a ng-if="newNot==false||newNot==undefined" class="prof-image ion-person" ng-click="openPopover($event)"></a>
   <a ng-if="newNot!=false" class="prof-image2 ion-person" ng-click="openPopover($event); newChecked();"></a>
+  <a ng-if="newNot2!=undefined" class="prof-image3 ion-person" ng-click="openPopover($event);"></a>
   <!-- <button ng-show="newNot==true" class="profileBtn2" ng-click="openPopover($event); newNot=false;">New Notification</button> -->
 <!-- </div> --><!-- ion-calendar -->
  <!-- <a class="topMenu2 ion-navicon" menu-toggle="right"></a> -->
@@ -45,8 +46,8 @@
   <div class="eventScroller" ng-repeat="event in events | orderObjectBy:'eventDate':false" ng-click="go_here(event)" >
 
 
-    <img ng-show="{{event.cover}}" class="full-image" src="{{event.cover}}" >
-    <img ng-hide="event.cover!=undefined" ng-click="go_here(event)" class="full-image" src="http://i62.tinypic.com/2zznq55.jpg" >
+    <img class="full-image" src="{{getCover(event.cover)}}" >
+    <!-- <img ng-hide="event.cover!=undefined" ng-click="go_here(event)" class="full-image" src="http://i62.tinypic.com/2zznq55.jpg" > -->
 
           <div class="eventInfoSection">
              <a ng-init="event.watched=foll9(userItem.watchList,event); event.eventDate=getDateInit(event);" ng-hide="event.watched" ng-click="watchAction(event); $event.stopPropagation();" class="ion-ios7-eye-outline watchBtn"></a>
@@ -73,7 +74,7 @@
       </swipe-card>
 
 <!-- ng-init="card.watched=foll9(userItem.watchList,card)" -->
-      <swipe-card ng-show="startCard==false&&$first" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card)" on-card-swipe="tinderSwipe(card)">
+      <swipe-card ng-show="startCard==false&&$first" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card);" on-card-swipe="tinderSwipe(card)">
 
   <!-- <div class="card"> -->
 <!--  -->
@@ -86,8 +87,8 @@
 <div class="list card">
 
   <div class="item item-image" ng-click="go_here(card)">
-          <img ng-if="card.cover" src="{{card.cover}}" >
-            <img ng-if="card.cover==undefined" src="http://i62.tinypic.com/2zznq55.jpg" >
+          <img src="{{getCover(card.cover)}}" >
+            <!-- <img ng-if="card.cover==undefined" src="http://i62.tinypic.com/2zznq55.jpg" > -->
   </div>
 
   <a class="item tinderTxt item-text-wrap" >
@@ -145,8 +146,8 @@
 
       </swipe-card>
 
-
-       <swipe-card ng-show="cards.length==0" on-card-swipe="$event.stopPropagation()" on-swipe-up="scopeCards();"  class=".swipe-card.pop-in" id="start-card">
+<!-- on-swipe-up="scopeCards();" -->
+       <swipe-card ng-show="cards.length==0" on-card-swipe="scopeCards();" class=".swipe-card.pop-in" id="start-card">
         End of the stack. Swipe this card up to refresh!
       </swipe-card>
 
@@ -156,6 +157,8 @@
 
 
 </div>
+
+<!-- <ng-include src="'event-detail.html'" ng-show="singleView == true && tinderView == false"></ng-include> -->
 
 
 
@@ -192,6 +195,8 @@
     </ion-content>
   </ion-popover-view>
 </script>
+
+
 
  </ion-content>
 </ion-view>

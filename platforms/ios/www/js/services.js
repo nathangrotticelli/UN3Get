@@ -10,9 +10,24 @@ angular.module('sociogram.services', [])
   var newUser = "no";
   var newNot = false;
  var tinderView = false;
+  var singleView = false;
  var startCard = true;
- var cards = [];
+ var cards = ["start"];
  var followCount = 0;
+  var foll9 = function(watchList,event){
+      // alert(watchedIndex);
+      for(i=0;i<watchList.length;i++){
+        // if(event.name=="INVASION 9.0"){
+// alert(watchList[i].name);
+//         alert(event.name);
+        // }
+
+         if(watchList[i].name==event.name&&watchList[i].start_time==event.start_time){
+          // alert('yes');
+           return true;
+          }
+        }
+      };
  // var cardIndex = undefined;
 
 
@@ -72,22 +87,30 @@ angular.module('sociogram.services', [])
             getTinderView: function () {
                 return tinderView;
             },
+             setSingleView: function(value) {
+                singleView = value;
+            },
+            getSingleView: function () {
+                return singleView;
+            },
             setCards: function(value) {
                 cards = value;
             },
             getCards: function () {
-              if(cards.length == 0){
+              if(cards[0] == "start"){
                 // var answerArray = [];
                 // alert('here');
                 // var a3 = events;
+                cards = [];
                 for(var key in events){
-                  cards.push(events[key]);
+                   if (foll9(userItem.watchList, events[key])!=true){
+                     cards.push(events[key]);
+                    }
                 }
                 // cards = answerArray;
                 // return cards;
               }
                return cards;
-
             },
             flipWatched: function(event){
               events[event.name].watched=!events[event.name].watched;
@@ -119,6 +142,22 @@ angular.module('sociogram.services', [])
             },
             getNew: function () {
                 return newUser;
+            },
+             logOut: function () {
+                events = {};
+                single = {};
+                privateList = {};
+                userItem = {};
+                school = "";
+                unFriends = [];
+                // var userProfId = "";
+                newUser = "no";
+                // newNot = false;
+                tinderView = false;
+                singleView = false;
+                startCard = true;
+                cards = ["start"];
+                followCount = 0;
             },
              refreshEvents: function(value) {
 
