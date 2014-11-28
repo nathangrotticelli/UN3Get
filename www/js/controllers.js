@@ -925,16 +925,35 @@ var userSchool = $scope.userItem.userSchool;
     $scope.scopeCards = function(){
       // PetService.setStart(true);
       // $scope.startCard == true;
-
       PetService.setCards(["start"]);
       // $scope.startCard == true;
       $scope.cards = PetService.getCards();
+      // $scope.loading=false;
       // $scope.startCard == false;
 
+    //   $timeout(function() {
+    //        $scope.loading=false;
+    // }, 500);
       // PetService.setCards($scope.cards);
       // PetService.setCards($scope.cards);
       // PetService.setCards($scope.cards);
     };
+    // $scope.scopeCards2 = function(){
+    //   // PetService.setStart(true);
+    //   // $scope.startCard == true;
+    //   // PetService.setCards(["start"]);
+    //   // $scope.startCard == true;
+    //   // $scope.cards = PetService.getCards();
+    //   // $scope.loading=false;
+    //   // $scope.startCard == false;
+
+    //   $timeout(function() {
+    //        $scope.loading=false;
+    // }, 500);
+    //   // PetService.setCards($scope.cards);
+    //   // PetService.setCards($scope.cards);
+    //   // PetService.setCards($scope.cards);
+    // };
       // .then(function() {
       //   alert('Alert Shown.');
       //   $scope.cards = $scope.getUnwatchedCards();
@@ -1610,6 +1629,7 @@ $scope.foll8 = function(friendFollowIndex){
       var userProfId = $scope.userProfId;
       // alert(userName);
       var userName = $scope.userName;
+      // $scope.newNot2 = undefined;
        // alert(userName);
       // alert(userWatchList[0]);
        // for(i=0;i<userWatchList.length;i++){
@@ -1666,7 +1686,7 @@ else{
     // alert(message2);
     // alert($scope.foll9(userWatchList,event));
  // alert('here2');
-    if(event.watched==true){
+    if(event.watched){
       // alert('here');
       // alert($scope.userItem.watchList.length);
        // for(m=0;m<$scope.userItem.watchList.length;m++){
@@ -1681,7 +1701,18 @@ else{
         // }
         // $scope.userItem.watchList.push(event);
       // }
-         $scope.userItem.watchList.splice($scope.userItem.watchList.indexOf(event),1);
+
+         var answer99 = null;
+         for (var i = 0, len = $scope.userItem.watchList.length; i < len; i++) {
+              if($scope.userItem.watchList[i].name==event.name){
+                    answer99 = $scope.userItem.watchList[i];
+              }
+          }
+          // alert(answer99);
+
+          // console.log(b);
+         $scope.userItem.watchList.splice($scope.userItem.watchList.indexOf(answer99),1);
+         // alert($scope.userItem.watchList.indexOf(answer99));
          $scope.userItem.notifications = $scope.userItem.notifications.filter(function (el) {
                         if(el.message==message){
                           // alert(message);
@@ -1695,12 +1726,24 @@ else{
                         return el.message !== message;
                        });
 
+         $scope.events[event.name].watched = false;
+
            // $scope.userItem.notifications = $scope.notifications;
           // alert('here3');
 
           // .splice({message:message,notDate:notDate});
-          $scope.events[event.name.replace(/\./g,"")].watched=!$scope.events[event.name.replace(/\./g,"")].watched;
+          // $scope.events[event.name.replace(/\./g,"")].watched=!$scope.events[event.name.replace(/\./g,"")].watched;
+
+          PetService.setUser($scope.userItem);
+          // PetService.setEvents($scope.events);
+          // $scope.userItem = PetService.getUser();
+          // PetService.setEvents($scope.events);
+          // $scope.userItem = PetService.getUser();
+
+           // $scope.userItem = PetService.getUser();
         // });
+        // $scope.cards.
+        // PetService.setUser($scope.userItem);
  // alert('here4');
       //unwatch event
        $http.post('http://stark-eyrie-6720.herokuapp.com/unwatchEvent',
@@ -1721,13 +1764,33 @@ else{
       //generate notDate to current timestamp
       var notDate = Date.now();
 
-      $scope.events[event.name.replace(/\./g,"")].watched=!$scope.events[event.name.replace(/\./g,"")].watched;
+      // $scope.events[event.name.replace(/\./g,"")].watched=true;
       // alert('here3');
-      $scope.userItem.watchList.push(event);
-      // alert('here4');
+          var hI = $scope.events[event.name];
+      $scope.userItem.watchList.push($scope.events[event.name]);
+      var answer98 = null;
+         for (var i = 0, len = $scope.userItem.watchList.length; i < len; i++) {
+              if($scope.userItem.watchList[i].name==event.name){
+                    answer98 = $scope.userItem.watchList[i];
+              }
+          }
+      // alert(answer98==hI);
+      ;
       $scope.userItem.notifications.push({message:message,date:notDate,tap:tap});
 
       $scope.newNot2 = true;
+
+      // $scope.events[event.name.replace(/\./g,"")].watched=!$scope.events[event.name.replace(/\./g,"")].watched;
+      // PetService.setEvents($scope.events);
+      $scope.events[event.name].watched = true;
+
+      PetService.setUser($scope.userItem);
+      // PetService.setEvents($scope.events);
+
+      // $scope.newNot2 = false;
+
+      // $scope.userItem = PetService.getUser();
+      // $scope.userItem = PetService.getUser();
       // $scope.newChecked();
 
       // setTimeout(function() {
@@ -1973,6 +2036,7 @@ else{
 
         // alert(schoolName);
          $http.post('http://stark-eyrie-6720.herokuapp.com/getSchool', {schoolName:schoolName}).error(function(){
+           $scope.scopeCards();
           $scope.$broadcast('scroll.refreshComplete');
         }).success(function(res){
           // alert(res.Item.schoolName);
@@ -2036,6 +2100,7 @@ else{
           // alert(currentList);
 
            $scope.events = PetService.getEvents();
+           $scope.scopeCards();
           // loadFeed();
           $scope.$broadcast('scroll.refreshComplete');
         })
@@ -2117,7 +2182,7 @@ else{
     // alert($scope.cards)
     // PetService.setCards($scope.cards);
 
-
+$scope.loading=false;
 
 
     $scope.main.dragContent = true;

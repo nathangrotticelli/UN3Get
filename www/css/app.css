@@ -47,6 +47,13 @@
   /*left:-5%;*/
 
 }
+.loadingTin{
+  color:white;
+  font-size: 75px;
+  margin-top:55%;
+
+
+}
 
 .tinderTxt{
   max-height:150px;
@@ -65,6 +72,8 @@
   top:2%;
 
 }
+
+
 .prof-image{
     position: absolute;
   left: 48%;
@@ -227,15 +236,14 @@
 opacity: 1;
 float:right;
 }*/
-.swipe-cards {
-  /*background-color: green;*/
-  /*position: fixed;*/
-  /*background-color: transparent;*/
+#swipe-card2{
+  text-align: center;
+
 }
-.card2{
-  /*width:100%;*/
-  /*left:0%;*/
-}
+/*#swipe-card2 span {
+    text-align: left;
+    display: block;
+}*/
 
 .swipe-card {
   background-color: black;
@@ -319,7 +327,7 @@ float:right;
   margin-left: -150px;
   margin-top: -150px;
   box-sizing: border-box;
-  background-color: black;
+  /*background-color: black;*/
   /*border-radius: 4px;*/
   overflow: hidden;
   -webkit-animation-fill-mode: forwards;
@@ -339,6 +347,37 @@ float:right;
   vertical-align: middle;
 }
 
+#start-card2 {
+   /*display: none;*/
+  /*position: fixed;*/
+  /*-webkit-transform: scale(1,1);*/
+  left: 50%;
+  top: 50%;
+  width: 300px;
+  height: 300px;
+  /*margin-left: -150px;*/
+  /*margin-top: -150px;*/
+  /*box-sizing: border-box;*/
+
+  /*background-color: black;*/
+  /*border-radius: 4px;*/
+  /*overflow: hidden;*/
+  /*-webkit-animation-fill-mode: forwards;*/
+  /*background-color: black;*/
+
+  background-color: black;
+  /*line-height: 300px;*/
+  /*word-wrap: break-word;*/
+  /*border: 6px solid #4CD68E;*/
+  text-align: center;
+}
+/*#start-card2 span {
+  display: inline-block;
+  line-height: 40px;
+  width: 200px;
+  font-size: 30px;
+  vertical-align: middle;
+}*/
 /*#footer .button {
   color: #fff;
 }*/

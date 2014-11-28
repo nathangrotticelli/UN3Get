@@ -35,7 +35,7 @@
 
   <ion-scroll ng-show="tinderView == false" id="eventList">
 
-  <ion-refresher id="re1" pulling-icon="none" refreshing-icon="ion-loading-c"  on-refresh="alert3()">
+  <ion-refresher id="re1" pulling-icon="none" refreshing-icon="ion-ios7-reloading"  on-refresh="alert3()">
   </ion-refresher>
 
   <hr class="div12">
@@ -49,9 +49,9 @@
     <img class="full-image" src="{{getCover(event.cover)}}" >
     <!-- <img ng-hide="event.cover!=undefined" ng-click="go_here(event)" class="full-image" src="http://i62.tinypic.com/2zznq55.jpg" > -->
 
-          <div class="eventInfoSection">
-             <a ng-init="event.watched=foll9(userItem.watchList,event); event.eventDate=getDateInit(event);" ng-hide="event.watched" ng-click="watchAction(event); $event.stopPropagation();" class="ion-ios7-eye-outline watchBtn"></a>
-             <a ng-show="event.watched" ng-click="watchAction(event); $event.stopPropagation();" class="ion-ios7-eye watchBtn"></a>
+          <div class="eventInfoSection" ng-init="event.watched=foll9(userItem.watchList,event); event.eventDate=getDateInit(event);">
+             <a ng-hide="event.watched" ng-click="$event.stopPropagation(); watchAction(event);" class="ion-ios7-eye-outline watchBtn"></a>
+             <a ng-show="event.watched" ng-click="$event.stopPropagation(); watchAction(event);" class="ion-ios7-eye watchBtn"></a>
       <h3 id="eventName">{{event.name}}</h3>
       <p id="eventLocation" ng-if="event.location!=null"><i class="icon ion-ios7-location"></i> {{event.location}}</p>
       <p class="eventDT" ng-if="event.start_time!=null">{{event.start_time}}</p> <p class="eventDT" ng-if="event.timeOfEvent!=null">{{event.timeOfEvent}}</p>
@@ -69,12 +69,12 @@
       <swipe-cards>
 
 
-        <swipe-card ng-show="startCard==true" on-card-swipe="startSwipe()" id="start-card">
+        <swipe-card ng-show="startCard==true&&cards[0]!='empty'" on-card-swipe="startSwipe()" id="start-card">
         Swipe down for a new card
       </swipe-card>
 
 <!-- ng-init="card.watched=foll9(userItem.watchList,card)" -->
-      <swipe-card ng-show="startCard==false&&$first" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card);" on-card-swipe="tinderSwipe(card)">
+      <swipe-card ng-show="startCard==false&&$first&&cards[0]!='empty'" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card);" on-card-swipe="tinderSwipe(card)">
 
   <!-- <div class="card"> -->
 <!--  -->
@@ -104,34 +104,7 @@
 
 </div>
 
-  <!-- <div> -->
-    <!-- <img src="{{card.cover}}"> -->
 
-      <!-- </div> -->
-<!-- <div class="item tinderWatch">
-  <div ng-click="watchAction(card); $event.stopPropagation();" class="item-icon-left assertive">
-    <div ng-show="{{card.watched}}"><i class="icon ion-ios7-bolt"></i>You're Watching</div>
-    <div ng-hide="{{card.watched}}"><i class="icon ion-ios7-bolt-outline"></i>Start Watching</div>
-  </div>
-  </div> -->
-
-<!-- </div> -->
-
-
-            <!-- <div >LIKE</div> -->
-
-
-            <!-- <div >NOPE</div> -->
-    <!-- </div> -->
-
-<!--
-           <div class="title">
-            {{card.name}}
-          </div> -->
-       <!--    <div class="button-bar">
-            <button class="button button-clear button-positive" ng-click="goAway()">Answer</button>
-            <button class="button button-clear button-positive" ng-click="goAway()">Decline</button>
-          </div> -->
              <!-- <div class="tinderBtnSection"> -->
      <div class="tinderBtn1" >
   <!-- <a ng-click="$event.stopPropagation();" class="ion-ios7-close"></a> -->
@@ -139,8 +112,8 @@
 </div>
 
   <div class="tinderBtn2" ng-click="watchAction(card);">
-  <a ng-if="card.watched!=true" class="ion-ios7-checkmark-outline"></a>
-    <a ng-if="card.watched==true" class="ion-ios7-checkmark"></a>
+  <a ng-show="card.watched!=true" class="ion-ios7-checkmark-outline"></a>
+    <a ng-show="card.watched==true" class="ion-ios7-checkmark"></a>
 </div>
 <!-- </div> -->
 
@@ -150,7 +123,15 @@
        <swipe-card ng-show="cards.length==0" on-card-swipe="scopeCards()" class=".swipe-card.pop-in" id="start-card">
         End of the stack. Swipe this card up to refresh!
       </swipe-card>
+<!-- ng-hide="loadingGo == true"cards[0] == "empty" -->
 
+       <swipe-card ng-show="cards[0]=='empty'" on-card-swipe="$scope.loading=true; alert3();" class=".swipe-card.pop-in" id="start-card">
+        No new event cards that you haven't watched already.
+      </swipe-card>
+
+      <div id="swipe-card2" ng-if="cards[0]=='empty'&&$scope.loading==true">
+        <i class="loadingTin ion-ios7-reloading"></i>
+      </div>
 
     </swipe-cards>
 

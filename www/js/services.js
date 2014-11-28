@@ -15,18 +15,17 @@ angular.module('sociogram.services', [])
  var cards = ["start"];
  var followCount = 0;
   var foll9 = function(watchList,event){
-      // alert(watchedIndex);
-      for(i=0;i<watchList.length;i++){
-        // if(event.name=="INVASION 9.0"){
-// alert(watchList[i].name);
-//         alert(event.name);
-        // }
 
-         if(watchList[i].name==event.name&&watchList[i].start_time==event.start_time){
+      // alert(watchedIndex);&&watchList[i].start_time==event.start_time
+      for(i=0;i<watchList.length;i++){
+        // alert(JSON.stringify(watchList));
+      // alert(watchList[i].watched);
+         if(watchList[i].name==event.name&&watchList[i].watched){
           // alert('yes');
            return true;
           }
         }
+        // return false;
       };
  // var cardIndex = undefined;
 
@@ -97,20 +96,40 @@ angular.module('sociogram.services', [])
                 cards = value;
             },
             getCards: function () {
-              if(cards[0] == "start"){
-                // var answerArray = [];
+              // event.watched=foll9(userItem.watchList,event);
+              // if(cards[0]=="empty" && cards.length>1){
+              //   cards.splice(0, 1);
+              // }
+              // || cards[0]=="empty"
+              // if(cards[0] == "empty" && cards.length >1 ){
+
+              // }
+            if( cards[0]=="start"){
+                // var answerArray = [];||cards[0] == "empty"
                 // alert('here');
                 // var a3 = events;
                 cards = [];
+
                 for(var key in events){
-                   if (foll9(userItem.watchList, events[key])!=true){
-                     cards.push(events[key]);
+                  // events[key].watched3 = foll9(userItem.watchList, events[key]);
+
+                   if(foll9(userItem.watchList, events[key])!= true){
+                      // alert(cards[0]);
+                      cards.push(events[key]);
                     }
+
+                  }
+
                 }
-                // cards = answerArray;
-                // return cards;
-              }
+                else if(cards[0] == "empty"&&cards.length>1){
+                  cards.splice(0, 1);
+                }
+
+                if(cards.length==0){
+                 cards = ["empty"];
+                }
                return cards;
+
             },
             flipWatched: function(event){
               events[event.name].watched=!events[event.name].watched;
@@ -177,4 +196,3 @@ angular.module('sociogram.services', [])
           }
         }
 });
-
