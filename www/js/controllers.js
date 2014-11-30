@@ -761,12 +761,6 @@ angular.module('sociogram.controllers', ['ionic'])
     // $scope.predicate2 = ;
     // $scope.loadFeed();
 
-     $ionicPopover.fromTemplateUrl('my-popover.html', {
-    scope: $scope,
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-
 $scope.findFriends2 = function(){
   var userProfId = $scope.userProfId;
   // alert(userSchool);
@@ -1241,9 +1235,11 @@ if(card!=undefined){
     };
 
   $scope.openPopover = function($event) {
+    $scope.newNot=false;
+    PetService.setNewNot(false);
     $scope.popover.show($event);
-    // $scope.newNot==false;
   };
+
   $scope.closePopover = function() {
     $scope.popover.hide();
   };
@@ -1413,6 +1409,8 @@ for(event in $scope.events){
 //   }
 // }
 
+    }
+    else if(not.tap==undefined){
     }
     else{
       // alert((not.tap=="event"));
@@ -1591,20 +1589,23 @@ for(event in $scope.events){
 //         });
 
 // }
-
-
-
-$scope.newChecked = function(){
-  $scope.newNot = false;
-  PetService.setNewNot(false);
+$scope.doThis = function(){
+  alert('hi');
 };
+
+
+
+
+
 
 $scope.tinderYes = function(){
   $scope.tinderView = true;
+  $scope.main.dragContent = false;
   PetService.setTinderView(true);
 };
 $scope.tinderNo = function(){
   $scope.tinderView = false;
+  $scope.main.dragContent = true;
   PetService.setTinderView(false);
 };
 
@@ -1617,6 +1618,7 @@ $scope.foll8 = function(friendFollowIndex){
     return false;
   }
 };
+
 // alert('here8');
     $scope.watchAction = function (event) {
       // alert($scope.userItem.watchList[0]);
@@ -1625,11 +1627,12 @@ $scope.foll8 = function(friendFollowIndex){
 
          // alert($scope.event.watched);
       // notDate = "19/29/1993";
+
       var tap = "event";
       var userProfId = $scope.userProfId;
       // alert(userName);
       var userName = $scope.userName;
-      // $scope.newNot2 = undefined;
+
        // alert(userName);
       // alert(userWatchList[0]);
        // for(i=0;i<userWatchList.length;i++){
@@ -1687,6 +1690,7 @@ else{
     // alert($scope.foll9(userWatchList,event));
  // alert('here2');
     if(event.watched){
+
       // alert('here');
       // alert($scope.userItem.watchList.length);
        // for(m=0;m<$scope.userItem.watchList.length;m++){
@@ -1766,7 +1770,9 @@ else{
 
       // $scope.events[event.name.replace(/\./g,"")].watched=true;
       // alert('here3');
-          var hI = $scope.events[event.name];
+          // var hI = $scope.events[event.name];
+
+
       $scope.userItem.watchList.push($scope.events[event.name]);
       var answer98 = null;
          for (var i = 0, len = $scope.userItem.watchList.length; i < len; i++) {
@@ -1777,30 +1783,35 @@ else{
       // alert(answer98==hI);
       ;
       $scope.userItem.notifications.push({message:message,date:notDate,tap:tap});
+      $scope.newNot2=true;
 
-      $scope.newNot2 = true;
+
 
       // $scope.events[event.name.replace(/\./g,"")].watched=!$scope.events[event.name.replace(/\./g,"")].watched;
       // PetService.setEvents($scope.events);
       $scope.events[event.name].watched = true;
 
       PetService.setUser($scope.userItem);
+
       // PetService.setEvents($scope.events);
 
-      // $scope.newNot2 = false;
+
 
       // $scope.userItem = PetService.getUser();
       // $scope.userItem = PetService.getUser();
       // $scope.newChecked();
+      setTimeout(function() {
+       $scope.newNot2=false;
+      }, 50);
 
-      // setTimeout(function() {
-      // $scope.newNot2 = undefined;
+
       // }, 500);
 
       // $scope.singleEvent.watched=false;
 
       // alert('here5');
       //
+
 
       $http.post('http://stark-eyrie-6720.herokuapp.com/watchEvent',
         {userProfId:userProfId,
@@ -1812,6 +1823,7 @@ else{
         }).error(function(){
           // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
         }).success(function(res){
+          // alert('hi');
 
 
 
@@ -1873,7 +1885,6 @@ else{
      //  }
      // }
     // }
-
    };
 
 // $http.post('http://stark-eyrie-6720.herokuapp.com/unwatchEvent',
@@ -1995,12 +2006,34 @@ else{
 
    };
 // alert('here9');
+$scope.doAlert = true;
 
      $scope.alert3 = function(){
       // var userItem = $scope.userItem;
-      var notCount = $scope.userItem.notifications.length;
+      // var notCount = $scope.userItem.notifications.length;
+      // alert($scope.doAlert);
+      if($scope.doAlert == true){
+        // alert("here");
+      $scope.doAlert = false;
       var schoolName = $scope.userItem.userSchool;
       var userEmail = $scope.userItem.userEmail;
+      // alert($scope.doAlert);
+
+      // var doSC = false;
+      // alert($scope.cards.length);
+      // if(doSC == true){
+        // alert('here');
+
+        // doSC = false;
+        // alert($scope.cards.length);
+        // alert($scope.cards[0].name);
+      // }
+      // alert($scope.cards.length);
+
+      // if($scope.cards.length>0){
+      //    $scope.scopeCards();
+      //    doSC = true;
+      // }
       // alert(notCount);
       // alert(userEmail);
       // alert(schoolName);
@@ -2015,11 +2048,12 @@ else{
               $state.go('app.login');
             }
             else{
+              var notCount = $scope.userItem.notifications.length;
               PetService.setUser(red.Item);
               $scope.userItem = red.Item;
-              $scope.notifications = $scope.userItem.notifications;
+              // $scope.notifications = $scope.userItem.notifications;
             // $scope.userItem.notifications = red.Item.notifications;
-              var notCount2 = $scope.notifications.length;
+              var notCount2 = $scope.userItem.notifications.length;
                 // alert(notCount2);
               if(notCount2>notCount){
                 $scope.newNot = true;
@@ -2029,14 +2063,15 @@ else{
 
             }
 
-            });
+          });
       // $http.post('http://stark-eyrie-6720.herokuapp.com/getN', {schoolName:schoolName}).error(function(){
 
 
 
         // alert(schoolName);
          $http.post('http://stark-eyrie-6720.herokuapp.com/getSchool', {schoolName:schoolName}).error(function(){
-           $scope.scopeCards();
+          $scope.scopeCards();
+          $scope.doAlert = true;
           $scope.$broadcast('scroll.refreshComplete');
         }).success(function(res){
           // alert(res.Item.schoolName);
@@ -2097,14 +2132,25 @@ else{
         }
         PetService.refreshEvents(currentList);
         }).success(function(){
-          // alert(currentList);
-
            $scope.events = PetService.getEvents();
-           $scope.scopeCards();
-          // loadFeed();
+           if($scope.cards[0]=="empty"){
+             $scope.scopeCards();
+            }
+          $scope.doAlert = true;
           $scope.$broadcast('scroll.refreshComplete');
         })
-      };
+
+      //   for(key in $scope.events){
+      //   if($scope.events[key].watched!=true){
+      //     if($scope.cards[0]=="empty"){
+
+      //       $scope.scopeCards();
+      //     }
+      //   }
+      // }
+
+      }
+    };
 
     $scope.go_event = function () {
       $state.go("app.newEventForm");
@@ -2151,6 +2197,13 @@ else{
     analytics.startTrackerWithId('UA-53156722-1');
     analytics.trackView('Event Feed Accessed');
 
+
+    $ionicPopover.fromTemplateUrl('my-popover.html', {
+    scope: $scope,
+    }).then(function(popover) {
+      $scope.popover = popover;
+    });
+
     $scope.userItem = PetService.getUser();
     $scope.startCard=PetService.getStart();
     // alert($scope.startCard);
@@ -2184,13 +2237,20 @@ else{
 
 $scope.loading=false;
 
+$scope.newNot2=false;
 
+  if($scope.tinderView != true){
     $scope.main.dragContent = true;
+  }
+  else{
+    $scope.main.dragContent = false;
+  }
+
     $scope.predicate1 = '-date';
     $scope.showEventDesc = false;
 
     $scope.userName = $scope.userItem.userName;
-    $scope.notifications = $scope.userItem.notifications;
+    // $scope.notifications = $scope.userItem.notifications;
     // alert('here');
 
     $scope.userProfId = $scope.userItem.userProfId;

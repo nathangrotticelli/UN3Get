@@ -22,9 +22,9 @@
   <a class="tinderBtn ion-calendar"  ng-hide="tinderView == false" ng-click="tinderNo()"></a>
     <!-- <button class="tinderBtn" ng-click="tinderView=!tinderView">Tinder</button> -->
   <!-- <img ng-show="newNot==false" class="profileBtn" ng-click="openPopover($event)">Open</button> -->
-  <a ng-if="newNot==false||newNot==undefined" class="prof-image ion-person" ng-click="openPopover($event)"></a>
-  <a ng-if="newNot!=false" class="prof-image2 ion-person" ng-click="openPopover($event); newChecked();"></a>
-  <a ng-if="newNot2!=undefined" class="prof-image3 ion-person" ng-click="openPopover($event);"></a>
+  <a ng-if="newNot==false||newNot==undefined" class="prof-image ion-person" ng-click="openPopover($event);"></a>
+  <a ng-if="newNot!=false" class="prof-image2 ion-person" ng-click="openPopover($event);"></a>
+  <a ng-show="newNot2!=false" class="prof-image3 ion-person" ng-click="openPopover($event);"></a>
   <!-- <button ng-show="newNot==true" class="profileBtn2" ng-click="openPopover($event); newNot=false;">New Notification</button> -->
 <!-- </div> --><!-- ion-calendar -->
  <!-- <a class="topMenu2 ion-navicon" menu-toggle="right"></a> -->
@@ -73,7 +73,7 @@
         Swipe down for a new card
       </swipe-card>
 
-<!-- ng-init="card.watched=foll9(userItem.watchList,card)" -->
+<!-- ng-init="card.watched=foll9(userItem.watchList,card)" on-swipe="tinderSwipe(card) on-swipe-left="$event.stopPropagation();" -->
       <swipe-card ng-show="startCard==false&&$first&&cards[0]!='empty'" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card);" on-card-swipe="tinderSwipe(card)">
 
   <!-- <div class="card"> -->
@@ -121,7 +121,7 @@
 
 <!-- on-swipe-up="scopeCards();" -->
        <swipe-card ng-show="cards.length==0" on-card-swipe="scopeCards()" class=".swipe-card.pop-in" id="start-card">
-        End of the stack. Swipe this card up to refresh!
+        End of the stack. Swipe this card to reshuffle.
       </swipe-card>
 <!-- ng-hide="loadingGo == true"cards[0] == "empty" -->
 
@@ -162,7 +162,7 @@
        <h4 class="followNum">{{followCount}}<button  ng-click="findFriends()" class="friendBtn">Find Friends</button></h4>
        <p class="followTxt">Following </p>
        <hr>
-       <div class="notifications2" ng-repeat="not in notifications | orderObjectBy:predicate1">
+       <div class="notifications2" ng-repeat="not in userItem.notifications | orderObjectBy:predicate1">
        <div class="ion-navicon">
        <div ng-click="followNot(not)">
         <h5 ng-init="not.date1=foll6(not.date)">{{not.date1}}</h5>

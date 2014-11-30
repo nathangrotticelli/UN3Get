@@ -320,7 +320,20 @@
       }
     }
   }])
-
+//   .directive('onSwipeLeft', function($parse, $ionicGesture) {
+//     return {
+//         restrict :  'A',
+//         link : function(scope, elem, attrs) {
+//             var fn = $parse(attrs.onSwipeLeft);
+//             $ionicGesture.on('swipeleft', function(event) {
+//                 //console.log("swiped left");
+//                 scope.$apply(function() {
+//                     fn(scope, {$event:event});
+//                 });
+//             }, elem);
+//         }
+//     }
+// })
   .factory('$ionicSwipeCardDelegate', ['$rootScope', function($rootScope) {
     return {
       popCard: function($scope, isAnimated) {
