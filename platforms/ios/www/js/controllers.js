@@ -593,8 +593,8 @@ angular.module('sociogram.controllers', ['ionic'])
       //gets and sets personal fb info, takes user to loading screen, and then runs user logic
       var fbInnerFlow = function(){
         //gets and sets current users fb info
-        OpenFB.get('/me', {limit: 30}).success(function (result) {
-          userProfId = result.id;
+        OpenFB.get('/me', {limit: 30}).success(function (result){
+         userProfId = result.id;
           // PetService.setUserId(userProfId);
           // alert(PetService.getUserId());
           userSchool = schoolItem.schoolName;
@@ -684,6 +684,16 @@ angular.module('sociogram.controllers', ['ionic'])
             $scope.showAlert('Facebook connection failed.');
             $location.path('app.login');
           });
+
+        OpenFB.get("/me/picture?redirect=false",{
+        "height": "100",
+        "type": "normal",
+        "width": "100"
+        }).then(function (response1) {
+          // alert(response1);
+         PetService.setUserPic(response1.data.data.url);
+       });
+
       };
 
       //this is the fb login
@@ -1434,15 +1444,17 @@ for(event in $scope.events){
   $scope.findFriends = function(){
     // var nU = PetService.getNew();
 
-    // alert(nU);
+    // alert('fdfdd');
     // $scope.unFriends = PetService.getUNFriends();
     var userProfId = $scope.userProfId;
     var userSchool = $scope.userItem.userSchool;
+    // alert(userProfId);
+    // alert(userSchool);
          // alert("error");
      OpenFB.get("/"+userProfId+"?fields=friends",{limit:1300}).success(function(res){
       fbFriends = res.friends.data;//this is an array with friend objects
          $http.post('http://stark-eyrie-6720.herokuapp.com/findFriends', {userProfId:userProfId,userSchool:userSchool, fbFriends:fbFriends}).error(function(){
-          alert("error");
+          // alert("error");
         }).success(function(res){
           // alert("success");
           // alert(userProfId);
@@ -1455,12 +1467,17 @@ for(event in $scope.events){
         //     $http.post('http://stark-eyrie-6720.herokuapp.com/newFriend', {fbFriends:res.userIds,userName:userName,userProfId:userProfId}).error(function(){
         //   // alert("error");
         // }).success(function(idc){
-        //   // alert('yay');
+          // alert('yay');
         // })
         //   }
+          // res.userIds = [];
+          if(res.userIds.length==0){
+            PetService.setUNFriends(["none"]);
+          }else{
+            PetService.setUNFriends(res.userIds);
+          }
 
-          PetService.setUNFriends(res.userIds);
-           $state.go("app.friends");
+
           // .success(function(res){
 
           // });
@@ -1474,6 +1491,10 @@ for(event in $scope.events){
     //send an array of all fb friends in a request that returns an array of user objects that match existing people
 
     //set the list in services and display that list
+  };
+
+  $scope.goFriends = function(){
+    $state.go("app.friends");
   };
 
 
@@ -2217,7 +2238,7 @@ $scope.doAlert = true;
     $scope.tinderView = PetService.getTinderView();
     $scope.singleView = PetService.getSingleView();
     $scope.newNot = PetService.getNewNot();
-    $scope.unFriends = PetService.getUNFriends();
+
     // alert($scope.cards.length);
      // result.friends.data.forEach(function(friend){
      //      if (friend.education){
@@ -2244,6 +2265,14 @@ $scope.loading=false;
 
 $scope.newNot2=false;
 
+ // $scope.noFriends = false;
+// alert(PetService.getUNFriends());
+
+// if(PetService.getUNFriends())
+// $scope.findFriends();
+
+$scope.userPic1 = PetService.getUserPic();
+
   if($scope.tinderView != true){
     $scope.main.dragContent = true;
   }
@@ -2264,7 +2293,11 @@ $scope.newNot2=false;
     if(nU=="yes"){
         $scope.findFriends2();
     }
-
+    $scope.unFriends = PetService.getUNFriends();
+    if($scope.unFriends.length==0&&$scope.unFriends[0]!="none"){
+      // alert('h2222');
+      $scope.findFriends();
+    }
             // $scope.message = "Timeout called!";
         // });
     // }, 1000);

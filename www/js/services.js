@@ -12,6 +12,7 @@ angular.module('sociogram.services', [])
  var tinderView = false;
   var singleView = false;
  var startCard = true;
+ var userPic = "";
  var cards = ["start"];
  var followCount = 0;
   var foll9 = function(watchList,event){
@@ -158,6 +159,12 @@ angular.module('sociogram.services', [])
             setNewUser: function(userIs){
               newUser = userIs;
 
+            },
+            getUserPic: function () {
+                return userPic;
+            },
+            setUserPic: function(value){
+              userPic = value;
             },
             getNew: function () {
                 return newUser;

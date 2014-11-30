@@ -156,19 +156,23 @@
 
   <script id="my-popover.html" type="text/ng-template">
   <ion-popover-view >
-  <ion-content>
+  <ion-content class="popoverBack">
       <h1 class="profHead">My Profile</h1>
-       <img class="feedPic" src="./images/nathanpic2BW.jpg">
-       <h4 class="followNum">{{followCount}}<button  ng-click="findFriends()" class="friendBtn">Find Friends</button></h4>
+
+       <img class="feedPic" src="{{userPic1}}">
+       <div class="followFindDiv">
+       <h4 class="followNum">{{followCount}}</h4>
        <p class="followTxt">Following </p>
+       <button  ng-click="goFriends()" class="friendBtn">Find Friends</button>
+       </div>
        <hr>
-       <div class="notifications2" ng-repeat="not in userItem.notifications | orderObjectBy:predicate1">
-       <div class="ion-navicon">
-       <div ng-click="followNot(not)">
+       <div class="notifications" ng-repeat="not in userItem.notifications | orderObjectBy:predicate1">
+
+       <div ng-click="followNot(not)" class="singleNot">
         <h5 ng-init="not.date1=foll6(not.date)">{{not.date1}}</h5>
         <h5>{{not.message}}</h5>
        </div>
-       </div>
+
 
        </div>
 

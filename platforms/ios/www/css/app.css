@@ -447,6 +447,13 @@ background-color: red;
 }*/
 .notifications{
   padding: 5%;
+  color:white;
+}
+.popoverBack{
+  background-color: lightgray;
+}
+.singleNot{
+  border: 2px solid white;
 }
 .friendFinder{
   background-color: white!important;
@@ -455,32 +462,42 @@ background-color: red;
   background-color: black;
 }
 .followNum{
-  padding-left: 5%;
-  margin-left: 0;
-  margin-bottom: 0;
-  padding-bottom: 0;
+  line-height: 0;
+  /*padding-left: 5%;*/
+  /*margin-left: 0;*/
+  /*margin-bottom: 0;*/
+  /*padding-bottom: 0;*/
+}
+.followFindDiv{
+
+  float: right;
+  margin-top: 4.5%;
+  margin-right: 10%;
+  text-align: center;
+  color:white;
 }
 .friendBtn{
-  float:right;
+  /*float:right;*/
 background-color:transparent;
-  color:black;
+  color:blue;
   border-radius: 5%;
   border: 2px solid gray;
-padding-top: 2%;
-padding-bottom: 2%;
-margin-right: 5%;
-margin-top:3%;
+padding-top: 5%;
+padding-bottom: 5%;
+/*margin-right: 5%;*/
+/*margin-top:3%;*/
 font-family: 'Gafata', sans-serif;
 }
 .feedPic{
   border-radius: 100%;
   /*text-align: center;*/
-  width: 100%;
+  /*width: 100%;*/
   /*height: 100%;*/
-  max-width: 105px;
-  max-height: 105px;
+  /*max-width: 500px;*/
+  /*max-height: 500px;*/
+  opacity: 1!important;
   border: black 13.5px solid inset;
-  margin-left: 32%;
+  margin-left: 10%;
 }
 .profHead{
 font-family: 'Gafata', sans-serif;
@@ -489,9 +506,11 @@ text-align: center;
 }
 .followTxt{
   font-size: 20px;
-  margin-left: 0;
-  padding-left: 5%;
+  /*margin-left: 0;*/
+  /*padding-left: 5%;*/
   font-family: 'Gafata', sans-serif;
+  /*float:right;*/
+  /*display: inline;*/
 }
 .blackBack{
   background-color: black!important;
