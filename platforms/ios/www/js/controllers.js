@@ -1235,10 +1235,11 @@ if(card!=undefined){
     };
 
   $scope.openPopover = function($event) {
-    $scope.popover.show($event);
     $scope.newNot=false;
     PetService.setNewNot(false);
+    $scope.popover.show($event);
   };
+
   $scope.closePopover = function() {
     $scope.popover.hide();
   };
@@ -1595,10 +1596,7 @@ $scope.doThis = function(){
 
 
 
-// $scope.newChecked = function(){
-//   $scope.newNot = false;
-//   PetService.setNewNot(false);
-// };
+
 
 $scope.tinderYes = function(){
   $scope.tinderView = true;
@@ -1634,7 +1632,7 @@ $scope.foll8 = function(friendFollowIndex){
       var userProfId = $scope.userProfId;
       // alert(userName);
       var userName = $scope.userName;
-      // $scope.newNot2 = undefined;
+
        // alert(userName);
       // alert(userWatchList[0]);
        // for(i=0;i<userWatchList.length;i++){
@@ -1692,7 +1690,7 @@ else{
     // alert($scope.foll9(userWatchList,event));
  // alert('here2');
     if(event.watched){
-      // $scope.newNot2 = false;
+
       // alert('here');
       // alert($scope.userItem.watchList.length);
        // for(m=0;m<$scope.userItem.watchList.length;m++){
@@ -2238,10 +2236,8 @@ $scope.doAlert = true;
     // PetService.setCards($scope.cards);
 
 $scope.loading=false;
-// if($scope.newNot == true){
+
 $scope.newNot2=false;
-// }
-// $scope.newNot2=false;
 
   if($scope.tinderView != true){
     $scope.main.dragContent = true;

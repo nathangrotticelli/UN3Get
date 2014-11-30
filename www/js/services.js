@@ -179,19 +179,20 @@ angular.module('sociogram.services', [])
                 followCount = 0;
             },
              refreshEvents: function(value) {
-
+                var eventsArr = {};
                for(var key in value){
                     // alert('hi');
-                    if(value[key].banned=="banned"){
+                    if(value[key].banned!="banned"){
                       // alert('hi');
-                      delete events[key];
+                      eventsArr[key] = value[key];
                     }
-                    else{
-                       events[key] = value[key];
-                    }
+                    // else{
+
+                    // }
 
                         // alert('hi');
                   }
+                  events = eventsArr;
 
           }
         }
