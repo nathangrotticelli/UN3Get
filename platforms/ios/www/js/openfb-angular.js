@@ -9,7 +9,7 @@
  */
 angular.module('openfb', ['ionic'])
 
-    .factory('OpenFB', function ($rootScope, $q, $ionicPopup, $window, $http) {
+    .factory('OpenFB', function ($rootScope, $q, $ionicPopup, $window, $state, $http) {
 
 
 
@@ -104,8 +104,13 @@ angular.module('openfb', ['ionic'])
                     if (url.indexOf("access_token=") > 0 || url.indexOf("error=") > 0) {
                         oauthCallback(url);
 
-                         alert('Facebook authentication successful.');
-                         loginWindow.close();
+                         // alert('Facebook authentication successful.');
+                         // setTimeout(function() {
+
+                            loginWindow.close();
+
+                         // },500);
+
 
                         // alert('hi');
                         // var fuck = function(){
@@ -113,17 +118,38 @@ angular.module('openfb', ['ionic'])
                         //     console.log(it);
                         // }
                     }
-                    });
+                });
 
 
 
                 loginWindow.addEventListener('exit', function () {
+                    // var url = event.url;
+
+                      // setTimeout(function() {   loginWindow.close();},2500);
+
+
                     // Handle the situation where the user closes the login window manually before completing the login process
+                    // $ionicPopup.alert({
+                    //   title: null,
+                    //   content: 'Facebook connection is required to use U Nightlife.'
+                    // });
+                    // var url = event.url;
+                    // alert('hi');
+                    // showAlert('Facebook connection could not be achieved, and is required.');
+                    // $state.go('app.login');
                     deferredLogin.reject({error: 'user_cancelled', error_description: 'User cancelled login process', error_reason: "user_cancelled"});
+
+                    // loginWindow.removeEventListener('loadstart');
+                    // loginWindow.removeEventListener('exit');
+                    // loginWindow = nul/l;
+                    // alert('here2');
+                    // $state.go('app.login');
                 });
             }
             // Note: if the app is running in the browser the loginWindow dialog will call back by invoking the
             // oauthCallback() function. See oauthcallback.html for details.
+
+
 
             return deferredLogin.promise;
 

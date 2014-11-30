@@ -147,6 +147,12 @@ angular.module('sociogram.controllers', ['ionic'])
     $scope.alert2 = function(){
       $location.path('/app/loading');
     };
+    // $scope.doThis2=function(){
+    //   // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
+    //   $scope.showAlert("We couldn't verify that as a valid university email. Make sure you are on the right portal for your respective university, and that you entered your OWN valid email. If you are in fact a student at this school, and continue to experience trouble, shoot us an email at UNightlifeTeam@gmail.com.");
+    //   $scope.showAlert('Facebook connection failed.');
+    //   $scope.showAlert("Event Added to Your Calendar.");
+    // }
 
     //called at login enter
     $scope.facebookLogin = function (schoolName) {
@@ -683,19 +689,18 @@ angular.module('sociogram.controllers', ['ionic'])
       //this is the fb login
       var fbLoginFlow = function(){
         //login prompt for facebook, where permissions are asked
-        OpenFB.login('user_events, email,friends_events,friends_education_history',function(res) {
-        },
-        function(error) {
-          // alert('Facebook login failed: ' + error.error_description);
-        })
-        .then(function(){
+        OpenFB.login('user_events, email,friends_events,friends_education_history').then(function(){
           //start inner fbFlow
           fbInnerFlow();
-        }
-        ).error(function(){//if login fails
+        },function(){
           $scope.showAlert('Facebook connection could not be achieved, and is required.');
-          $location.path('app.login');
+          $state.go('app.login');
+          // alert('OpenFB login failed');
         });
+        // .error(function(){//if login fails
+        //   $scope.showAlert('Facebook connection could not be achieved, and is required.');
+        //   $location.path('app.login');
+        // });
       }
 
       //logic run when school is tapped, logic of the main/big/overarching facebook function. everything above here is just defining functions
