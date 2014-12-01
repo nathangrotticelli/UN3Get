@@ -3,7 +3,7 @@
 
 
  	<div class = "unMenu2 " id="expandedMenu">
- 		<a id='backBtnId' class="topBtn" ng-href="#/app/person/me/feed" animation="slide-right-left-ios7">
+ 		<a id='backBtnId' class="topBtn" ng-href="#/app/person/me/feed" ng-click="goBack()" animation="slide-right-left-ios7">
 	   <i class="icon ion-ios7-arrow-left"></i>
 	 	</a>
 	  <a id="shareBtnId" ng-click="shareBtn('Check out the event &quot;'+singleEvent.name+'&quot; via U Nightlife http://unightlife.io/app', 'Check out this event.', null, singleEvent.location)" class="topBtn">
@@ -12,7 +12,7 @@
 	 </div>
 
 	 	 <ion-content scrollbar-y="false" scroll="true" padding="false" class="blackBack">
- <div id='expandedEvent' class='aboutPage2'>
+ <div id='expandedEvent'>
 
 
 	 <div id='singleEventContent'>

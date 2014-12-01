@@ -778,20 +778,25 @@ angular.module('sociogram.controllers', ['ionic'])
 
 $scope.findFriends2 = function(){
   var userProfId = $scope.userProfId;
-  // alert(userSchool);
-  // alert(userName);
   var userName = $scope.userItem.userName;
 var userSchool = $scope.userItem.userSchool;
+ // alert(userSchool);
+ //  alert(userName);
+ //  alert(userProfId);
 
-  OpenFB.get("/"+userProfId+"?fields=friends",{limit:1300}).success(function(res){
-         fbFriends = res.friends.data;//this is an array with friend objects
-         $http.post('http://stark-eyrie-6720.herokuapp.com/findFriends', {userProfId:userProfId,userSchool:userSchool, fbFriends:fbFriends}).error(function(){}).success(function(res){
+  OpenFB.get("/"+userProfId+"?fields=friends",{limit:1300}).success(function(red){
+        fbFriends = red.friends.data;//this is an array with friend objects
+        $http.post('http://stark-eyrie-6720.herokuapp.com/findFriends', {userProfId:userProfId,userSchool:userSchool,fbFriends:fbFriends}).error(function(){}).success(function(res){
+            if(res.userIds.length==0){
+            PetService.setUNFriends(["none"]);
+          }else{
+            PetService.setUNFriends(res.userIds);
+          }
             PetService.setNewUser("no");
-            $http.post('http://stark-eyrie-6720.herokuapp.com/newFriend', {fbFriends:res.userIds,userName:userName,userProfId:userProfId}).error(function(){}).success(function(idc){
-             })
-          });
-     });
-  };
+            $http.post('http://stark-eyrie-6720.herokuapp.com/newFriend', {fbFriends:res.userIds,userName:userName,userProfId:userProfId}).error(function(){}).success(function(idc){})
+        });
+   });
+};
 
 // $scope.countFollowers = function(){
 
@@ -1066,13 +1071,13 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
 //this is lagging, why?
     // $state.go("app.feed");
     // $state.go("app.feed");
-  $timeout(function() {
+  // $timeout(function() {
 
-    }, 100);
+  //   }, 100);
 
   PetService.setSingleView(false);
 
-$location.path('/app/person/me/feed');
+// $location.path('/app/person/me/feed');
 
  //     // myPopup.close(); //close the popup after 3 seconds for some reason
  //  }, 500);
@@ -1337,9 +1342,9 @@ else{
         }).success(function(res){
           // alert("Followed yall!");
           // alert(res.success);
-          if(res.success!='follow already'){
-             $scope.followCount++;
-          }
+          // if(res.success!='follow already'){
+          //    $scope.followCount++;
+          // }
 
            // add notification that you added a follower
 
@@ -1451,8 +1456,9 @@ for(event in $scope.events){
     // alert(userProfId);
     // alert(userSchool);
          // alert("error");
-     OpenFB.get("/"+userProfId+"?fields=friends",{limit:1300}).success(function(res){
-      fbFriends = res.friends.data;//this is an array with friend objects
+     OpenFB.get("/"+userProfId+"?fields=friends",{limit:1300}).success(function(red){
+      // alert('here1');
+      fbFriends = red.friends.data;//this is an array with friend objects
          $http.post('http://stark-eyrie-6720.herokuapp.com/findFriends', {userProfId:userProfId,userSchool:userSchool, fbFriends:fbFriends}).error(function(){
           // alert("error");
         }).success(function(res){
@@ -1471,10 +1477,13 @@ for(event in $scope.events){
         // })
         //   }
           // res.userIds = [];
+          // alert($scope.);
           if(res.userIds.length==0){
             PetService.setUNFriends(["none"]);
+            $scope.unFriends = PetService.getUNFriends();
           }else{
             PetService.setUNFriends(res.userIds);
+            $scope.unFriends = PetService.getUNFriends();
           }
 
 
@@ -1633,6 +1642,18 @@ $scope.tinderNo = function(){
   $scope.tinderView = false;
   $scope.main.dragContent = true;
   PetService.setTinderView(false);
+};
+$scope.friendYes = function(){
+  $scope.friendView = true;
+   // alert($scope.unFriends);
+  // $scope.main.dragContent = false;
+  // PetService.setTinderView(true);
+};
+$scope.friendNo = function(){
+  $scope.friendView = false;
+ // alert($scope.unFriends);
+   // $scope.main.dragContent = true;
+  // PetService.setTinderView(false);
 };
 
 $scope.foll8 = function(friendFollowIndex){
@@ -2236,6 +2257,7 @@ $scope.doAlert = true;
     $scope.events = PetService.getEvents();
     // var allCards1 = PetService.getCards();
     $scope.tinderView = PetService.getTinderView();
+    $scope.friendView = false;
     $scope.singleView = PetService.getSingleView();
     $scope.newNot = PetService.getNewNot();
 
@@ -2272,6 +2294,9 @@ $scope.newNot2=false;
 // $scope.findFriends();
 
 $scope.userPic1 = PetService.getUserPic();
+if($scope.userPic1 == ""){
+  $scope.userPic1 = "http://www.diybackyardworkshop.com/wp-content/uploads/2012/01/NoAvatar.png";
+}
 
   if($scope.tinderView != true){
     $scope.main.dragContent = true;
@@ -2288,16 +2313,19 @@ $scope.userPic1 = PetService.getUserPic();
     // alert('here');
 
     $scope.userProfId = $scope.userItem.userProfId;
-    $scope.followCount = $scope.userItem.following.length;
+    // $scope.followCount = $scope.userItem.following.length;
      var nU = PetService.getNew();
-    if(nU=="yes"){
-        $scope.findFriends2();
-    }
     $scope.unFriends = PetService.getUNFriends();
-    if($scope.unFriends.length==0&&$scope.unFriends[0]!="none"){
+    // alert($scope.unFriends);
+    if($scope.unFriends.length==0&&$scope.unFriends[0]!="none"&&nU!="yes"){
       // alert('h2222');
       $scope.findFriends();
+
     }
+    else if(nU=="yes"){
+        $scope.findFriends2();
+    }
+     // alert($scope.unFriends);
             // $scope.message = "Timeout called!";
         // });
     // }, 1000);
