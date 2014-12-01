@@ -477,8 +477,23 @@ background-color: red;
   /*margin-left: 5%;*/
   text-align: center;
 }
+.noFriends{
+  text-align: center;
+  padding:5%;
+  margin-top: 5%;
+}
 .popoverBack{
+  border-radius: 5px!important;
   /*background-color: white;*/
+}
+.loadingFriends{
+  /*font-family: 'Roboto', sans-serif;*/
+  /*font-family: 'Gafata', sans-serif;*/
+  padding-top: 10%;
+  color:#141414;
+  font-size: 60px;
+  /*font-weight: bold;*/
+  text-align: center;
 }
 .singleNot{
   padding: 1.5%;
@@ -571,6 +586,7 @@ float:right;
   padding-top: 3%;
   padding-bottom: 3%;
   opacity: 1!important;
+  border-radius: 5px!important;
 }
 .profileContent{
   padding-top: 6%;

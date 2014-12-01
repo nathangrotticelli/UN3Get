@@ -184,7 +184,7 @@
 
         <div class="notifications" ng-if="userItem.notifications.length==0">
         <div class="singleNot">
-        <h5>Notifications are empty right now. Watch an event, or follow some friends to see what theyre interested in.</h5>
+        <h5>Your notifications are empty right now. Watch an event, or follow some friends to see what theyre interested in.</h5>
        </div>
         </div>
 
@@ -192,7 +192,8 @@
 
 
        <div ng-show="friendView == true">
-       <p class="friendCountP">{{unFriends.length}} FB friends on U Nightlife</p>
+
+       <p ng-if="unFriends[0]!='none'&&unFriends.length!=0" class="friendCountP">{{unFriends.length}} FB Friends on U Nightlife</p>
          <div ng-if="unFriends[0]!='none'&&unFriends.length!=0" ng-repeat="friend in unFriends">
     <h5 class="friendName">{{friend.userName}}
     <button class="friendBtn3" ng-show="foll8(friend.followers.indexOf(userProfId))" ng-click="followAction({{friend}})">Unfollow</button>
@@ -202,7 +203,6 @@
       </div>
 
    <div ng-if="unFriends[0]!='none'&&unFriends.length!=0" class="inviteFriends">
-
    <h1  class="invFrTxt">Invite Friends</h1>
    <p class="invFrTxt2">More friends on U Nightlife means more awesome events for you.</p>
    <a ng-click="shareBtn('Check out U Nightlife, the college activity app. Download and lets go to an event together! http://unightlife.io/app', 'Fun activity app', null, singleEvent.location)" class="friendBtn4">Share the App</a>
@@ -211,13 +211,15 @@
 
       </div>
 
-  <div ng-if="unFriends[0]=='none'">
-    <h3>Couldnt find any Facebook friends who use U Nightlife at this time. Invite some!</h3>
-    <a ng-click="shareBtn('Check out U Nightlife, the college activity app. Download and lets go to an event together! http://unightlife.io/app', 'Fun activity app', null, singleEvent.location)" class="enterBtn">Share the App</a>
+  <div ng-if="unFriends[0]=='none'" class="noFriends">
+
+    <h1 class="invFrTxt">None of your Facebook friends use U Nightlife, yet.</h1>
+    <p class="invFrTxt2">But we think theyd love it. Invite a few below and discover events better together.</p>
+   <a ng-click="shareBtn('Check out U Nightlife, the college activity app. Download and lets go to an event together! http://unightlife.io/app', 'Fun activity app', null, singleEvent.location)" class="friendBtn4">Share the App</a>
    </div>
 
    <div ng-if="unFriends.length==0">
-    <h3>Loading Friends from Facebook...</h3>
+    <div class="loadingFriends"><i class="icon ion-ios7-reloading"></i></div>
    </div>
 
    </div>

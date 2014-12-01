@@ -3880,7 +3880,8 @@ a.subdued {
     margin-top: -12px; }
 
 .popover, .popover .bar-header {
-  border-radius: 2px; }
+  border-radius: 2px;
+}
 
 .popover .scroll-content {
   z-index: 1;
