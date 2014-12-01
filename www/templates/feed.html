@@ -69,12 +69,12 @@
       <swipe-cards>
 
 
-        <swipe-card ng-show="startCard==true&&cards[0]!='empty'" on-card-swipe="startSwipe()" id="start-card">
-        Swipe down for a new card
-      </swipe-card>
+        <!-- <swipe-card ng-show="startCard==true&&cards[0]!='empty'&&cards[0]!='start'" on-card-swipe="startSwipe()" id="start-card">
+        Swipe down for a new event card.
+      </swipe-card> startCard==false&&-->
 
 <!-- ng-init="card.watched=foll9(userItem.watchList,card)" on-swipe="tinderSwipe(card) on-swipe-left="$event.stopPropagation();" -->
-      <div ng-show="startCard==false&&$first&&cards[0]!='empty'" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card);">
+      <div ng-show="$first&&cards[0]!='empty'&&cards[0]!='start'" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card);">
         <swipe-card on-card-swipe="tinderSwipe(card)">
 
   <!-- <div class="card"> -->
@@ -116,20 +116,20 @@
   <a ng-click=" tinderSwipe(card); " class="ion-ios7-close-outline"></a>
 </div>
 
-  <div class="tinderBtn2" ng-click="watchAction(card);">
-  <a ng-show="card.watched!=true" class="ion-ios7-checkmark-outline"></a>
-    <a ng-show="card.watched==true" class="ion-ios7-checkmark"></a>
+  <div class="tinderBtn2" ng-click="watchAction(card); tinderSwipe(card);">
+  <a class="ion-ios7-checkmark-outline"></a>
+    <!-- <a ng-show="card.watched==true" class="ion-ios7-checkmark"></a> -->
 </div>
     </div>
 
 <!-- on-swipe-up="scopeCards();" -->
        <swipe-card ng-show="cards.length==0" on-card-swipe="scopeCards()" class=".swipe-card.pop-in" id="start-card">
-        End of the stack. Swipe this card to reshuffle.
+        End of the stack. Swipe down to reshuffle.
       </swipe-card>
-<!-- ng-hide="loadingGo == true"cards[0] == "empty" -->
+<!-- ng-hide="loadingGo == true"cards[0] == "empty" startCard=false;-->
 
        <swipe-card ng-show="cards[0]=='empty'" on-card-swipe="$scope.loading=true; alert3();" class=".swipe-card.pop-in" id="start-card">
-        No new event cards that you haven't watched already.
+        No unwatched event cards remain. Swipe down to refresh.
       </swipe-card>
 
       <div id="swipe-card2" ng-if="cards[0]=='empty'&&$scope.loading==true">

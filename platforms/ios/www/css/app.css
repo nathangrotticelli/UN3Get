@@ -104,12 +104,12 @@
 }
 .topMenu2{
   position: absolute;
-  left: 88%;
+  left: 89%;
   color:black!important;
    padding-right: 50px!important;
   /*padding-top: 10px!important;*/
   padding-bottom: 25px!important;
-  top:-2%;
+  top:-1.5%;
 }
 /*.topMenu2{
   padding-left: 85%;
@@ -261,7 +261,7 @@ float:right;
   /*display: none;*/
   position: fixed;
   border-radius: 3%;
-  -webkit-animation: bounceIn .4s ease-out;
+  -webkit-animation: bounceIn .4s;
   /*transition: opacity linear 200ms;*/
   /*-webkit-animation-delay: .3s;*/
   /*-webkit-animation-timing-function: linear;*/
@@ -328,9 +328,10 @@ float:right;
 }*/
 
 #start-card {
-   display: none;
+   /*display: none;*/
   position: fixed;
-  /*-webkit-transform: scale(1,1);*/
+  -webkit-transform: scale(1,1);
+   -webkit-animation: bounceIn .4s ease-out;
   left: 50%;
   top: 50%;
   width: 300px;
@@ -342,12 +343,12 @@ float:right;
   /*border-radius: 4px;*/
   overflow: hidden;
   -webkit-animation-fill-mode: forwards;
-  color: black;
+  color: #141414;
 
   background-color: #2ecc71;
   line-height: 300px;
   word-wrap: break-word;
-  border: 6px solid #4CD68E;
+  /*border: 6px solid #4CD68E;*/
   text-align: center;
 }
 #start-card span {
@@ -358,29 +359,37 @@ float:right;
   vertical-align: middle;
 }
 
+
 #start-card2 {
    /*display: none;*/
-  /*position: fixed;*/
-  /*-webkit-transform: scale(1,1);*/
+  position: fixed;
+  -webkit-transform: scale(1,1);
+   -webkit-animation: bounceIn .4s ease-out;
   left: 50%;
   top: 50%;
   width: 300px;
   height: 300px;
-  /*margin-left: -150px;*/
-  /*margin-top: -150px;*/
-  /*box-sizing: border-box;*/
-
+  margin-left: -150px;
+  margin-top: -150px;
+  box-sizing: border-box;
   /*background-color: black;*/
   /*border-radius: 4px;*/
-  /*overflow: hidden;*/
+  overflow: hidden;
   /*-webkit-animation-fill-mode: forwards;*/
-  /*background-color: black;*/
+  color: #141414;
 
-  background-color: black;
-  /*line-height: 300px;*/
-  /*word-wrap: break-word;*/
+  background-color: #2ecc71;
+  line-height: 300px;
+  word-wrap: break-word;
   /*border: 6px solid #4CD68E;*/
   text-align: center;
+}
+#start-card2 span {
+  display: inline-block;
+  line-height: 40px;
+  width: 200px;
+  font-size: 30px;
+  vertical-align: middle;
 }
 /*#start-card2 span {
   display: inline-block;
@@ -523,19 +532,20 @@ background-color: red;
 }
 .loginEnter{
   /*float:right;*/
-background-color:#141414;
-  color:white;
+background-color:transparent!important;
+  color:#ecf0f1;
   border-radius: 5%;
-  border: 1px solid white;
+  border: 1px solid #ecf0f1;
 padding-top: 2%;
 padding-bottom: 2%;
 /*padding-left: 8%;*/
 /*padding-right: 8%;*/
 margin-left: 5%;
   width: 52%;
+  font-size: 20px;
 /*margin-right: 5%;*/
 /*margin-top:3%;*/
-/*font-family: 'Gafata', sans-serif;*/
+font-family: 'Gafata', sans-serif;
 }
 .inviteFriends{
 text-align: center;

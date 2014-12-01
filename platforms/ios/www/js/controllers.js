@@ -1164,6 +1164,7 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
     };
 
   $scope.tinderSwipe = function(card) {
+    // alert($scope.cards.length);
     // alert(card);
 
       // alert(card.name);
@@ -1635,6 +1636,9 @@ $scope.doThis = function(){
 
 $scope.tinderYes = function(){
   $scope.tinderView = true;
+  if($scope.cards[0]=="empty"){
+    $scope.scopeCards();
+  }
   $scope.main.dragContent = false;
   PetService.setTinderView(true);
 };
@@ -1763,6 +1767,9 @@ else{
 
           // console.log(b);
          $scope.userItem.watchList.splice($scope.userItem.watchList.indexOf(answer99),1);
+
+         // $scope.cards.push($scope.events[event.name]);
+        $scope.cards.push($scope.events[event.name]);
          // alert($scope.userItem.watchList.indexOf(answer99));
          $scope.userItem.notifications = $scope.userItem.notifications.filter(function (el) {
                         if(el.message==message){
@@ -1811,6 +1818,7 @@ else{
       })
     }
     else{
+      $scope.newNot2=! $scope.newNot2;
       // alert('not watched event');
       //generate notDate to current timestamp
       var notDate = Date.now();
@@ -1821,16 +1829,27 @@ else{
 
 
       $scope.userItem.watchList.push($scope.events[event.name]);
-      var answer98 = null;
-         for (var i = 0, len = $scope.userItem.watchList.length; i < len; i++) {
-              if($scope.userItem.watchList[i].name==event.name){
-                    answer98 = $scope.userItem.watchList[i];
+        $scope.userItem.notifications.push({message:message,date:notDate,tap:tap});
+
+        var answer97 = null;
+         for (var i = 0, len = $scope.cards.length; i < len; i++) {
+              if($scope.cards[i].name==event.name){
+                    answer97 = $scope.cards[i];
               }
           }
+         $scope.cards.splice($scope.cards.indexOf(answer97),1);
+
+
+      // var answer98 = null;
+      //    for (var i = 0, len = $scope.userItem.watchList.length; i < len; i++) {
+      //         if($scope.userItem.watchList[i].name==event.name){
+      //               answer98 = $scope.userItem.watchList[i];
+      //         }
+      //     }
       // alert(answer98==hI);
-      ;
-      $scope.userItem.notifications.push({message:message,date:notDate,tap:tap});
-      $scope.newNot2=true;
+
+
+      // $scope.newNot2=true;
 
 
 
@@ -1849,7 +1868,7 @@ else{
       // $scope.newChecked();
       setTimeout(function() {
        $scope.newNot2=false;
-      }, 50);
+      }, 100);
 
 
       // }, 500);
@@ -2059,6 +2078,7 @@ $scope.doAlert = true;
       // var userItem = $scope.userItem;
       // var notCount = $scope.userItem.notifications.length;
       // alert($scope.doAlert);
+
       if($scope.doAlert == true){
         // alert("here");
       $scope.doAlert = false;
@@ -2117,7 +2137,9 @@ $scope.doAlert = true;
 
         // alert(schoolName);
          $http.post('http://stark-eyrie-6720.herokuapp.com/getSchool', {schoolName:schoolName}).error(function(){
-          $scope.scopeCards();
+          if($scope.cards[0]=="empty"){
+            $scope.scopeCards();
+          }
           $scope.doAlert = true;
           $scope.$broadcast('scroll.refreshComplete');
         }).success(function(res){
@@ -2252,7 +2274,7 @@ $scope.doAlert = true;
     });
 
     $scope.userItem = PetService.getUser();
-    $scope.startCard=PetService.getStart();
+    // $scope.startCard=PetService.getStart();
     // alert($scope.startCard);
     $scope.events = PetService.getEvents();
     // var allCards1 = PetService.getCards();
@@ -2285,7 +2307,7 @@ $scope.doAlert = true;
 
 $scope.loading=false;
 
-$scope.newNot2=false;
+// $scope.newNot2=false;
 
  // $scope.noFriends = false;
 // alert(PetService.getUNFriends());
