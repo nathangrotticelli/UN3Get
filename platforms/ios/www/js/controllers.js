@@ -71,6 +71,10 @@ angular.module('sociogram.controllers', ['ionic'])
     $scope.noPop='false';
     queryGo=false;
 
+    $scope.item1=function(){
+      $scope.showAlert('1. You have a profile dropdown for notifications and following Facebook friends who use UN. <br> 2. You can "Watch" events, adding a clickable notification for you and your followers. <br> 3. Using the top-left icon in the "Events" section, you can toggle how you explore, between List or Swipe views. <br><br>Further assitance can be found under the "Help/Contact Us" section. <br> <br>Smile,<br> U Nightlife Team','Welcome! <br>Few Things You Should Know:');
+    }
+
     //used to throw better looking popup messages to user
     $scope.showAlert = function(message,title) {
       if(title==undefined){
@@ -99,6 +103,7 @@ angular.module('sociogram.controllers', ['ionic'])
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
+          firstLogin: true,
           // privateEvents: {},
           userGender: userGender,
           userEmail: userEmail,
@@ -106,12 +111,10 @@ angular.module('sociogram.controllers', ['ionic'])
           userSchool: schoolItem.schoolName}
           ).then(function(){
             $scope.noPop='true';
-            alert('i am alerting of a new user!');
+            // alert('i am alerting of a new user!');
              PetService.setNewUser("yes");
             $scope.facebookLogin(schoolItem.schoolName);
-          }).then(function(){
-            setTimeout(function() { $scope.showAlert('Your U Nightlife feed consists of a refreshing blend of events, which can only be seen right here on the app by verified students. <br>To navigate or reach out to us at any time, just use the menu button in the right hand corner.<br> <br>Smile,<br> U Nightlife Team','Welcome!') },2500);
-          })
+          });
         }
         else{
           $scope.showAlert("We couldn't verify that as a valid university email. Make sure you are on the right portal for your respective university, and that you have entered your OWN valid email. If you are in fact a student at this school, and continue to experience trouble, shoot us an email at UNightlifeTeam@gmail.com.");
@@ -124,6 +127,7 @@ angular.module('sociogram.controllers', ['ionic'])
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
+          firstLogin: true,
           // privateEvents: {},
           userGender: userGender,
           userEmail: userEmail,
@@ -131,12 +135,10 @@ angular.module('sociogram.controllers', ['ionic'])
           userSchool: schoolItem.schoolName}
           ).then(function(){
             $scope.noPop='true';
-            alert('i am alerting of a new user!');
+            // alert('i am alerting of a new user!');
              PetService.setNewUser("yes");
             $scope.facebookLogin(schoolItem.schoolName);
-          }).then(function(){
-            setTimeout(function() { $scope.showAlert('Your U Nightlife feed consists of a refreshing blend of events, which can only be seen right here on the app by verified students. <br>To navigate or reach out to us at any time, just use the menu button in the right hand corner.<br> <br>Smile,<br> U Nightlife Team','Welcome!') },2500);
-          })
+          });
         }
         else{
           $scope.showAlert("We couldn't verify that as a valid university email. Make sure you are on the right portal for your respective university, and that you entered your OWN valid email. If you are in fact a student at this school, and continue to experience trouble, shoot us an email at UNightlifeTeam@gmail.com.");
@@ -322,13 +324,12 @@ angular.module('sociogram.controllers', ['ionic'])
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
+          firstLogin: true,
           // privateEvents: privateEvents,
           userGender: userGender,
           userEmail: userEmail,
           userSchool: schoolItem.schoolName}
-          ).then(function(){ fbInnerFlow() }).then(function(){
-           setTimeout(function() { $scope.showAlert('Your U Nightlife feed consists of a refreshing blend of events, which can only be seen right here on the app by verified students. <br>To navigate or reach out to us at any time, just use the menu button in the right hand corner.<br> <br>Smile,<br> U Nightlife Team','Welcome!') },2500);
-          })
+          ).then(function(){ fbInnerFlow() });
         }
         else{//cant auto verify as a student, take to manual email login
          $state.go("app.login2");
@@ -627,6 +628,9 @@ angular.module('sociogram.controllers', ['ionic'])
           //have to send user email and user school, backend should look up school user list and check if email exists there
           $http.post('http://stark-eyrie-6720.herokuapp.com/getUser',{userEmail: userEmail, userSchool:userSchool}).success(function(res){
             userItem = res.Item;
+            if(res.Item.firstLogin==true){
+              setTimeout(function() { $scope.item1() },2500);
+            }
             // if(userItem.privateEvents==null){
             //  privateEvents = {};
             // }
@@ -2274,7 +2278,6 @@ $scope.doAlert = true;
     });
 
     $scope.userItem = PetService.getUser();
-    // $scope.startCard=PetService.getStart();
     // alert($scope.startCard);
     $scope.events = PetService.getEvents();
     // var allCards1 = PetService.getCards();
@@ -2347,6 +2350,7 @@ if($scope.userPic1 == ""){
     else if(nU=="yes"){
         $scope.findFriends2();
     }
+      $scope.startCard=PetService.getStart();
      // alert($scope.unFriends);
             // $scope.message = "Timeout called!";
         // });

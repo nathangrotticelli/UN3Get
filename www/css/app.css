@@ -231,7 +231,7 @@
   color:#ecf0f1!important;
   position: absolute;
   /*padding: 3%;*/
-  left:46%;
+  left:45.5%;
 
   /*border-radius: 100%;*/
   /*left:0px;*/
@@ -426,6 +426,7 @@ float:right;
   /*-webkit-animation-fill-mode: forwards;*/
   color: #141414;
 
+
   background-color: #2ecc71;
   line-height: 300px;
   word-wrap: break-word;
@@ -436,6 +437,7 @@ float:right;
   display: inline-block;
   line-height: 40px;
   width: 200px;
+
   font-size: 30px;
   vertical-align: middle;
 }
@@ -770,7 +772,7 @@ padding: 0;
   border-top: none;
    border-left: 1px solid gray;
   border-right: 1px solid gray;
-  color:white;
+  color:#ecf0f1;
   text-align: center;
   font-size: 15px;
 }

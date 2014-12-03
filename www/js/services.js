@@ -9,7 +9,7 @@ angular.module('sociogram.services', [])
   // var userProfId = "";
   var newUser = "no";
   var newNot = false;
- var tinderView = false;
+ var tinderView = true;
   var singleView = false;
  var startCard = true;
  var userPic = "";
@@ -79,6 +79,9 @@ angular.module('sociogram.services', [])
                 startCard = value;
             },
             getStart: function () {
+              if(cards[0]=="empty"){
+                startCard=false;
+              }
                 return startCard;
             },
             setTinderView: function(value) {
@@ -179,7 +182,7 @@ angular.module('sociogram.services', [])
                 // var userProfId = "";
                 newUser = "no";
                 // newNot = false;
-                tinderView = false;
+                tinderView = true;
                 singleView = false;
                 startCard = true;
                 cards = ["start"];
