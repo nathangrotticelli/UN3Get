@@ -85,16 +85,16 @@
     <!-- <p>{{card.location}}</p> -->
   <!-- </div> -->
 
-<div class="list card">
+<div class="list card" ng-click="go_here(card)">
 
-  <div class="item item-image" ng-click="go_here(card)">
+  <div class="item item-image">
           <img src="{{getCover(card.cover)}}" >
             <!-- <img ng-if="card.cover==undefined" src="http://i62.tinypic.com/2zznq55.jpg" > -->
   </div>
 
-  <a class="item tinderTxt item-text-wrap" >
-     <h3 class="cardName" ng-if="card.name.length<=51" ng-click="go_here(card)">{{card.name}}</h3>
-     <h3 class="cardName" ng-if="card.name.length>51" ng-click="go_here(card)">{{card.name.substring(0, 51)}}...</h3>
+  <a class="item tinderTxt item-text-wrap">
+     <h3 class="cardName" ng-if="card.name.length<=51" >{{card.name}}</h3>
+     <h3 class="cardName" ng-if="card.name.length>51">{{card.name.substring(0, 51)}}...</h3>
      <p class="cardTime">{{card.start_time}}</p>
   </a>
  <!--  <a class="item tinderTxt2" >
@@ -115,7 +115,7 @@
   <!-- <a ng-click="$event.stopPropagation();" class="ion-ios7-close"></a> -->
   <a ng-click=" tinderSwipe(card); " class="ion-eye-disabled"></a>
 </div>
-<div class="tinderBtn3 ion-ios7-information-outline"></div>
+<div class="tinderBtn3 ion-ios7-information-outline" ng-click="doThis()"></div>
 
   <div class="tinderBtn2" ng-click="watchAction(card); tinderSwipe(card);">
   <a class="ion-eye"></a>
@@ -125,12 +125,12 @@
 
 <!-- on-swipe-up="scopeCards();" -->
        <swipe-card ng-show=" startCard==false&&cards.length==0" on-card-swipe="scopeCards()" class=".swipe-card.pop-in" id="start-card">
-        End of the stack. Swipe down to reshuffle.
+        End of the stack. Swipe down to reload.
       </swipe-card>
 <!-- ng-hide="loadingGo == true"cards[0] == "empty" startCard=false;-->
 
        <swipe-card ng-show=" startCard==false&&cards[0]=='empty'" on-card-swipe="$scope.loading=true; alert3();" class=".swipe-card.pop-in" id="start-card">
-        No unwatched event cards. Swipe down to refresh.
+        No unwatched events. Change to List view, or swipe down to refresh.
       </swipe-card>
 
       <div id="swipe-card2" ng-if="startCard==false&&cards[0]=='empty'&&$scope.loading==true">
@@ -174,7 +174,7 @@
     <hr>
   <ion-content scrollbar-y="false" class="profileContent">
 
-       <div ng-if="friendView == false">
+      <div ng-if="friendView == false">
 
        <div class="notifications" ng-if="userItem.notifications.length!=0" ng-repeat="not in userItem.notifications | orderObjectBy:predicate1">
        <div ng-click="followNot(not)" class="singleNot">
@@ -185,45 +185,43 @@
 
         <div class="notifications" ng-if="userItem.notifications.length==0">
         <div class="singleNot">
-        <h5>Your notifications are empty right now. Watch an event, or follow some friends to see what theyre interested in.</h5>
+        <h5>Your notifications are empty right now. Watch an event, or follow some friends to see what they are interested in.</h5>
        </div>
         </div>
 
-        </div>
-
-
-       <div ng-show="friendView == true">
-
-       <p ng-if="unFriends[0]!='none'&&unFriends.length!=0" class="friendCountP">{{unFriends.length}} FB Friends on U Nightlife</p>
-         <div ng-if="unFriends[0]!='none'&&unFriends.length!=0" ng-repeat="friend in unFriends">
-    <h5 class="friendName">{{friend.userName}}
-    <button class="friendBtn3" ng-show="foll8(friend.followers.indexOf(userProfId))" ng-click="followAction({{friend}})">Unfollow</button>
-    <button class="friendBtn2" ng-hide="foll8(friend.followers.indexOf(userProfId))" ng-click="followAction({{friend}})">Follow</button>
-    </h5>
-      <hr>
       </div>
 
-   <div ng-if="unFriends[0]!='none'&&unFriends.length!=0" class="inviteFriends">
-   <h1  class="invFrTxt">Invite Friends</h1>
-   <p class="invFrTxt2">More friends on U Nightlife means more awesome events for you.</p>
-   <a ng-click="shareBtn('Check out U Nightlife, the college activity app. Download and lets go to an event together! http://unightlife.io/app', 'Fun activity app', null, singleEvent.location)" class="friendBtn4">Share the App</a>
-   <hr class="friendListBtm">
-   </div>
 
+   <div ng-show="friendView == true">
+
+      <p ng-if="unFriends[0]!='none'&&unFriends.length!=0" class="friendCountP">{{unFriends.length}} FB Friends on U Nightlife</p>
+      <div ng-if="unFriends[0]!='none'&&unFriends.length!=0" ng-repeat="friend in unFriends">
+        <h5 class="friendName">{{friend.userName}}
+        <button class="friendBtn3" ng-show="foll8(friend.followers.indexOf(userProfId))" ng-click="followAction({{friend}})">Unfollow</button>
+        <button class="friendBtn2" ng-hide="foll8(friend.followers.indexOf(userProfId))" ng-click="followAction({{friend}})">Follow</button>
+        </h5>
+        <hr>
       </div>
+
+    <div ng-if="unFriends[0]!='none'&&unFriends.length!=0" class="inviteFriends">
+      <h1  class="invFrTxt">Invite Friends</h1>
+      <p class="invFrTxt2">More friends on U Nightlife means more awesome events for all.</p>
+      <a ng-click="shareBtn2('Check out U Nightlife, the college activity app. Download and lets catch an event together! http://unightlife.io/app', 'Cool college events iPhone app', null, singleEvent.location)" class="friendBtn4">Share the App</a>
+      <hr class="friendListBtm">
+    </div>
 
   <div ng-if="unFriends[0]=='none'" class="noFriends">
 
     <h1 class="invFrTxt">None of your Facebook friends use U Nightlife, yet.</h1>
-    <p class="invFrTxt2">But we think theyd love it. Invite a few below and discover events better together.</p>
-   <a ng-click="shareBtn('Check out U Nightlife, the college activity app. Download and lets go to an event together! http://unightlife.io/app', 'Fun activity app', null, singleEvent.location)" class="friendBtn4">Share the App</a>
-   </div>
+    <p class="invFrTxt2">But we think they would love it. Invite a few below and discover events better together.</p>
+   <a ng-click="shareBtn3('Check out U Nightlife, the college activity app. Download and lets go to an event together! http://unightlife.io/app', 'Cool college event app', null, singleEvent.location)" class="friendBtn4">Share the App</a>
+  </div>
 
    <div ng-if="unFriends.length==0">
     <div class="loadingFriends"><i class="icon ion-ios7-reloading"></i></div>
    </div>
 
-   </div>
+  </div>
     </ion-content>
   </ion-popover-view>
 </script>

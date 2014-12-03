@@ -12,22 +12,34 @@
 	<dict>
 		<key>92CDA3AF2CA387769A8D1358B7E4E21E7564C7D0</key>
 		<string>https://github.com/nathangrotticelli/UNProdv3.git</string>
+		<key>EE569DBA88888B5ADAD310C2F5176B086AD01205</key>
+		<string>https://github.com/nathangrotticelli/UN3Get.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>platforms/ios/U Nightlife.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>92CDA3AF2CA387769A8D1358B7E4E21E7564C7D0</key>
+		<string>../../../../../UNprodReady3</string>
+		<key>EE569DBA88888B5ADAD310C2F5176B086AD01205</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/nathangrotticelli/UNProdv3.git</string>
+	<string>https://github.com/nathangrotticelli/UN3Get.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>92CDA3AF2CA387769A8D1358B7E4E21E7564C7D0</string>
+	<string>EE569DBA88888B5ADAD310C2F5176B086AD01205</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EE569DBA88888B5ADAD310C2F5176B086AD01205</string>
+			<key>IDESourceControlWCCName</key>
+			<string>nT2</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

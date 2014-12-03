@@ -11,7 +11,7 @@
 	 	</a>
 	 </div>
 
-	 	 <ion-content scrollbar-y="false" scroll="true" padding="false" class="blackBack">
+	 	 <ion-content scrollbar-y="false" padding="false" class="blackBack">
  <div id='expandedEvent'>
 
 
@@ -26,13 +26,13 @@
 	    		</p>
 
 		<div class="list card">
-	  				 <div ng-click="expandEvent()" ng-if="singleEvent.description!=null" class="item-text-wrap2">
+	  				 <div ng-click="expandEvent()" ng-if="singleEvent.description!=null" class="item-text-wrap blackClass">
 						  	<div class="item item-icon-left item-divider">
 						  		<i class="icon ion-clipboard"></i>
 						  		Event Info
 						  	</div>
 						  	<br>
-						  	<div id="eventDiv2" ng-if="showEventDesc" class="item animate-if">
+						  	<div id="eventDiv2" ng-show="showEventDesc" class="item animate-if">
 	          		 {{ singleEvent.description}}
 	       			 </div>
 						  </div>
@@ -70,10 +70,6 @@
 			    			<!-- <br> -->
 			</div>
 	 	</div>
-
- 	 <div>
-
-	 </div>
 
 </div>
 

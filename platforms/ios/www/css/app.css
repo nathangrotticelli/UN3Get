@@ -582,18 +582,22 @@ background-color: red;
 }
 .loginEnter{
   /*float:right;*/
-background-color:transparent!important;
+background-color:#3b5998!important;
+/*background-image: url("http://vsurvivor.com/images/login_with_facebook.png");*/
+  /*background-image: url("../images/outsideMesh.png");*/
   color:#ecf0f1;
   border-radius: 5%;
-  border: 1px solid #ecf0f1;
+  /*border: 1px solid #ecf0f1;*/
 padding-top: 2%;
 padding-bottom: 2%;
-  font-weight: bolder;
+padding-left: 4%;
+padding-right: 4%;
+  /*font-weight: bolder;*/
 /*padding-left: 8%;*/
 /*padding-right: 8%;*/
 margin-left: 5%;
-  width: 52%;
-  font-size: 20px;
+  width: 60%;
+  font-size: 18px;
 /*margin-right: 5%;*/
 /*margin-top:3%;*/
 font-family: 'Gafata', sans-serif;
@@ -775,6 +779,9 @@ padding: 0;
   color:#ecf0f1;
   text-align: center;
   font-size: 15px;
+}
+.popup-body a{
+  color:#2ecc71;
 }
 .popup-buttons .button{
     /*padding-left: 10%;*/
@@ -1199,6 +1206,12 @@ font-family: 'Roboto', sans-serif;
   background-color: #ecf0f1;
   border: none;
   /*background-image: url("../images/outsideMesh.png");*/
+}
+.blackClass{
+  background-color: black!important;
+}
+.emeraldTxt{
+color:#2ecc71;
 }
 .card .item-text-wrap2{
   background-color: black;
@@ -1825,10 +1838,7 @@ button{
   padding-right: 5%;
   /*padding-bottom: 15%;*/
 }
-#expandedEvent .list .item{
-  /*border-bottom: 1px solid white;*/
-  /*padding-bottom: 15%;*/
-}
+
 .adoptBack{
   /*-webkit-animation: show 1.2s 1;*/
   background-color: black;
@@ -1916,11 +1926,6 @@ button{
 }
 
 
-/*#expandedEvent .list {
-  opacity: .6;
-  color: gray;
-
-}*/
 
 .bottomIcon{
   left: 0px;
@@ -1928,10 +1933,6 @@ button{
 
 
 
-/*#expandedEvent p:last-child{
-  padding-bottom: 8%;
-}
-*/
 #expandedEvent p{
   /*text-align: center*/
   font-size: 25px;
@@ -1970,7 +1971,7 @@ font-family: 'Gafata', sans-serif;
   min-height: 87%;
   width: 100%;
 
-  overflow: auto;
+  /*overflow: auto;*/
 }
 
 .leftShift{

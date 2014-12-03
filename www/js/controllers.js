@@ -52,7 +52,7 @@ angular.module('sociogram.controllers', ['ionic'])
     };
 
      $scope.shareBtn = function(a,b,c,d){
-      analytics.trackEvent('button', 'click', 'share button', 1);
+      analytics.trackEvent('button', 'click', 'menu share button', 1);
       // ga('send', 'event', 'button', 'click', 'share button', 1);
      window.plugins.socialsharing.share(a,b,c,d);
     };
@@ -72,7 +72,7 @@ angular.module('sociogram.controllers', ['ionic'])
     queryGo=false;
 
     $scope.item1=function(){
-      $scope.showAlert('1. You have a profile dropdown for notifications and following Facebook friends who use UN. <br> 2. You can "Watch" events, adding a clickable notification for you and your followers. <br> 3. Using the top-left icon in the "Events" section, you can toggle how you explore, between List or Swipe views. <br><br>Further assitance can be found under the "Help/Contact Us" section. <br> <br>Smile,<br> U Nightlife Team','Welcome! <br>Few Things You Should Know:');
+      $scope.showAlert('1. You have a profile dropdown for notifications and following Facebook friends who use UN. <br> 2. You can "Watch" events, adding a clickable notification for you and your followers. <br> 3. Using the top-left icon in the "Events" section, you can toggle how you explore, between List or Swipe views. <br><br>Further assistance can be found under the "Help/Contact Us" section. <br> <br>Smile,<br> U Nightlife Team','Welcome! <br>Few Things You Should Know:');
     }
 
     //used to throw better looking popup messages to user
@@ -103,7 +103,6 @@ angular.module('sociogram.controllers', ['ionic'])
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
-          firstLogin: true,
           // privateEvents: {},
           userGender: userGender,
           userEmail: userEmail,
@@ -127,7 +126,6 @@ angular.module('sociogram.controllers', ['ionic'])
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
-          firstLogin: true,
           // privateEvents: {},
           userGender: userGender,
           userEmail: userEmail,
@@ -324,7 +322,6 @@ angular.module('sociogram.controllers', ['ionic'])
           {firstNameLetter: firstNameLetter,
           userProfId: userProfId,
           userName: userName,
-          firstLogin: true,
           // privateEvents: privateEvents,
           userGender: userGender,
           userEmail: userEmail,
@@ -779,7 +776,23 @@ angular.module('sociogram.controllers', ['ionic'])
     // $scope.predicate=event.timeOfEvent;
     // $scope.predicate2 = ;
     // $scope.loadFeed();
+ //used to throw better looking popup messages to user
+    // $scope.showAlert = function(message,title) {
+    //   if(title==undefined){
+    //     title=null;
+    //   }
+    //   $ionicPopup.alert({
+    //     title: title,
+    //     content: message
+    //   }).then(function(res) {
+    //     // console.log('Alert Shown.');
+    //   });
+// alert($state);
+// alert($location);
+// alert(JSON.stringify($state));
+// alert(JSON.stringify($location));
 
+// alert($state.url);
 $scope.findFriends2 = function(){
   var userProfId = $scope.userProfId;
   var userName = $scope.userItem.userName;
@@ -1118,7 +1131,7 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
     };
     //in progress add to calendar
     $scope.calAdd = function() {
-
+      analytics.trackEvent('button', 'click', 'event added to calendar', 1);
         //replace these with times and then the thing below
         var year=$scope.singleEvent.start_time.split("/")[2];
         var month=$scope.singleEvent.start_time.split("/")[0];
@@ -1159,10 +1172,24 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
 
     $scope.expandEvent= function(theDiv) {
      $scope.showEventDesc = !$scope.showEventDesc;
+     $ionicScrollDelegate.resize();
     };
     //allows sharing functionaility
     $scope.shareBtn = function(a,b,c,d){
       analytics.trackEvent('button', 'click', 'share button', 1);
+      // analytics.trackEvent('button', 'click', 'share button', 1);
+      // ga('send', 'event', 'button', 'click', 'share button', 1);
+     window.plugins.socialsharing.share(a,b,c,d);
+    };
+    $scope.shareBtn2 = function(a,b,c,d){
+      analytics.trackEvent('button', 'click', 'share button under facebook friends list', 1);
+      // analytics.trackEvent('button', 'click', 'share button', 1);
+      // ga('send', 'event', 'button', 'click', 'share button', 1);
+     window.plugins.socialsharing.share(a,b,c,d);
+    };
+    $scope.shareBtn3 = function(a,b,c,d){
+      analytics.trackEvent('button', 'click', 'share button if no facebook friends', 1);
+      // analytics.trackEvent('button', 'click', 'share button', 1);
       // ga('send', 'event', 'button', 'click', 'share button', 1);
      window.plugins.socialsharing.share(a,b,c,d);
     };
@@ -1250,7 +1277,7 @@ if(card!=undefined){
 
 // alert('here2');
    $scope.shareBtn = function(a,b,c,d){
-      analytics.trackEvent('button', 'click', 'share button', 1);
+      // analytics.trackEvent('button', 'click', 'share button', 1);
       // ga('send', 'event', 'button', 'click', 'share button', 1);
      window.plugins.socialsharing.share(a,b,c,d);
     };
@@ -1322,6 +1349,7 @@ else{
 
 //call follow function with user object
     if(not.tap=="follow"){
+
       //follow the userId
       // for(i=0;i<$scope.unFriends.length;i++){
       //   if($scope.unFriends[i].userProfId==not.followId){
@@ -1332,31 +1360,34 @@ else{
           // else{
             // alert('hwe233333');
 
-              var followingId = not.followId;
-              var notDate = Date.now();
-              var message = $scope.userName+" just followed you.";
-         // alert(message);
-         // alert
-         // $scope.notifications.push({message:message,date:date});
-            $http.post('http://stark-eyrie-6720.herokuapp.com/follow',
-        {userProfId:userProfId,
-          followingId:followingId,
-          message:message,
-          notDate:notDate}).error(function(){
-          $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
-        }).success(function(res){
-          // alert("Followed yall!");
-          // alert(res.success);
-          // if(res.success!='follow already'){
-          //    $scope.followCount++;
-          // }
+        //       var followingId = not.followId;
+        //       var notDate = Date.now();
+        //       var message = $scope.userName+" just followed you.";
+        //  // alert(message);
+        //  // alert
+        //  // $scope.notifications.push({message:message,date:date});
+        //     $http.post('http://stark-eyrie-6720.herokuapp.com/follow',
+        // {userProfId:userProfId,
+        //   followingId:followingId,
+        //   message:message,
+        //   notDate:notDate}).error(function(){
+        //   $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
+        // }).success(function(res){
+        //   // alert("Followed yall!");
+        //   // alert(res.success);
+        //   // if(res.success!='follow already'){
+        //   //    $scope.followCount++;
+        //   // }
+        //    if(res.success!='follow already'){
+        //      $scope.followAction(not)
+        //   }
 
-           // add notification that you added a follower
+        //    // add notification that you added a follower
 
-          // $state.go("app.friends");
-          // alert(res.success);
-          // alert();$scope.unFriends[q].followers.
-        });
+        //   // $state.go("app.friends");
+        //   // alert(res.success);
+        //   // alert();$scope.unFriends[q].followers.
+        // });
         //  var message = userName+" just followed you.";
         //    var notDate = "fake Dte 9/1021/12";
 
@@ -1630,11 +1661,8 @@ for(event in $scope.events){
 
 // }
 $scope.doThis = function(){
-  alert('hi');
+    $scope.showAlert("To dismiss and view the next event, you can hit the red, slashed eye on the left, or swipe in a downwards motion.<br><br> Hitting the green eye on the right also dismisses the current event, but 'Watches' it, creating a profile notification.","Swipe Event View");
 };
-
-
-
 
 
 
@@ -1652,13 +1680,18 @@ $scope.tinderNo = function(){
   PetService.setTinderView(false);
 };
 $scope.friendYes = function(){
+$ionicScrollDelegate.scrollTop();
   $scope.friendView = true;
+
    // alert($scope.unFriends);
   // $scope.main.dragContent = false;
   // PetService.setTinderView(true);
 };
 $scope.friendNo = function(){
+  $ionicScrollDelegate.scrollTop();
   $scope.friendView = false;
+
+  // $ionicScrollDelegate.scrollTop();
  // alert($scope.unFriends);
    // $scope.main.dragContent = true;
   // PetService.setTinderView(false);
