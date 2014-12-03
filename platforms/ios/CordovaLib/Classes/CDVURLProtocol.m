@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
-
+ 
  http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -27,7 +27,8 @@
 #import "CDVViewController.h"
 
 @interface CDVHTTPURLResponse : NSHTTPURLResponse
-@property (nonatomic) NSInteger statusCode;
+//@property (nonatomic) NSInteger statusCode;
+@property(readonly) NSInteger statusCode;
 @end
 
 static CDVWhitelist* gWhitelist = nil;
@@ -45,7 +46,7 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
     // The exec bridge explicitly sets the VC address in a header.
     // This works around the User-Agent not being set for file: URLs.
     NSString* addrString = [request valueForHTTPHeaderField:@"vc"];
-
+    
     if (addrString == nil) {
         NSString* userAgent = [request valueForHTTPHeaderField:@"User-Agent"];
         if (userAgent == nil) {
@@ -57,14 +58,14 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
         }
         addrString = [userAgent substringFromIndex:bracketLocation + 1];
     }
-
+    
     long long viewControllerAddress = [addrString longLongValue];
     @synchronized(gRegisteredControllers) {
         if (![gRegisteredControllers containsObject:[NSNumber numberWithLongLong:viewControllerAddress]]) {
             return nil;
         }
     }
-
+    
     return (__bridge CDVViewController*)(void*)viewControllerAddress;
 }
 
@@ -83,7 +84,7 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
         gRegisteredControllers = [[NSMutableSet alloc] initWithCapacity:8];
         // The whitelist doesn't change, so grab the first one and store it.
         gWhitelist = viewController.whitelist;
-
+        
         // Note that we grab the whitelist from the first viewcontroller for now - but this will change
         // when we allow a registered viewcontroller to have its own whitelist (e.g InAppBrowser)
         // Differentiating the requests will be through the 'vc' http header below as used for the js->objc bridge.
@@ -92,7 +93,7 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
             NSLog(@"WARNING: NO whitelist has been set in CDVURLProtocol.");
         }
     }
-
+    
     @synchronized(gRegisteredControllers) {
         [gRegisteredControllers addObject:[NSNumber numberWithLongLong:(long long)viewController]];
     }
@@ -109,7 +110,7 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
 {
     NSURL* theUrl = [theRequest URL];
     CDVViewController* viewController = viewControllerForRequest(theRequest);
-
+    
     if ([[theUrl absoluteString] hasPrefix:kCDVAssetsLibraryPrefixes]) {
         return YES;
     } else if (viewController != nil) {
@@ -142,7 +143,7 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
             return ![gWhitelist URLIsAllowed:theUrl];
         }
     }
-
+    
     return NO;
 }
 
@@ -156,7 +157,7 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
 {
     // NSLog(@"%@ received %@ - start", self, NSStringFromSelector(_cmd));
     NSURL* url = [[self request] URL];
-
+    
     if ([[url path] isEqualToString:@"/!gap_exec"]) {
         [self sendResponseWithResponseCode:200 data:nil mimeType:nil];
         return;
@@ -179,12 +180,12 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
             // Retrieving the asset failed for some reason.  Send an error.
             [self sendResponseWithResponseCode:401 data:nil mimeType:nil];
         };
-
+        
         ALAssetsLibrary* assetsLibrary = [[ALAssetsLibrary alloc] init];
         [assetsLibrary assetForURL:url resultBlock:resultBlock failureBlock:failureBlock];
         return;
     }
-
+    
     NSString* body = [gWhitelist errorStringForURL:url];
     [self sendResponseWithResponseCode:401 data:[body dataUsingEncoding:NSASCIIStringEncoding] mimeType:nil];
 }
@@ -206,12 +207,15 @@ static CDVViewController *viewControllerForRequest(NSURLRequest* request)
     }
     NSString* encodingName = [@"text/plain" isEqualToString : mimeType] ? @"UTF-8" : nil;
     CDVHTTPURLResponse* response =
-        [[CDVHTTPURLResponse alloc] initWithURL:[[self request] URL]
-                                       MIMEType:mimeType
-                          expectedContentLength:[data length]
-                               textEncodingName:encodingName];
+    [[CDVHTTPURLResponse alloc] initWithURL:[[self request] URL]
+                                   MIMEType:mimeType
+                      expectedContentLength:[data length]
+                           textEncodingName:encodingName];
+    //response.statusCode = statusCode;
+#ifndef __IPHONE_8_0
     response.statusCode = statusCode;
-
+#endif
+    
     [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
     if (data != nil) {
         [[self client] URLProtocol:self didLoadData:data];
