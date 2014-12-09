@@ -3,57 +3,41 @@ angular.module('sociogram.controllers', ['ionic'])
   //for side menu
   .controller('AppCtrl', function ($scope, $state,$location,PetService, OpenFB, $timeout) {
 
-      $scope.main={};
-      $scope.main.dragContent = true;
+    $scope.main={};
+    $scope.main.dragContent = true;
 
     //logout functionality
     $scope.logout = function () {
-
-      // if(!$state.is('app.login')){
         OpenFB.logout();
         PetService.logOut();
-
       $state.go('app.login');
-      // }
-
     };
 
-    // $scope.goEvents = function(){
-    //   $timeout(function() {
-
-    // },100);
-    //   $location.path('/app/person/me/feed');
-    //   //allows for scroll position on the event feed to be maintained. Think about doing this for the other menu buttons
-    // };
+    //menu Events button
     $scope.goEvents = function() {
-//this is lagging, why?
-    // $state.go("app.feed");
-    // $state.go("app.feed");
-    $timeout(function() {
+      $timeout(function() {
+      },100);
 
-    },100);
-
-    if(PetService.getSingleView()==true){
-      $location.path('/app/event-detail');
-    }else{
-      $location.path('/app/person/me/feed');
-    }
-
- //     // myPopup.close(); //close the popup after 3 seconds for some reason
- //  }, 500);
+      if(PetService.getSingleView()==true){
+        $location.path('/app/event-detail');
+      }else{
+        $location.path('/app/person/me/feed');
+      }
     };
 
+    //menu Add An Event button
     $scope.goAdd = function(){
       $state.go('app.addAnEvent');
     };
 
+    //menu Help button
     $scope.goHelp = function(){
       $state.go('app.help');
     };
 
-     $scope.shareBtn = function(a,b,c,d){
+    //menu Share button
+    $scope.shareBtn = function(a,b,c,d){
       analytics.trackEvent('button', 'click', 'menu share button', 1);
-      // ga('send', 'event', 'button', 'click', 'share button', 1);
      window.plugins.socialsharing.share(a,b,c,d);
     };
 
@@ -61,9 +45,10 @@ angular.module('sociogram.controllers', ['ionic'])
 
 
   .controller('LoginCtrl', function ($scope, $ionicPopup, $http, $location, $ionicLoading,OpenFB, $state, $stateParams, PetService) {
-    // $scope.main = {};
+    //make login unswipeable
     $scope.main.dragContent = false;
 
+    //hide splash screen
     setTimeout(function() {
       navigator.splashscreen.hide();
     }, 500);
@@ -71,6 +56,7 @@ angular.module('sociogram.controllers', ['ionic'])
     $scope.noPop='false';
     queryGo=false;
 
+    //tutorial popup for first time users
     $scope.item1=function(){
       $scope.showAlert('1. You have a profile dropdown for notifications and following Facebook friends who use UN. <br> 2. You can "Watch" events, adding a clickable notification for you and your followers. <br> 3. Using the top-left icon in the "Events" section, you can toggle how you explore, between List or Swipe views. <br><br>Further assistance can be found under the "Help/Contact Us" section. <br> <br>Smile,<br> U Nightlife Team','Welcome! <br>Few Things You Should Know:');
     }
@@ -84,7 +70,7 @@ angular.module('sociogram.controllers', ['ionic'])
         title: title,
         content: message
       }).then(function(res) {
-        // console.log('Alert Shown.');
+        //after popup is shown
       });
     };
 
@@ -160,7 +146,7 @@ angular.module('sociogram.controllers', ['ionic'])
       $scope.alert2();
       schoolName=schoolName;
 
-      //pulls existing users private events findme
+      //pulls existing users private events
       // var currentUserCheck = function(){
       //   for(var key in privateEvents){
       //     var startDay = privateEvents[key].start_time.split('/')[1];
@@ -355,8 +341,7 @@ angular.module('sociogram.controllers', ['ionic'])
                   privateEvents: privateEventList,
                   // schoolEvents: schoolItem.schoolEvents
                 }).success(function(){
-                  // alert('yay');
-                //when event added, do whatever. alert('private event added')
+                //when event added
               })
              }
 
@@ -724,13 +709,6 @@ angular.module('sociogram.controllers', ['ionic'])
       schoolFriendCount = 0;
       currentSchoolCount = 0;
       PetService.setSchool(schoolName);
-        // $http.post('http://stark-eyrie-6720.herokuapp.com/privateListGet',
-        //         {
-        //           schoolName: schoolItem.schoolName
-        //         }).success(function(privateList){
-        //           PrivateEventsList
-        //         });
-
       if($scope.noPop=='false'){
         //get school info
         $http.post('http://stark-eyrie-6720.herokuapp.com/getSchool', {schoolName:schoolName}).success(function(res){
@@ -751,7 +729,7 @@ angular.module('sociogram.controllers', ['ionic'])
     }; // end of main/big/overarching fb connect function, run when school is tapped, facebookLogin
   }) // end of login controller
 
-  //controller for an expanded single event
+  //controller for an expanded single event, combined into feed ctrl currently
   // .controller('PetDetailCtrl', function($state,) {
   //   // $scope.main = {};
   //   $scope.main.dragContent = true;
@@ -760,6 +738,7 @@ angular.module('sociogram.controllers', ['ionic'])
 
 
   // })
+  //controller for an swipe card, combined into feed ctrl currently
 // .controller('CardCtrl', function ($scope, $ionicSwipeCardDelegate) {
 //   $scope.goAway = function() {
 //     var card = $ionicSwipeCardDelegate.getSwipebleCard($scope);GGFgo
@@ -770,37 +749,10 @@ angular.module('sociogram.controllers', ['ionic'])
   //controller for event feed, starts analytics when people enter
   .controller('FeedCtrl', function ($scope,$timeout,$state,$http,$ionicSwipeCardDelegate,$ionicNavBarDelegate,$ionicScrollDelegate, $ionicPopup, $ionicPopover,$stateParams, OpenFB, PetService, $location, $ionicLoading) {
 
-    // initial scope setup
-
-    // alert('here');
-    // $scope.predicate=event.timeOfEvent;
-    // $scope.predicate2 = ;
-    // $scope.loadFeed();
- //used to throw better looking popup messages to user
-    // $scope.showAlert = function(message,title) {
-    //   if(title==undefined){
-    //     title=null;
-    //   }
-    //   $ionicPopup.alert({
-    //     title: title,
-    //     content: message
-    //   }).then(function(res) {
-    //     // console.log('Alert Shown.');
-    //   });
-// alert($state);
-// alert($location);
-// alert(JSON.stringify($state));
-// alert(JSON.stringify($location));
-
-// alert($state.url);
 $scope.findFriends2 = function(){
   var userProfId = $scope.userProfId;
   var userName = $scope.userItem.userName;
 var userSchool = $scope.userItem.userSchool;
- // alert(userSchool);
- //  alert(userName);
- //  alert(userProfId);
-
   OpenFB.get("/"+userProfId+"?fields=friends",{limit:1300}).success(function(red){
         fbFriends = red.friends.data;//this is an array with friend objects
         $http.post('http://stark-eyrie-6720.herokuapp.com/findFriends', {userProfId:userProfId,userSchool:userSchool,fbFriends:fbFriends}).error(function(){}).success(function(res){
@@ -837,137 +789,17 @@ var userSchool = $scope.userItem.userSchool;
 //         });
 //   };
 
-  //   $scope.getUnwatchedCards = function(){
 
-  //   //   if($scope.cards[0].name != $scope.singleEvent.name){
-
-  //   // }
-  //     // alert('here');
-  //     // if($scope.cards == undefined){
-  //     //   $scope.cards == PetService.getCards();
-  //     // }
-  //     var answerArray12 = [];
-  //     var allCards = PetService.getCards();
-
-  //     // if( PetService.getStart()== );
-  //     // $scope.startCard == false;)
-
-  //   allCards.forEach(function(indCard) {
-  //       if ($scope.foll9($scope.userItem.watchList, indCard)!=true){
-  //     answerArray12.push(indCard);
-  //         //   friend.education.forEach(function(schoolObj){
-  //         // })
-  //     }
-  //   });
-  //   return answerArray12;
-  //     // return answerArray12;
-
-  // };
-
-      // alert(indCard);
-      // alert($scope.singleEvent);
-      // alert(indCard==$scope.singleEvent);
-            // alert();
-          // function isNotEmpty(o){
-          //     for(var i in o){
-          //         if(o.hasOwnProperty(i)){
-          //             return true;
-          //         }
-          //     }
-          //     return false;
-          // };
-          // var a00 = PetService.getCards();
-          // var positionOfCard = $scope.arrayObjectIndexOf(a00, indCard.name, "name");
-
-
-      // alert(positionOfCard);
-      // var positionOfCard = $scope.arrayObjectIndexOf($scope.cards, undefined, "name");
-      // alert($scope.cards.length);
-
-  //     if (positionOfCard > -1) {
-  // // alert(index);
-  //       $scope.cards.splice(positionOfCard, 1);
-  //       PetService.setCards($scope.cards);
-  //       $scope.tinderSwipe(card);
-  //        // $scop
-  // //     }
-  //   if($scope.cards&&$scope.cards.length==0){
-  //     // alert('hellay');
-  //     // alert('here');
-  //     // alert($scope.cards[positionOfCard].name);
-  //     // alert($scope.cards);
-  //     // alert(JSON.stringify($scope.cards));
-
-  //   }else{
-  //   }
-
-
-
-          // }
-          // || ($scope.cards[positionOfCard].name == indCard.name)
-// (isNotEmpty($scope.singleEvent)&&indCard.name==$scope.singleEvent.name)
-// $scope.currentCard =PetService.getStart() == false &&|| $scope.cards && indCard.name == $scope.cards[0].name
-
-
-      // if($scope.cards!=undefined){
-      //   alert($scope.cards[0].name);
-      // }
-
-      // alert(a00[0].name);
-       // alert($scope.startCard);
-       // if($scope.cards&&$scope.cards.length>0){
-        // alert(PetService.getCards()[0].name);
-        // alert(PetService.getCards()[positionOfCard].name);
-       // }
-
-
-      // alert();
-
-      // alert('indCard==$scope.singleEvent');
-      // $scope.cards.push(indCard);
-
-
-      // else{
-      //   // alert(indCard.name);
-      //   // alert(PetService.getStart());
-      //   // alert(PetService.getCards()[0].name);
-
-      //   // alert(indCard.name == PetService.getCards()[0].name);
-
-      //   if(indCard.name == PetService.getCards()[0].name){
-      //     alert(indCard.name);
-      //   }
-      // }
-
-
-          // alert('event is watched');
-            // console.log
-           // return i;
-      // PetService.setCards(answerArray12);
-
-
-
+//used to swipe the start card at beggining of events
    $scope.startSwipe = function(){
     PetService.setStart(false);
     $scope.startCard = false;
-    // alert($scope.cards[1]);
    };
 
+   //called when cards are at their end
     $scope.scopeCards = function(){
-      // PetService.setStart(true);
-      // $scope.startCard == true;
       PetService.setCards(["start"]);
-      // $scope.startCard == true;
       $scope.cards = PetService.getCards();
-      // $scope.loading=false;
-      // $scope.startCard == false;
-
-    //   $timeout(function() {
-    //        $scope.loading=false;
-    // }, 500);
-      // PetService.setCards($scope.cards);
-      // PetService.setCards($scope.cards);
-      // PetService.setCards($scope.cards);
     };
     // $scope.scopeCards2 = function(){
     //   // PetService.setStart(true);
@@ -992,6 +824,8 @@ var userSchool = $scope.userItem.userSchool;
       // if(PetService.getCards()==){
       //   //ii am a herereh
       // }
+
+      //converts event cover photos
  $scope.getCover = function(eventCover){
   if(eventCover==undefined){
     return "http://i62.tinypic.com/2zznq55.jpg";
@@ -999,33 +833,9 @@ var userSchool = $scope.userItem.userSchool;
   else{
     return eventCover;
   }
-    // PetService.setStart(false);
-    // $scope.startCard = false;
-    // alert($scope.cards[1]);
-  };
+ };
 
-     // $scope.cards = PetService.getCards();
-
-      //  for(i = 0; i < $scope.cards.length; i++) {
-      //   if ($scope.cards[i].watched){
-      //     alert('event is watched');
-      //       // console.log
-      //      // return i;
-      //   }
-      // }
-        // if ($scope.foll9($scope.userItem.watchList,$scope.cards[i])){
-        //   alert('event is watched');
-        //     // console.log
-        //    // return i;
-        // }
-
-
-    // if(events[key].watched==true)
-
-    // $scope.startCard = false;
-    // alert($scope.cards[1]);
-   // };
-
+ //converts event dates
    $scope.getDateInit = function(event){
     if(event.timeString){
         var a = event.start_time+' '+event.timeString.substr(0, 5)+' '+event.timeString.substr(5,6);
@@ -1038,27 +848,6 @@ var userSchool = $scope.userItem.userSchool;
    };
 
 
-//  for (x=0;x<c.length;x++){
-//     // if(c[x]){
-//     if(c[x].time){
-//         a = c[x].date+' '+c[x].time.substr(0, 5)+' '+c[x].time.substr(5,6);
-//         // console.log(a);
-//         c[x].eventDate = Date.parse(a, "mm/dd/yyyy hh:mm tt");
-//     }
-//     else{
-//       c[x].eventDate = Date.parse(c[x].date,"mm/dd/yyyy");
-//     }
-// // }
-
-// }
-
-   // alert($scope.cardTypes.length);
-   // var a4 = $scope.cardTypes;
-  // $scope.cards = a4.slice.call(a4, 0);
-  // alert($scope.cards.length);
-
-// alert('here2');
-
 $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
     for(var i = 0, len = myArray.length; i < len; i++) {
         if (myArray[i][property] === searchTerm){
@@ -1069,40 +858,24 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
     return -1;
 };
 
-    // $scope.scrollTop = function() {
-    // $state.go('app.feed');
-    // };
+    //ticket button on expanded event
     $scope.goTicket = function() {
       //go to ticket link
       window.open($scope.singleEvent.ticketLink,"_system");
        var schoolName = PetService.getSchool();
 
       $http.post('http://stark-eyrie-6720.herokuapp.com/ticketCount', {schoolName:schoolName}).success(function(){
-        // alert("worked!");
       })
-      //add one to counter
-    // $location.path('/app/person/me/feed');
     };
 
+
+    //sets services singleview as false
     $scope.goBack = function() {
-//this is lagging, why?
-    // $state.go("app.feed");
-    // $state.go("app.feed");
-  // $timeout(function() {
-
-  //   }, 100);
-
-  PetService.setSingleView(false);
-
-// $location.path('/app/person/me/feed');
-
- //     // myPopup.close(); //close the popup after 3 seconds for some reason
- //  }, 500);
+      PetService.setSingleView(false);
     };
 
 
-    // Show a custom alertDismissed
-    //
+    // Show a custom alert pop
     $scope.showAlert1 = function() {
         navigator.notification.alert(
             'You are the winner!',  // message
@@ -1129,7 +902,8 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
       console.log('Alert Shown.');
       });
     };
-    //in progress add to calendar
+
+    //add to calendar
     $scope.calAdd = function() {
       analytics.trackEvent('button', 'click', 'event added to calendar', 1);
         //replace these with times and then the thing below
@@ -1170,23 +944,27 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
         window.plugins.calendar.createEvent(title,location,notes,startDate,endDate,success,error);
     }
 
+    //event description on expanded event
     $scope.expandEvent= function(theDiv) {
      $scope.showEventDesc = !$scope.showEventDesc;
      $ionicScrollDelegate.resize();
     };
-    //allows sharing functionaility
+
+    //allows sharing functionaility on expanded event
     $scope.shareBtn = function(a,b,c,d){
       analytics.trackEvent('button', 'click', 'share button', 1);
       // analytics.trackEvent('button', 'click', 'share button', 1);
       // ga('send', 'event', 'button', 'click', 'share button', 1);
      window.plugins.socialsharing.share(a,b,c,d);
     };
+    //allows sharing functionaility on profile under fb friends
     $scope.shareBtn2 = function(a,b,c,d){
       analytics.trackEvent('button', 'click', 'share button under facebook friends list', 1);
       // analytics.trackEvent('button', 'click', 'share button', 1);
       // ga('send', 'event', 'button', 'click', 'share button', 1);
      window.plugins.socialsharing.share(a,b,c,d);
     };
+    //allows sharing functionaility on profile if no fb friends
     $scope.shareBtn3 = function(a,b,c,d){
       analytics.trackEvent('button', 'click', 'share button if no facebook friends', 1);
       // analytics.trackEvent('button', 'click', 'share button', 1);
@@ -1194,98 +972,25 @@ $scope.arrayObjectIndexOf=function(myArray, searchTerm, property) {
      window.plugins.socialsharing.share(a,b,c,d);
     };
 
+//called for event card swipe
   $scope.tinderSwipe = function(card) {
-    // alert($scope.cards.length);
-    // alert(card);
-
-      // alert(card.name);
-      // var positionOfCard = 0;
-
-      // alert(cardName);
-      // var index = $scope.arrayObjectIndexOf($scope.cards, card.name, "name");
-
-// alert('index here');
-// alert(index);
-// if (index > -1) {
-//   // alert(index);
-//   $scope.cards.splice(index, 1);
-//   alert('index here2');
-// }
-// else{
-//   // alert(index);
-//   alert('no card destroyed');
-// }
-if(card!=undefined){
-  // alert("card is undefined");
-
-
-// else if(card=="undefined"){
-//   alert("card is string");
-//   return true;
-// }
-
+    if(card!=undefined){
       var positionOfCard = $scope.arrayObjectIndexOf($scope.cards, card.name, "name");
-      // alert(positionOfCard);
-      // var positionOfCard = $scope.arrayObjectIndexOf($scope.cards, undefined, "name");
-      // alert($scope.cards.length);
-
       if (positionOfCard > -1) {
-  // alert(index);
         $scope.cards.splice(positionOfCard, 1);
         PetService.setCards($scope.cards);
         $scope.tinderSwipe(card);
-         // $scop
       }
-      // else{
-      //   // $scope.card(card);
-      //   $scope.cards = $scope.cards;
-      //   // $scope.cards[positionOfCard];
-      // }
-        // function11();
 
-  // alert('index here2');
-
-
-}
-
-
-
-
-    // else{
-    //   alert('card is undefined');
-    // }
-
-
-    // alert(index)
-    // if(index==undefined){
-    //   index=0;
-    // }
-
-
- // alert(positionOfCard);// 1
-// console.log(a);
-    // var newCar = index;
-    // alert('here22222');
-    // $scope.card = $scope.cards[positionOfCard];
-    // alert(newCard.name);
-
-    // newCard.id = Math.random();
-    // $scope.cards.push(newCard);
+    }
   };
 
-// $scope.card = $scope.tinderSwipe(card);
-
-// alert('here2');
-   $scope.shareBtn = function(a,b,c,d){
-      // analytics.trackEvent('button', 'click', 'share button', 1);
-      // ga('send', 'event', 'button', 'click', 'share button', 1);
-     window.plugins.socialsharing.share(a,b,c,d);
-    };
-
+//gets notification display date
     $scope.foll6 = function(timestamp){
       return new Date (timestamp).toDateString();
     };
 
+//opens profile
   $scope.openPopover = function($event) {
     $scope.newNot=false;
     PetService.setNewNot(false);
@@ -1295,62 +1000,34 @@ if(card!=undefined){
   $scope.closePopover = function() {
     $scope.popover.hide();
   };
-  //Cleanup the popover when we're done with it!
+
+  //Cleanup the popover when we're done with it
   $scope.$on('$destroy', function() {
     $scope.popover.remove();
   });
-// alert('here3');
+
+//handles tapping notifications
   $scope.followNot = function(not){
     var userProfId = $scope.userProfId;
     var userName = $scope.userName;
 
 if(not.date){
-     var a = new Date( not.date);
-  var b = new Date(Date.now());
-  var c = a.setDate(a.getDate() + 1);
-// alert(c);
-if(c>=b){
-  var presEvent = true;
-}
-else{
-  var presEvent = false;
-}
+      var a = new Date( not.date);
+      var b = new Date(Date.now());
+      var c = a.setDate(a.getDate() + 1);
+    if(c>=b){
+      var presEvent = true;
+    }
+    else{
+      var presEvent = false;
+    }
 
 }
-
-
-// alert(c>=b);
-    // var a = new Date(not.date);
-
-    // var eventDate = new Date(not.date1);
- // eventDate2 = "11/06/2014";
-// var d = new Date("2012-02-29")
-// console.log(d)
-// Wed Feb 29 2012 11:00:00 GMT+1100 (EST)
-
-
-  // ale/rt(a);
- // alert(b);
- // if(a>=b){
-
- // }
-
-
-
-
-
-// var b = Date.now();
-// var Xmas95 = new Date(a).getDate();
-// var day2 = new Date(Date.now()).getDate();
-// var day = Xmas95.getDate();
-
-// console.log(day>=day2);
-    // alert(tap);
 
 //call follow function with user object
     if(not.tap=="follow"){
 
-      //follow the userId
+      //follow the userId, commented out for now
       // for(i=0;i<$scope.unFriends.length;i++){
       //   if($scope.unFriends[i].userProfId==not.followId){
           // alert("he1111");
@@ -1419,101 +1096,32 @@ else{
     }
 
     else if(not.tap=="event"&&presEvent==true){
-      // alert('event');
-      // &&not.date>Date.now()
-       // alert(not.message.split(": ")[1]);
-
        var i = not.message.indexOf(': ');
-var splits = not.message.slice(i+1);
-// alert("here");
-// alert(splits);
-// alert("12345.00.".slice(0,-1));
-var eventName = splits.slice(0,-1);
-// alert(PetService.getEvents());
-// alert(eventName);
-// alert(PetService.getEvents());
-// alert(JSON.stringify($scope.events));
-// alert(eventName);
-for(event in $scope.events){
-  // alert($scope.events[event].name);
-  // alert(eventName);
-  // alert($scope.events[event].name.slice(0,0));
-  // alert(eventName.slice(0,0));
-  // alert($scope.events[event].name.indexOf(eventName)>-1);
-   // alert(eventName.indexOf($scope.events[event].name)>-1);
-  // alert($scope.events[event]==eventName);
-  // alert(event.start_time);
-  if(eventName.indexOf($scope.events[event].name.slice(0,-1))>-1){
-    // alert($scope.events[event].name);
-    // alert(eventName);
-     $scope.go_here($scope.events[event]);
-  }
-
-}
-// alert($scope.event[eventName]);
-// alert($scope.events[eventName].name);
-// $scope.events = PetService.getEvents()
- // $scope.go_here($scope.events[0,$scope.events.indexOf({"name":eventName})]);
-//  console.log(a[0,a.indexOf('2')])
-// for(x=0;x<$scope.events.length;x++){
-//   alert(eventName);
-//   alert($scope.events[x].name);
-//   if($scope.events[x].name==eventName){
-
-
-//      $scope.go_here($scope.events[x]);
-//   }
-// }
+       var splits = not.message.slice(i+1);
+       var eventName = splits.slice(0,-1);
+        for(event in $scope.events){
+          if(eventName.indexOf($scope.events[event].name.slice(0,-1))>-1){
+             $scope.go_here($scope.events[event]);
+          }
+        }
 
     }
     else if(not.tap==undefined){
     }
     else{
-      // alert((not.tap=="event"));
-      // alert(not.eventDate);
-      // alert(new Date(not.eventDate).getDate() >= new Date(Date.now()).getDate());
-      //do nothing
       $scope.showAlert("The date for this event has passed.","Bummer!");
     }
 
   };
-// alert('here4');
 
-
-// alert('here5');
-
+  //sets unfriends
   $scope.findFriends = function(){
-    // var nU = PetService.getNew();
-
-    // alert('fdfdd');
-    // $scope.unFriends = PetService.getUNFriends();
     var userProfId = $scope.userProfId;
     var userSchool = $scope.userItem.userSchool;
-    // alert(userProfId);
-    // alert(userSchool);
-         // alert("error");
      OpenFB.get("/"+userProfId+"?fields=friends",{limit:1300}).success(function(red){
-      // alert('here1');
       fbFriends = red.friends.data;//this is an array with friend objects
          $http.post('http://stark-eyrie-6720.herokuapp.com/findFriends', {userProfId:userProfId,userSchool:userSchool, fbFriends:fbFriends}).error(function(){
-          // alert("error");
         }).success(function(res){
-          // alert("success");
-          // alert(userProfId);
-          // alert(res);
-          // alert(res.userIds);
-          // alert(res.userIds[0].userName);
-          // alert(res.userIds[1].userName);
-        //   if(nU=="yes"){
-        //     PetService.setNewUser("no");
-        //     $http.post('http://stark-eyrie-6720.herokuapp.com/newFriend', {fbFriends:res.userIds,userName:userName,userProfId:userProfId}).error(function(){
-        //   // alert("error");
-        // }).success(function(idc){
-          // alert('yay');
-        // })
-        //   }
-          // res.userIds = [];
-          // alert($scope.);
           if(res.userIds.length==0){
             PetService.setUNFriends(["none"]);
             $scope.unFriends = PetService.getUNFriends();
@@ -1521,64 +1129,20 @@ for(event in $scope.events){
             PetService.setUNFriends(res.userIds);
             $scope.unFriends = PetService.getUNFriends();
           }
-
-
-          // .success(function(res){
-
-          // });
-           // $scope.unFriends = res.userIds;
-          // $state.go("app.friends");
-          // alert(res.userIds[2].userName);
-           // res.json({Item: user});
         });
      })
-
-    //send an array of all fb friends in a request that returns an array of user objects that match existing people
-
-    //set the list in services and display that list
   };
 
-  $scope.goFriends = function(){
-    $state.go("app.friends");
-  };
-
-
-    $scope.userAlert = function(thing){
-      alert(thing);
-    };
-
-// $scope.watched = false;
-
+  //sets event watched
     $scope.foll9 = function(watchList,event){
-      // alert(watchedIndex);
       for(i=0;i<watchList.length;i++){
-        // if(event.name=="INVASION 9.0"){
-// alert(watchList[i].name);
-//         alert(event.name);
-        // }
-
          if(watchList[i].name==event.name&&watchList[i].start_time==event.start_time){
-          // alert('yes');
            return true;
           }
         }
+    };
 
-  // if(friendFollowIndex>-1){
-  //   return true;
-  // }
-  // else{
-  //   return false;
-  // }
-};
-
-
-
-    // $scope.watchEvent = function(){
-    //   // alert('here');
-    //   // $state.go("app.feed");
-    //   $scope.watched = true;
-    // };
-
+    //sends user created event
     $scope.newEventSend = function(name,email,date,time,address,info){
       if(name==undefined||date==undefined||time==undefined||address==undefined){
        $scope.showAlert("Please make sure you haven't left any fields empty.","Missing Fields.");
@@ -1609,63 +1173,16 @@ for(event in $scope.events){
     //expands single event
     $scope.go_here = function (eventName) {
       PetService.setSingle(eventName);
-      // $scope.singleView = true;
       PetService.setSingleView(true);
       $location.path('/app/event-detail');
-
-      //changes page and controller
-      // $state.go("app.event-detail");
     };
-// $scope.followed1 = friendFollowed(friend)
 
-//     $scope.friendFollowed = function (friend) {
-
-//          if(friend.followers.indexOf(userProfId)>-1){//if u follow them
-//           for(q=0;q<$scope.unFriends.length;q++){
-//             if($scope.unFriends[q].userProfId == friend.userProfId){
-//                return true;
-//             }
-
-//         //display as followed
-
-//         //
-//       }
-//     }
-//     else{
-//                 return false;
-//           }
-// };
-
-
-  // var followingId = friend.userProfId;
-      // var count=0;
-
-// alert('here7');
-
-// $scope.getNotifications = function(){
-//   $scope.notifications = 'n/a';
-//   $http.post('http://stark-eyrie-6720.herokuapp.com/notifications',
-//         {userProfId:userProfId}).error(function(){
-//           $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
-//         }).success(function(res){
-//           // return res.count;
-//           $scope.notifications = res.notifications;
-//           // count = res.count;
-//           // alert(res.count);
-//           // alert(res.notifications[0].message);
-//           // $scope.followCount = res.count;
-//           // $state.go("app.friends");
-//           // alert("worked!");
-//           // alert();
-//         });
-
-// }
+//info alert on swipe view
 $scope.doThis = function(){
     $scope.showAlert("To dismiss and view the next event, you can hit the red, slashed eye on the left, or swipe in a downwards motion.<br><br> Hitting the green eye on the right also dismisses the current event, but 'Watches' it, creating a profile notification.","Swipe Event View");
 };
 
-
-
+//makes swipe view true
 $scope.tinderYes = function(){
   $scope.tinderView = true;
   if($scope.cards[0]=="empty"){
@@ -1674,31 +1191,28 @@ $scope.tinderYes = function(){
   $scope.main.dragContent = false;
   PetService.setTinderView(true);
 };
+
+//makes swipe view false
 $scope.tinderNo = function(){
   $scope.tinderView = false;
   $scope.main.dragContent = true;
   PetService.setTinderView(false);
 };
+
+//makes friend view true on prof
 $scope.friendYes = function(){
 $ionicScrollDelegate.scrollTop();
   $scope.friendView = true;
-
-   // alert($scope.unFriends);
-  // $scope.main.dragContent = false;
-  // PetService.setTinderView(true);
 };
+
+//makes friend view false on prof
 $scope.friendNo = function(){
   $ionicScrollDelegate.scrollTop();
   $scope.friendView = false;
-
-  // $ionicScrollDelegate.scrollTop();
- // alert($scope.unFriends);
-   // $scope.main.dragContent = true;
-  // PetService.setTinderView(false);
 };
 
+//sets friend follow or unfollowed
 $scope.foll8 = function(friendFollowIndex){
-
   if(friendFollowIndex>-1){
     return true;
   }
@@ -1707,140 +1221,35 @@ $scope.foll8 = function(friendFollowIndex){
   }
 };
 
-// alert('here8');
+//watch action of an event
     $scope.watchAction = function (event) {
-      // alert($scope.userItem.watchList[0]);
-         // alert(event.name);
-         // alert(event.watched);
-
-         // alert($scope.event.watched);
-      // notDate = "19/29/1993";
-
       var tap = "event";
       var userProfId = $scope.userProfId;
-      // alert(userName);
       var userName = $scope.userName;
-
-       // alert(userName);
-      // alert(userWatchList[0]);
-       // for(i=0;i<userWatchList.length;i++){
-       //   if(userWatchList[i].name==event.name){
-       //    alert('yes');
-       //     event.watched=true;
-       //    }
-       //  }
-      // unFriends = PetService.getUNFriends();
-      // alert(unFriends[0].userName);
-      // alert(JSON.stringify(unFriends[0]));
-      // alert(unFriends[key]);
-      // alert(unFriends[friend.userName].userName);
-
-
-    //   // var unFriends = PetService.getUNFriends();
-    //   alert(friend.userName);
-    //   alert(friend.followers.indexOf(userProfId)>-1);
-    //   if(friend.followers.indexOf(userProfId)>-1){//if you follow them
-    //     alert(friend.userName);
-    //    // add to array locally,
-    //    for(i=0;i<$scope.unFriends.length;i++){//for all un friends
-    //       if($scope.unFriends[i].followers.indexOf(userProfId)>-1){//if
-    //          // alert(friend.followers.indexOf(userProfId)>-1);
-
-    //      $scope.unFriends[i].followers.pop(userProfId);
-    //      PetService.setUNFriends($scope.unFriends);
-    //      alert($scope.unFriends[i].userName);
-    //      alert($scope.unFriends[i].followers);
-    //      // PetService.setUNFriends(unFriends);
-
-    //        // $scope.unFriends = unFriends;
-    //     //
-    //   }
-    //  }
-    // }
-    // alert('here');
-    // var userProfId = PetService.getUserId();
     if(event.name[event.name.length-1].indexOf("!")>-1||event.name[event.name.length-1].indexOf(".")>-1||event.name[event.name.length-1].indexOf("?")>-1){
-      // alert(event.name);
          var message = "You watched the event: "+event.name;
          var message2 = userName+" watched the event: "+event.name;
-
     }
-else{
-     var message = "You watched the event: "+event.name+".";
-     var message2 = userName+" watched the event: "+event.name+".";
-}
-
-
-    // alert(event.name);
-    // alert(event);
-    // alert(message);
-    // alert(message2);
-    // alert($scope.foll9(userWatchList,event));
- // alert('here2');
+    else{
+         var message = "You watched the event: "+event.name+".";
+         var message2 = userName+" watched the event: "+event.name+".";
+    }
     if(event.watched){
-
-      // alert('here');
-      // alert($scope.userItem.watchList.length);
-       // for(m=0;m<$scope.userItem.watchList.length;m++){
-
-        // alert(event.name);
-        // if($scope.userItem.watchList[m]==event){
-
-          // $scope.singleEvent.watched=!$scope.singleEvent.watched;
-
-           // alert('here2');
-
-        // }
-        // $scope.userItem.watchList.push(event);
-      // }
-
          var answer99 = null;
          for (var i = 0, len = $scope.userItem.watchList.length; i < len; i++) {
               if($scope.userItem.watchList[i].name==event.name){
                     answer99 = $scope.userItem.watchList[i];
               }
           }
-          // alert(answer99);
-
-          // console.log(b);
          $scope.userItem.watchList.splice($scope.userItem.watchList.indexOf(answer99),1);
-
-         // $scope.cards.push($scope.events[event.name]);
         $scope.cards.push($scope.events[event.name]);
-         // alert($scope.userItem.watchList.indexOf(answer99));
          $scope.userItem.notifications = $scope.userItem.notifications.filter(function (el) {
-                        if(el.message==message){
-                          // alert(message);
-
-                        }
-                        // else{
-                        //      if(el.notDate!==notDate){
-                        //       return true;
-                        //   }
-                        // }
                         return el.message !== message;
                        });
 
          $scope.events[event.name].watched = false;
-
-           // $scope.userItem.notifications = $scope.notifications;
-          // alert('here3');
-
-          // .splice({message:message,notDate:notDate});
-          // $scope.events[event.name.replace(/\./g,"")].watched=!$scope.events[event.name.replace(/\./g,"")].watched;
-
           PetService.setUser($scope.userItem);
-          // PetService.setEvents($scope.events);
-          // $scope.userItem = PetService.getUser();
-          // PetService.setEvents($scope.events);
-          // $scope.userItem = PetService.getUser();
-
-           // $scope.userItem = PetService.getUser();
-        // });
-        // $scope.cards.
-        // PetService.setUser($scope.userItem);
- // alert('here4');
-      //unwatch event
+      //unwatch event on server
        $http.post('http://stark-eyrie-6720.herokuapp.com/unwatchEvent',
         {userProfId:userProfId,
           message:message,
@@ -1849,22 +1258,12 @@ else{
         }).error(function(){
           // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
         }).success(function(res){
-           // alert('here5');
-
-
       })
     }
     else{
       $scope.newNot2=! $scope.newNot2;
-      // alert('not watched event');
       //generate notDate to current timestamp
       var notDate = Date.now();
-
-      // $scope.events[event.name.replace(/\./g,"")].watched=true;
-      // alert('here3');
-          // var hI = $scope.events[event.name];
-
-
       $scope.userItem.watchList.push($scope.events[event.name]);
         $scope.userItem.notifications.push({message:message,date:notDate,tap:tap});
 
@@ -1875,47 +1274,13 @@ else{
               }
           }
          $scope.cards.splice($scope.cards.indexOf(answer97),1);
-
-
-      // var answer98 = null;
-      //    for (var i = 0, len = $scope.userItem.watchList.length; i < len; i++) {
-      //         if($scope.userItem.watchList[i].name==event.name){
-      //               answer98 = $scope.userItem.watchList[i];
-      //         }
-      //     }
-      // alert(answer98==hI);
-
-
-      // $scope.newNot2=true;
-
-
-
-      // $scope.events[event.name.replace(/\./g,"")].watched=!$scope.events[event.name.replace(/\./g,"")].watched;
-      // PetService.setEvents($scope.events);
       $scope.events[event.name].watched = true;
-
       PetService.setUser($scope.userItem);
-
-      // PetService.setEvents($scope.events);
-
-
-
-      // $scope.userItem = PetService.getUser();
-      // $scope.userItem = PetService.getUser();
-      // $scope.newChecked();
       setTimeout(function() {
        $scope.newNot2=false;
       }, 100);
 
-
-      // }, 500);
-
-      // $scope.singleEvent.watched=false;
-
-      // alert('here5');
-      //
-
-
+      //watch event on server
       $http.post('http://stark-eyrie-6720.herokuapp.com/watchEvent',
         {userProfId:userProfId,
           message:message,
@@ -1926,28 +1291,7 @@ else{
         }).error(function(){
           // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
         }).success(function(res){
-          // alert('hi');
-
-
-
-
-
-          // PetService.flipWatched(event);
-           // event.watched=!event.watched;
-           // alert('here');
-           // alert($scope.events[event.name].watched);
-          // $scope.events[event.name].watched = !event.watched;
-          // alert($scope.events[event.name].watched);
-          // PetService.setEvents($scope.events);
-          // $scope.loadFeed();
-          // PetService.setEvents($scope.events);
-          // alert(res.success);
-          // $state.go("app.friends");
-          // alert("worked!");
-          // alert();
         });
-
-      // alert('event watched');
     }
       // for(q=0;q<$scope.unFriends.length;q++){
      //    if($scope.unFriends[q].userProfId==followingId){
@@ -1990,76 +1334,12 @@ else{
     // }
    };
 
-// $http.post('http://stark-eyrie-6720.herokuapp.com/unwatchEvent',
-//         {userProfId:userProfId,
-//           message:message,
-//           message2:message2,
-//           eventObj:event
-//         }).error(function(){
-//           // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
-//         }).success(function(res){
-//            // alert('here5');
-
-
-//       });
-
-//       $http.post('http://stark-eyrie-6720.herokuapp.com/watchEvent',
-//         {userProfId:userProfId,
-//           message:message,
-//           tap:tap,
-//           message2:message2,
-//           notDate:notDate,
-//           eventObj:event
-//         }).error(function(){
-//           // $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
-//         }).success(function(res){
-
-//         });
-            // $scope.followed1 = friendFollowed(friend);
-      // alert();
-      //check if friend is followed,
-      //add to both arrays, then change
-      //   $http.post('http://stark-eyrie-6720.herokuapp.com/getSchool', {schoolName:schoolName}).error(function(){
-      //     $scope.$broadcast('scroll.refreshComplete');
-      //   }).success(function(res){})
-
-      // PetService.setSingle(eventName);
-      // //changes page and controller
-      // $state.go("app.event-detail");
-
       $scope.getWatch = function(event){
         return PetService.getWatched(event);
       };
 
+//called when following/unfollowing
     $scope.followAction = function (friend) {
-      // unFriends = PetService.getUNFriends();
-      // alert(unFriends[0].userName);
-      // alert(JSON.stringify(unFriends[0]));
-      // alert(unFriends[key]);
-      // alert(unFriends[friend.userName].userName);
-
-
-    //   // var unFriends = PetService.getUNFriends();
-    //   alert(friend.userName);
-    //   alert(friend.followers.indexOf(userProfId)>-1);
-    //   if(friend.followers.indexOf(userProfId)>-1){//if you follow them
-    //     alert(friend.userName);
-    //    // add to array locally,
-    //    for(i=0;i<$scope.unFriends.length;i++){//for all un friends
-    //       if($scope.unFriends[i].followers.indexOf(userProfId)>-1){//if
-    //          // alert(friend.followers.indexOf(userProfId)>-1);
-
-    //      $scope.unFriends[i].followers.pop(userProfId);
-    //      PetService.setUNFriends($scope.unFriends);
-    //      alert($scope.unFriends[i].userName);
-    //      alert($scope.unFriends[i].followers);
-    //      // PetService.setUNFriends(unFriends);
-
-    //        // $scope.unFriends = unFriends;
-    //     //
-    //   }
-    //  }
-    // }
     var followingId = friend.userProfId;
     var message = $scope.userName+" just followed you.";
     var userProfId = $scope.userProfId;
@@ -2076,9 +1356,6 @@ else{
           followingId:followingId}).error(function(){
           $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
         }).success(function(res){
-          // $state.go("app.friends");
-          // alert("worked!");
-          // alert();
         });
        }
             else{
@@ -2086,9 +1363,6 @@ else{
          $scope.unFriends[q].followers.push(userProfId);
          $scope.userItem.following.push(followingId);
          var notDate = Date.now();
-         // alert(message);
-         // alert
-         // $scope.notifications.push({message:message,date:date});
             $http.post('http://stark-eyrie-6720.herokuapp.com/follow',
         {userProfId:userProfId,
           followingId:followingId,
@@ -2096,11 +1370,6 @@ else{
           notDate:notDate}).error(function(){
           $scope.showAlert("Connection to the server could not be acheived at this time. Increase your WiFi/service or try again later.","Failed.");
         }).success(function(res){
-           // add notification that you added a follower
-
-          // $state.go("app.friends");
-          // alert(res.success);
-          // alert();
         });
 
       }
@@ -2108,45 +1377,16 @@ else{
     }
 
    };
-// alert('here9');
 $scope.doAlert = true;
 
      $scope.alert3 = function(){
-      // var userItem = $scope.userItem;
-      // var notCount = $scope.userItem.notifications.length;
-      // alert($scope.doAlert);
 
       if($scope.doAlert == true){
-        // alert("here");
       $scope.doAlert = false;
       var schoolName = $scope.userItem.userSchool;
       var userEmail = $scope.userItem.userEmail;
-      // alert($scope.doAlert);
-
-      // var doSC = false;
-      // alert($scope.cards.length);
-      // if(doSC == true){
-        // alert('here');
-
-        // doSC = false;
-        // alert($scope.cards.length);
-        // alert($scope.cards[0].name);
-      // }
-      // alert($scope.cards.length);
-
-      // if($scope.cards.length>0){
-      //    $scope.scopeCards();
-      //    doSC = true;
-      // }
-      // alert(notCount);
-      // alert(userEmail);
-      // alert(schoolName);
 
       $http.post('http://stark-eyrie-6720.herokuapp.com/getUser',{userEmail: userEmail, userSchool:schoolName}).success(function(red){
-            // userItem = red.Item;
-            // alert('here');
-
-            // alert('here2');
             if(red.Item.banned==="banned"){
               $scope.showAlert('This account has been banned for violating our Terms of Use. Contact us at UNightlifeTeam@gmail.com if you think is a mistake.');
               $state.go('app.login');
@@ -2155,24 +1395,14 @@ $scope.doAlert = true;
               var notCount = $scope.userItem.notifications.length;
               PetService.setUser(red.Item);
               $scope.userItem = red.Item;
-              // $scope.notifications = $scope.userItem.notifications;
-            // $scope.userItem.notifications = red.Item.notifications;
               var notCount2 = $scope.userItem.notifications.length;
-                // alert(notCount2);
               if(notCount2>notCount){
                 $scope.newNot = true;
                 PetService.setNewNot(true);
-                // alert("New Notification");
               }
-
             }
-
           });
-      // $http.post('http://stark-eyrie-6720.herokuapp.com/getN', {schoolName:schoolName}).error(function(){
 
-
-
-        // alert(schoolName);
          $http.post('http://stark-eyrie-6720.herokuapp.com/getSchool', {schoolName:schoolName}).error(function(){
           if($scope.cards[0]=="empty"){
             $scope.scopeCards();
@@ -2180,7 +1410,6 @@ $scope.doAlert = true;
           $scope.doAlert = true;
           $scope.$broadcast('scroll.refreshComplete');
         }).success(function(res){
-          // alert(res.Item.schoolName);
 
           currentList = {};
           var today = new Date();
@@ -2188,48 +1417,34 @@ $scope.doAlert = true;
           var currentMonth = today.getMonth()+1; //January is 0
           var currentYear = today.getFullYear();
           var schoolItem = res.Item;
-          // alert(schoolItem.schoolName);
-          //start the fb login
-          // fbLoginFlow();
+
         for(var key in schoolItem.schoolEvents){
-          // alert(schoolItem.schoolName);
-
-
-
             var startDay = schoolItem.schoolEvents[key].start_time.split('/')[1];
             var startYear = schoolItem.schoolEvents[key].start_time.split('/')[2];
             var startMonth = schoolItem.schoolEvents[key].start_time.split('/')[0];
             schoolItem.schoolEvents[key].startYear = startYear;
 
         if(schoolItem.schoolEvents[key].timeOfEvent!=undefined){
-           // alert(schoolItem.schoolName);
            if(schoolItem.schoolEvents[key].timeOfEvent.length<7){
                 schoolItem.schoolEvents[key].timeString = '0'+schoolItem.schoolEvents[key].timeOfEvent;
-                // alert('hi');
               }
               else{
                 schoolItem.schoolEvents[key].timeString = schoolItem.schoolEvents[key].timeOfEvent;
-                // alert('hi22');
               }
         }
          else{
-          // alert("null");
              schoolItem.schoolEvents[key].timeString = null;
           }
 
             if (Math.floor(startYear)>Math.floor(currentYear)){
-               // alert('here12');
               currentList[key] = schoolItem.schoolEvents[key];
             }
             else if(Math.floor(startYear)==Math.floor(currentYear)){
-              // alert(startYear);
               if(Math.floor(startMonth)>Math.floor(currentMonth)){
-                 // alert('here122');
                 currentList[key] = schoolItem.schoolEvents[key];
               }
               else if(Math.floor(startMonth)==Math.floor(currentMonth)){
                 if(Math.floor(startDay)>=Math.floor(currentDay)){
-                  // alert('here1');
                  currentList[key] = schoolItem.schoolEvents[key];
                 }
               }
@@ -2245,16 +1460,6 @@ $scope.doAlert = true;
           $scope.doAlert = true;
           $scope.$broadcast('scroll.refreshComplete');
         })
-
-      //   for(key in $scope.events){
-      //   if($scope.events[key].watched!=true){
-      //     if($scope.cards[0]=="empty"){
-
-      //       $scope.scopeCards();
-      //     }
-      //   }
-      // }
-
       }
     };
 
@@ -2274,35 +1479,18 @@ $scope.doAlert = true;
     };
 
     $scope.cardFunc = function(card){
-      // var cardsArray = $scope.cards;
-      // for (x=0;x<cardsArray.length;x++){
-    // if(c[x]){
           if(card.timeString){
               a = card.start_time+' '+card.timeString.substr(0, 5)+' '+card.timeString.substr(5,6);
-              // console.log(a);
               card.eventDate = Date.parse(a, "mm/dd/yyyy hh:mm tt");
           }
           else{
             card.eventDate = Date.parse(card.start_time,"mm/dd/yyyy");
           }
-    // }
-    // $scope.cards  $scope.sortByKey(cardsArray,'eventDate');
+    };
 
-  };
-
- // $timeout(function() {
-
- //     // myPopup.close(); //close the popup after 3 seconds for some reason
- //  }, 500);
-
-    // alert('here2');
-
- // setTimeout(function () {
-        // $scope.$apply(function () {
-        // Google Analytics Trackers
+        // Google Analytics Trackers, controller init setup
     analytics.startTrackerWithId('UA-53156722-1');
     analytics.trackView('Event Feed Accessed');
-
 
     $ionicPopover.fromTemplateUrl('my-popover.html', {
     scope: $scope,
@@ -2311,90 +1499,36 @@ $scope.doAlert = true;
     });
 
     $scope.userItem = PetService.getUser();
-    // alert($scope.startCard);
     $scope.events = PetService.getEvents();
-    // var allCards1 = PetService.getCards();
     $scope.tinderView = PetService.getTinderView();
     $scope.friendView = false;
     $scope.singleView = PetService.getSingleView();
     $scope.newNot = PetService.getNewNot();
-
-    // alert($scope.cards.length);
-     // result.friends.data.forEach(function(friend){
-     //      if (friend.education){
-     //        friend.education.forEach(function(schoolObj){
-
-
-        // $scope.cards = $scope.getUnwatchedCards();
-
-
-        // alert()
-
-    // $scope.cards = PetService.getCards();
-
-    // alert($scope.cards.length);
-
-    // PetService.getCards();
     $scope.singleEvent = PetService.getSingle();
-
     $scope.cards = PetService.getCards();
-    // alert($scope.cards)
-    // PetService.setCards($scope.cards);
-
-$scope.loading=false;
-
-// $scope.newNot2=false;
-
- // $scope.noFriends = false;
-// alert(PetService.getUNFriends());
-
-// if(PetService.getUNFriends())
-// $scope.findFriends();
-
-$scope.userPic1 = PetService.getUserPic();
-if($scope.userPic1 == ""){
-  $scope.userPic1 = "http://www.diybackyardworkshop.com/wp-content/uploads/2012/01/NoAvatar.png";
-}
-
-  if($scope.tinderView != true){
-    $scope.main.dragContent = true;
-  }
-  else{
-    $scope.main.dragContent = false;
-  }
-
+    $scope.loading=false;
+    $scope.userPic1 = PetService.getUserPic();
+    if($scope.userPic1 == ""){
+      $scope.userPic1 = "http://www.diybackyardworkshop.com/wp-content/uploads/2012/01/NoAvatar.png";
+    }
+    if($scope.tinderView != true){
+      $scope.main.dragContent = true;
+    }
+    else{
+      $scope.main.dragContent = false;
+    }
     $scope.predicate1 = '-date';
     $scope.showEventDesc = false;
-
     $scope.userName = $scope.userItem.userName;
-    // $scope.notifications = $scope.userItem.notifications;
-    // alert('here');
-
     $scope.userProfId = $scope.userItem.userProfId;
-    // $scope.followCount = $scope.userItem.following.length;
      var nU = PetService.getNew();
     $scope.unFriends = PetService.getUNFriends();
-    // alert($scope.unFriends);
     if($scope.unFriends.length==0&&$scope.unFriends[0]!="none"&&nU!="yes"){
-      // alert('h2222');
       $scope.findFriends();
-
     }
     else if(nU=="yes"){
         $scope.findFriends2();
     }
-      $scope.startCard=PetService.getStart();
-     // alert($scope.unFriends);
-            // $scope.message = "Timeout called!";
-        // });
-    // }, 1000);
-
-    // setTimeout(function() {
-
-    // }
-    // alert($scope.followCount);
-    // if($scope.followCount == 0){
-    //   $scope.countFollowers();
-    // }
+    $scope.startCard=PetService.getStart();
 
   });

@@ -1,90 +1,42 @@
-/* Your app's CSS, go crazy, make it your own */
 
-/*.ionic-logo {
-  display: block;
-  margin: 15px auto;
-  width: 96px;
-  height: 96px;
-}
+/* App CSS */
 
-.item-body > p {
-    margin-top: 0;
-    margin-bottom: 4px;
-}*/
-
-
-/* Your app's CSS, go crazy, make it your own */
-
-/*a.item:after, button.item:after, .item a[href].item-content:after, .item[ng-click] a.item-content:after {
-  display:none !important;
-}*/
-/*
-.ionic-logo {
-  display: block;
-  margin: 15px auto;
-  width: 96px;
-  height: 96px;
-}*/
 .cardName{
-  /*font-family: 'Alegreya', serif;*/
-  /*color:white;*/
   font-size: 22px!important;
   color: #141414;
-  /*text-align: left!important;*/
-/*word-wrap: break-word;*/
-  /*left:-5%;*/
-
 }
 .cardName2{
-  /*font-family: 'Alegreya', serif;*/
-  /*color:white;*/
   font-size: 22px!important;
   color: white;
   text-wrap:none;
   overflow: none;
-  /*text-align: left!important;*/
-  /*word-wrap: break-word;*/
-  /*left:-5%;*/
-
 }
 .loadingTin{
   color:white;
   font-size: 75px;
   margin-top:55%;
-
-
 }
-
 .tinderTxt{
   max-height:150px;
 
 }
 #tinderTxt2{
-  /*padding-top: 5%;*/
   overflow: none;
   white-space: nowrap;
-  /*word-wrap: break-word;*/
-  /*word-wrap:none!important;*/
-  /*max-height:150px;*/
 }
 .tinderBtn{
    position: absolute;
   left: 10%;
   top:2%;
-
 }
-
-
 .prof-image{
     position: absolute;
   left: 48%;
   top:1%;
-
 }
 @-webkit-keyframes colorPulse { 0% {color: red;} 100% {color: white;} }
 @-webkit-keyframes colorPulse2 { 0% {color: transparent;} 50% {color: white;} 100% {color: transparent;} }
 @-webkit-keyframes colorPulse3 { 0% {color: transparent;} 100% {color: white;} }
-
 .prof-image2{
     position: absolute;
   left: 48%;
@@ -120,38 +72,12 @@
   font-size: 20px!important;
   color:lightgray;
 }
-/*.ion-music-note{
-  display:none;
-}*/
-/*
-.tinderBtnSection{
-  width: 100%!important;
-  height:7%;
-  background-color: transparent;
-   opacity: .98;
-   padding-top: 1%;
-   margin-top: 1%;
-   /*height:7%!important;*/
-   /*z-index: 999!important;*/
 
-
-/*}*/
 .tinderBtn2{
 
-  /*-webkit-animation: show 1s 1;*/
-  /*background-color: transparent;*/
-  /*border:white!important;*/
-  /*float: right;*/
 
   z-index: 999;
-/*padding-bottom: 0%;*/
-  /*width:5%;*/
-  /*padding-right: 7%;*/
-  /*padding-left: 9%;*/
-  /*padding-top: 2%;*/
-  /*bottom: -3%!important;*/
-  /*bottom:-17%;*/
-  /*bottom: 0%;*/
+
   padding: 0;
   bottom: 3.5%!important;
   left:56%;

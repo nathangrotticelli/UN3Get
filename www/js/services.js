@@ -6,7 +6,6 @@ angular.module('sociogram.services', [])
   var userItem = {};
   var school = "";
   var unFriends = [];
-  // var userProfId = "";
   var newUser = "no";
   var newNot = false;
  var tinderView = true;
@@ -15,25 +14,14 @@ angular.module('sociogram.services', [])
  var userPic = "";
  var cards = ["start"];
  var followCount = 0;
+
   var foll9 = function(watchList,event){
-
-      // alert(watchedIndex);&&watchList[i].start_time==event.start_time
-      for(i=0;i<watchList.length;i++){
-        // alert(JSON.stringify(watchList));
-      // alert(watchList[i].watched);
-         if(watchList[i].name==event.name&&watchList[i].watched){
-          // alert('yes');
-           return true;
-          }
-        }
-        // return false;
-      };
- // var cardIndex = undefined;
-
-
-
-  // var unFriends = [];
-  // var notifications = {};
+    for(i=0;i<watchList.length;i++){
+     if(watchList[i].name==event.name&&watchList[i].watched){
+       return true;
+     }
+    }
+  };
 
   return {
     getCache: function () {
@@ -100,7 +88,6 @@ angular.module('sociogram.services', [])
                 cards = value;
             },
             getCards: function () {
-              // event.watched=foll9(userItem.watchList,event);
               // if(cards[0]=="empty" && cards.length>1){
               //   cards.splice(0, 1);
               // }
@@ -109,21 +96,13 @@ angular.module('sociogram.services', [])
 
               // }
             if( cards[0]=="start"){
-                // var answerArray = [];||cards[0] == "empty"
-                // alert('here');
-                // var a3 = events;
                 cards = [];
 
                 for(var key in events){
-                  // events[key].watched3 = foll9(userItem.watchList, events[key]);
-
                    if(foll9(userItem.watchList, events[key])!= true){
-                      // alert(cards[0]);
                       cards.push(events[key]);
                     }
-
                   }
-
                 }
                 else if(cards[0] == "empty"&&cards.length>1){
                   cards.splice(0, 1);
@@ -133,7 +112,6 @@ angular.module('sociogram.services', [])
                  cards = ["empty"];
                 }
                return cards;
-
             },
             flipWatched: function(event){
               events[event.name].watched=!events[event.name].watched;
@@ -142,19 +120,13 @@ angular.module('sociogram.services', [])
               return events[event.name].watched;
             },
              setUNFriends: function(friends) {
-                // alert('setting id');
-                // alert(userProfId);
                 unFriends = friends;
-
             },
             getUNFriends: function () {
                 return unFriends;
             },
              setUser: function(uI) {
-                // alert('setting id');
-                // alert(userProfId);
                 userItem = uI;
-
             },
             getUser: function () {
                 return userItem;
@@ -179,9 +151,7 @@ angular.module('sociogram.services', [])
                 userItem = {};
                 school = "";
                 unFriends = [];
-                // var userProfId = "";
                 newUser = "no";
-                // newNot = false;
                 tinderView = true;
                 singleView = false;
                 startCard = true;
@@ -191,19 +161,12 @@ angular.module('sociogram.services', [])
              refreshEvents: function(value) {
                 var eventsArr = {};
                for(var key in value){
-                    // alert('hi');
                     if(value[key].banned!="banned"){
-                      // alert('hi');
                       eventsArr[key] = value[key];
                     }
-                    // else{
-
-                    // }
-
-                        // alert('hi');
                   }
                   events = eventsArr;
 
-          }
+           }
         }
 });

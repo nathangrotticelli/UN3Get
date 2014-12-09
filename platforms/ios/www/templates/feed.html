@@ -1,48 +1,20 @@
 
 <ion-view>
-<!-- <ion-header-bar align-title="left" class="bar-positive">
-  <div class="buttons">
-    <button class="button" ng-click="doSomething()">Left Button</button>
-  </div>
-  <div class="buttons">
-    <button class="button" ng-click="doSomething()">Left Button</button>
-  </div>
-  <div class="buttons">
-    <button class="button">Right Button</button>
-  </div>
-</ion-header-bar> -->
-
-
  <ion-content scroll="false" scrollbar-y="false" class="mesh" animation="slide-right-left-ios7">
 
  <div class = "unMenu2 ">
-  <!-- <button on-swipe-left="onSwipeLeft()" class="button">Test</button> -->
-  <!-- <div> ng-show="tinderView == false"-->
   <a class="tinderBtn ion-images" ng-show="tinderView == false" ng-click="tinderYes()"></a>
   <a class="tinderBtn ion-calendar"  ng-hide="tinderView == false" ng-click="tinderNo()"></a>
-    <!-- <button class="tinderBtn" ng-click="tinderView=!tinderView">Tinder</button> -->
-  <!-- <img ng-show="newNot==false" class="profileBtn" ng-click="openPopover($event)">Open</button> -->
   <a ng-if="newNot==false||newNot==undefined" class="prof-image ion-person" ng-click="openPopover($event);"></a>
   <a ng-if="newNot!=false" class="prof-image2 ion-person" ng-click="openPopover($event);"></a>
   <a ng-show="newNot2==true" class="prof-image3 ion-person" ng-cloak ng-click="openPopover($event);"></a>
-  <!-- <button ng-show="newNot==true" class="profileBtn2" ng-click="openPopover($event); newNot=false;">New Notification</button> -->
-<!-- </div> --><!-- ion-calendar -->
- <!-- <a class="topMenu2 ion-navicon" menu-toggle="right"></a> -->
-<a class="topMenu ion-navicon-round" menu-toggle="right"></a>
-</div>
-      <!-- </div> -->
-
+  <a class="topMenu ion-navicon-round" menu-toggle="right"></a>
+ </div>
 
   <ion-scroll ng-show="tinderView == false" id="eventList">
-
   <ion-refresher id="re1" pulling-icon="none" refreshing-icon="ion-ios7-reloading"  on-refresh="alert3()">
   </ion-refresher>
 
-  <!-- <hr class="div12"> -->
-
-
-
-<!-- data = data.substr(0, 4) + " " + data.substr(4, 6) -->
   <div class="eventScroller" ng-repeat="event in events | orderObjectBy:'eventDate':false" ng-click="go_here(event)" >
 
     <div class="front">
@@ -63,8 +35,6 @@
 
  </ion-scroll>
 
- <!-- <ion-pane > -->
-
 <div ng-show="tinderView == true" id='tinderEventContent'>
       <swipe-cards>
 
@@ -73,17 +43,8 @@
         Swipe down for a new event.
       </swipe-card>
 
-<!-- ng-init="card.watched=foll9(userItem.watchList,card)" on-swipe="tinderSwipe(card) on-swipe-left="$event.stopPropagation();" -->
       <div ng-show="startCard==false&&$first&&cards[0]!='empty'&&cards[0]!='start'" ng-repeat="card in cards | orderObjectBy:'eventDate':false" ng-init="cardFunc(card);">
         <swipe-card on-card-swipe="tinderSwipe(card)">
-
-  <!-- <div class="card"> -->
-<!--  -->
-  <!-- <div class="item"> -->
-   <!--  <img src="avatar.jpg"> -->
-    <!-- <h2 class="cardName"></h2> -->
-    <!-- <p>{{card.location}}</p> -->
-  <!-- </div> -->
 
 <div class="list card" ng-click="go_here(card)">
 
@@ -97,22 +58,11 @@
      <h3 class="cardName" ng-if="card.name.length>51">{{card.name.substring(0, 51)}}...</h3>
      <p class="cardTime">{{card.start_time}}</p>
   </a>
- <!--  <a class="item tinderTxt2" >
-
-     <p class="cardTime">{{card.start_time}}</p>
-  </a> -->
-  <!-- <h3 ng-if="card.name.length>35" class="cardName2" ng-click="go_here(card)">{{card.name}}</h3> -->
 
 </div>
 
-
-             <!-- <div class="tinderBtnSection"> -->
-
-<!-- </div> -->
-
       </swipe-card>
         <div class="tinderBtn1" >
-  <!-- <a ng-click="$event.stopPropagation();" class="ion-ios7-close"></a> -->
   <a ng-click=" tinderSwipe(card); " class="ion-eye-disabled"></a>
 </div>
 <div class="tinderBtn3 ion-ios7-information-outline" ng-click="doThis()"></div>
@@ -142,21 +92,6 @@
 
 
 </div>
-
-<!-- <ng-include src="'event-detail.html'" ng-show="singleView == true && tinderView == false"></ng-include> -->
-
-
-
-      <!-- <h1 class="profHead">My Profile</h1> -->
-
-<!-- </ion-pane> -->
-
-
-<!--  -->
-
-
-
-
 
 
   <script id="my-popover.html" type="text/ng-template">
