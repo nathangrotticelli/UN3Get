@@ -714,7 +714,6 @@ angular.module('sociogram.controllers', ['ionic'])
           schoolItem = res.Item;
           privateEventList = res.Private;
           PetService.setPrivateList(privateEventList);
-          // alert(privateEventList["Some Event Name"]);
           //start the fb login
           fbLoginFlow();
         }).error(function(){
