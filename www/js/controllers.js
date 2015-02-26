@@ -691,7 +691,6 @@ angular.module('sociogram.controllers', ['ionic'])
         },function(){
           $scope.showAlert('Facebook connection could not be achieved, and is required.');
           $state.go('app.login');
-          // alert('OpenFB login failed');
         });
         // .error(function(){//if login fails
         //   $scope.showAlert('Facebook connection could not be achieved, and is required.');
